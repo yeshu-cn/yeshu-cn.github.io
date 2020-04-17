@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android Font Typeface | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="Android 官方Typeface：Droid sans, Droid Sans Mono, Droid Serif, Default sans TextStyle: normal, bload, italic 常用Spannable类字体颜色：ForegroundColorSpan 字体背景颜色：BackgroundColorSpan 字体大小：AbsoluteSizeSpan 粗体，斜体：S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Font Typeface">
+<meta property="og:url" content="http://yeshu.work/2016/09/19/Android-Font-Typeface/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Android 官方Typeface：Droid sans, Droid Sans Mono, Droid Serif, Default sans TextStyle: normal, bload, italic 常用Spannable类字体颜色：ForegroundColorSpan 字体背景颜色：BackgroundColorSpan 字体大小：AbsoluteSizeSpan 粗体，斜体：S">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.115Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Font Typeface">
+<meta name="twitter:description" content="Android 官方Typeface：Droid sans, Droid Sans Mono, Droid Serif, Default sans TextStyle: normal, bload, italic 常用Spannable类字体颜色：ForegroundColorSpan 字体背景颜色：BackgroundColorSpan 字体大小：AbsoluteSizeSpan 粗体，斜体：S">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#常用Spannable类"><span class="toc-text">常用Spannable类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#setTypeface设置自定义字体"><span class="toc-text">setTypeface设置自定义字体</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CustomeTypefaceSpan设置自定义字体"><span class="toc-text">CustomeTypefaceSpan设置自定义字体</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自定义字体可能导致的问题"><span class="toc-text">自定义字体可能导致的问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Typeface源码"><span class="toc-text">Typeface源码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#String-format-格式化时保留SpannableString-样式"><span class="toc-text">String.format()格式化时保留SpannableString 样式</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Android-Font-Typeface" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android Font Typeface</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.09.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>Android 官方Typeface：Droid sans, Droid Sans Mono, Droid Serif, Default sans</p>
+<p>TextStyle: normal, bload, italic</p>
+<h5 id="常用Spannable类"><a href="#常用Spannable类" class="headerlink" title="常用Spannable类"></a>常用Spannable类</h5><pre><code>字体颜色：ForegroundColorSpan
+字体背景颜色：BackgroundColorSpan
+字体大小：AbsoluteSizeSpan
+粗体，斜体：StyleSpan
+删除线：StrikeThroughSpan
+下划线：UnderlineSpan
+图片：ImageSpan
+字体：TypefaceSpan
+自定义字体：class CustomTypefaceSpan extends TypefaceSpan
+</code></pre><p>使用方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SpannableString spanString = <span class="keyword">new</span> SpannableString(<span class="string">"xxxxx"</span>);    </span><br><span class="line">StyleSpan span = <span class="keyword">new</span> StyleSpan(Typeface.BOLD_ITALIC);    </span><br><span class="line">spanString.setSpan(span, <span class="number">1</span>, <span class="number">3</span>, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);    </span><br><span class="line">textView.setText(spanString);</span><br></pre></td></tr></table></figure>
+<h5 id="setTypeface设置自定义字体"><a href="#setTypeface设置自定义字体" class="headerlink" title="setTypeface设置自定义字体"></a><code>setTypeface</code>设置自定义字体</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">TextView txt = (TextView) findViewById(R.id.custom_font);</span><br><span class="line">Typeface font = Typeface.createFromAsset(getAssets(), <span class="string">"Chantelli_Antiqua.ttf"</span>);</span><br><span class="line">txt.setTypeface(font);</span><br></pre></td></tr></table></figure>
+<h5 id="CustomeTypefaceSpan设置自定义字体"><a href="#CustomeTypefaceSpan设置自定义字体" class="headerlink" title="CustomeTypefaceSpan设置自定义字体"></a><code>CustomeTypefaceSpan</code>设置自定义字体</h5><p>使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Typeface typeface = Typeface.createFromAsset(getAssets(), <span class="string">"Akshar.ttf"</span>);</span><br><span class="line">SpannableString str = <span class="keyword">new</span> SpannableString(<span class="string">"hello world"</span>);</span><br><span class="line">str.setSpan(<span class="keyword">new</span> CustomTypefaceSpan(<span class="string">""</span>, typeface), <span class="number">0</span>, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);</span><br></pre></td></tr></table></figure>
+<p>CustomeTypefaceSpan.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomTypefaceSpan</span> <span class="keyword">extends</span> <span class="title">TypefaceSpan</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Typeface newType;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CustomTypefaceSpan</span><span class="params">(String family, Typeface type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(family);</span><br><span class="line">    newType = type;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateDrawState</span><span class="params">(TextPaint ds)</span> </span>&#123;</span><br><span class="line">    applyCustomTypeFace(ds, newType);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateMeasureState</span><span class="params">(TextPaint paint)</span> </span>&#123;</span><br><span class="line">    applyCustomTypeFace(paint, newType);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">applyCustomTypeFace</span><span class="params">(Paint paint, Typeface tf)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> oldStyle;</span><br><span class="line">    Typeface old = paint.getTypeface();</span><br><span class="line">    <span class="keyword">if</span> (old == <span class="keyword">null</span>) &#123;</span><br><span class="line">        oldStyle = <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        oldStyle = old.getStyle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> fake = oldStyle &amp; ~tf.getStyle();</span><br><span class="line">    <span class="keyword">if</span> ((fake &amp; Typeface.BOLD) != <span class="number">0</span>) &#123;</span><br><span class="line">        paint.setFakeBoldText(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((fake &amp; Typeface.ITALIC) != <span class="number">0</span>) &#123;</span><br><span class="line">        paint.setTextSkewX(-<span class="number">0.25f</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    paint.setTypeface(tf);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://stackoverflow.com/questions/6612316/how-set-spannable-object-font-with-custom-font" target="_blank" rel="noopener">How set Spannable object font with custom font</a></p>
+<h5 id="自定义字体可能导致的问题"><a href="#自定义字体可能导致的问题" class="headerlink" title="自定义字体可能导致的问题"></a>自定义字体可能导致的问题</h5><ol>
+<li>Ellipsizing might not work correctly if the font dosen’t have a glyph for ellipsis character（没有省略字符的话导致肾略效果失效）</li>
+<li>internationalization might not be supported（可能对国际化，多语言不支持）</li>
+<li>增加了apk的体积</li>
+</ol>
+<p>老版本的new TypeFace()会存在内存泄漏,此bug在Android 3.2上已fixed</p>
+<p>处理内存泄漏fix方案：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FontCache</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Hashtable&lt;String, Typeface&gt; fontCache = <span class="keyword">new</span> Hashtable&lt;String, Typeface&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Typeface <span class="title">get</span><span class="params">(String name, Context context)</span> </span>&#123;</span><br><span class="line">        Typeface tf = fontCache.get(name);</span><br><span class="line">        <span class="keyword">if</span>(tf == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                tf = Typeface.createFromAsset(context.getAssets(), name);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            fontCache.put(name, tf);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tf;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://stackoverflow.com/questions/16901930/memory-leaks-with-custom-font-for-set-custom-font/16902532#16902532" target="_blank" rel="noopener">http://stackoverflow.com/questions/16901930/memory-leaks-with-custom-font-for-set-custom-font/16902532#16902532</a><br><a href="https://code.google.com/p/android/issues/detail?id=9904" target="_blank" rel="noopener">https://code.google.com/p/android/issues/detail?id=9904</a>  </p>
+<h5 id="Typeface源码"><a href="#Typeface源码" class="headerlink" title="Typeface源码"></a>Typeface源码</h5><p>Typeface.create()方法返回的Typeface是存在缓存的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Typeface <span class="title">create</span><span class="params">(String familyName, <span class="keyword">int</span> style)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (sSystemFontMap != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">return</span> create(sSystemFontMap.get(familyName), style);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">   &#125;orm</span><br><span class="line">   </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Typeface <span class="title">create</span><span class="params">(Typeface family, <span class="keyword">int</span> style)</span> </span>&#123;</span><br><span class="line">   	 Typeface typeface;</span><br><span class="line">   	 <span class="comment">//private static final LongSparseArray&lt;SparseArray&lt;Typeface&gt;&gt; sTypefaceCache = new LongSparseArray&lt;SparseArray&lt;Typeface&gt;&gt;(3);</span></span><br><span class="line">       SparseArray&lt;Typeface&gt; styles = sTypefaceCache.get(ni);</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (styles != <span class="keyword">null</span>) &#123;</span><br><span class="line">           typeface = styles.get(style);</span><br><span class="line">           <span class="keyword">if</span> (typeface != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> typeface;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>但是<code>public static Typeface createFromAsset(AssetManager mgr, String path)</code>创建的Typeface好像不存在缓存，反正代码是没看懂</p>
+<p><a href="http://stackoverflow.com/questions/4320090/does-typeface-createfromasset-cache" target="_blank" rel="noopener">Does Typeface.createFromAsset() cache?</a></p>
+<p>测试加载一个8M的字体文件耗时100ms,200kb的字体文件20ms</p>
+<h5 id="String-format-格式化时保留SpannableString-样式"><a href="#String-format-格式化时保留SpannableString-样式" class="headerlink" title="String.format()格式化时保留SpannableString 样式"></a>String.format()格式化时保留SpannableString 样式</h5><p>默认的情况下String.format()传入的SpannableString会当做普通的String处理，不会保留SpannableString中字体，样式等特性</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> George T. Steel</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpanFormatter</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Pattern FORMAT_SEQUENCE	= Pattern.compile(<span class="string">"%([0-9]+\\$|&lt;?)([^a-zA-z%]*)([[a-zA-Z%]&amp;&amp;[^tT]]|[tT][a-zA-Z])"</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">SpanFormatter</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SpannedString <span class="title">format</span><span class="params">(CharSequence format, Object... args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> format(Locale.getDefault(), format, args);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SpannedString <span class="title">format</span><span class="params">(Locale locale, CharSequence format, Object... args)</span></span>&#123;</span><br><span class="line">		SpannableStringBuilder out = <span class="keyword">new</span> SpannableStringBuilder(format);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> argAt = -<span class="number">1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">while</span> (i &lt; out.length())&#123;</span><br><span class="line">			Matcher m = FORMAT_SEQUENCE.matcher(out);</span><br><span class="line">			<span class="keyword">if</span> (!m.find(i)) <span class="keyword">break</span>;</span><br><span class="line">			i=m.start();</span><br><span class="line">			<span class="keyword">int</span> exprEnd = m.end();</span><br><span class="line">			</span><br><span class="line">			String argTerm = m.group(<span class="number">1</span>);</span><br><span class="line">			String modTerm = m.group(<span class="number">2</span>);</span><br><span class="line">			String typeTerm = m.group(<span class="number">3</span>);</span><br><span class="line">			</span><br><span class="line">			CharSequence cookedArg;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span> (typeTerm.equals(<span class="string">"%"</span>))&#123;</span><br><span class="line">				cookedArg = <span class="string">"%"</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span> (typeTerm.equals(<span class="string">"n"</span>))&#123;</span><br><span class="line">				cookedArg = <span class="string">"\n"</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">int</span> argIdx = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">if</span> (argTerm.equals(<span class="string">""</span>)) argIdx = ++argAt;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (argTerm.equals(<span class="string">"&lt;"</span>)) argIdx = argAt;</span><br><span class="line">				<span class="keyword">else</span> argIdx = Integer.parseInt(argTerm.substring(<span class="number">0</span>, argTerm.length() - <span class="number">1</span>)) -<span class="number">1</span>;</span><br><span class="line">				</span><br><span class="line">				Object argItem = args[argIdx];</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">if</span> (typeTerm.equals(<span class="string">"s"</span>) &amp;&amp; argItem <span class="keyword">instanceof</span> Spanned)&#123;</span><br><span class="line">					cookedArg = (Spanned) argItem;</span><br><span class="line">				&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">					cookedArg = String.format(locale, <span class="string">"%"</span>+modTerm+typeTerm, argItem);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			out.replace(i, exprEnd, cookedArg);</span><br><span class="line">			i += cookedArg.length();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> SpannedString(out);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="http://stackoverflow.com/questions/20936901/combining-spannable-with-string-format" target="_blank" rel="noopener">Combining Spannable with String.format()</a><br><a href="https://github.com/george-steel/android-utils/blob/master/src/org/oshkimaadziig/george/androidutils/SpanFormatter.java" target="_blank" rel="noopener">a version of String.format</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>ActionBar使用总结 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="#ActionBar使用资料：http://developer.android.com/training/basics/actionbar/index.html ##基本使用Android 3.0(API Level 11)后开始使用ActionBar Android 3.0以上版本使用ActionBar  manifest文件中最小sdk版本设置为11： 使用Theme.Holo（或者它子类）主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ActionBar使用总结">
+<meta property="og:url" content="http://yeshu.work/2015/06/03/actionbarshi-yong-zong-jie/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="#ActionBar使用资料：http://developer.android.com/training/basics/actionbar/index.html ##基本使用Android 3.0(API Level 11)后开始使用ActionBar Android 3.0以上版本使用ActionBar  manifest文件中最小sdk版本设置为11： 使用Theme.Holo（或者它子类）主">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-06-02T19:23:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ActionBar使用总结">
+<meta name="twitter:description" content="#ActionBar使用资料：http://developer.android.com/training/basics/actionbar/index.html ##基本使用Android 3.0(API Level 11)后开始使用ActionBar Android 3.0以上版本使用ActionBar  manifest文件中最小sdk版本设置为11： 使用Theme.Holo（或者它子类）主">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-actionbarshi-yong-zong-jie" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">ActionBar使用总结</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.06.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>#ActionBar使用<br>资料：<a href="http://developer.android.com/training/basics/actionbar/index.html" target="_blank" rel="noopener">http://developer.android.com/training/basics/actionbar/index.html</a></p>
+<p>##基本使用<br><strong>Android 3.0(API Level 11)后开始使用ActionBar</strong></p>
+<p><strong>Android 3.0以上版本使用ActionBar</strong></p>
+<ul>
+<li>manifest文件中最小sdk版本设置为11：<uses-sdk android:minsdkversion="11"></uses-sdk></li>
+<li>使用Theme.Holo（或者它子类）主题</li>
+</ul>
+<p><strong>兼容Android 2.1及以后版本使用Android</strong></p>
+<ul>
+<li>使用v7 appcompat Library</li>
+<li>Activity继承ActionBarActivity</li>
+<li>主题使用AppCompate.Light(或它的子类)：<activity android:theme="@style/Theme.AppCompat.Light"></activity></li>
+</ul>
+<p><strong>ActionBar上添加Buttons</strong><br>只支持Android3.0 及以上版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/menu/main_activity_actions.xml</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span> &gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Search, should appear as action button --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@+id/action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:title</span>=<span class="string">"@string/action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:showAsAction</span>=<span class="string">"ifRoom"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Settings, should always be in the overflow --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@+id/action_settings"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:title</span>=<span class="string">"@string/action_settings"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:showAsAction</span>=<span class="string">"never"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用v7 appcompat library 兼容 Android 2.1 及以上版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/menu/main_activity_actions.xml</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">      <span class="attr">xmlns:yourapp</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span> &gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Search, should appear as action button --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@+id/action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:title</span>=<span class="string">"@string/action_search"</span></span></span><br><span class="line">          &lt;!--使用兼容包不能使用android:xx --&gt;</span><br><span class="line">          yourapp:showAsAction="ifRoom"  /&gt;</span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码片段</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 为ActionBar扩展菜单项</span></span><br><span class="line">    MenuInflater inflater = getMenuInflater();</span><br><span class="line">    inflater.inflate(R.menu.main_activity_actions, menu);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onCreateOptionsMenu(menu);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Inflate the menu items for use in the action bar</span></span><br><span class="line">    MenuInflater inflater = getMenuInflater();</span><br><span class="line">    inflater.inflate(R.menu.main_activity_actions, menu);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onCreateOptionsMenu(menu);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Handle presses on the action bar items</span></span><br><span class="line">    <span class="keyword">switch</span> (item.getItemId()) &#123;</span><br><span class="line">        <span class="keyword">case</span> R.id.action_search:</span><br><span class="line">            openSearch();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">case</span> R.id.action_settings:</span><br><span class="line">            openSettings();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.onOptionsItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//为下级Activity启动向上返回父Activity功能</span></span><br><span class="line">&lt;application ... &gt;</span><br><span class="line">    ...</span><br><span class="line">    &lt;!-- The main/<span class="function">home <span class="title">activity</span> <span class="params">(it has no parent activity)</span> --&gt;</span></span><br><span class="line"><span class="function">    &lt;activity</span></span><br><span class="line"><span class="function">        android:name</span>=<span class="string">"com.example.myfirstapp.MainActivity"</span> ...&gt;</span><br><span class="line">        ...</span><br><span class="line">    &lt;/activity&gt;</span><br><span class="line">    &lt;!-- A child of the main activity --&gt;</span><br><span class="line">    &lt;activity</span><br><span class="line">        android:name=<span class="string">"com.example.myfirstapp.DisplayMessageActivity"</span></span><br><span class="line">        android:label=<span class="string">"@string/title_activity_display_message"</span></span><br><span class="line">        android:parentActivityName=<span class="string">"com.example.myfirstapp.MainActivity"</span> &gt;</span><br><span class="line">        &lt;!-- Parent activity meta-data to support <span class="number">4.0</span> and lower --&gt;</span><br><span class="line">        &lt;meta-data</span><br><span class="line">            android:name=<span class="string">"android.support.PARENT_ACTIVITY"</span></span><br><span class="line">            android:value=<span class="string">"com.example.myfirstapp.MainActivity"</span> /&gt;</span><br><span class="line">    &lt;/activity&gt;</span><br><span class="line">&lt;/application&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_displaymessage);</span><br><span class="line"></span><br><span class="line">    getSupportActionBar().setDisplayHomeAsUpEnabled(<span class="keyword">true</span>);</span><br><span class="line">    <span class="comment">// If your minSdkVersion is 11 or higher, instead use:</span></span><br><span class="line">    <span class="comment">// getActionBar().setDisplayHomeAsUpEnabled(true);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ActionBar上添加Navigation Tabs</strong></p>
+<p>##ActionBar样式设置<br><strong>基本样式</strong></p>
+<ul>
+<li>Theme.Holo</li>
+<li>Theme.Holo.Light</li>
+<li>Theme.AppCompat</li>
+<li>Theme.AppCompat.Light</li>
+<li>Theme.AppCompat.Light.DarkActionBar</li>
+</ul>
+<p><strong>自定义样式</strong></p>
+<p>仅支持3.0及其以后</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/values/themes.xml</span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 应用于程序或者活动的主题 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"CustomActionBarTheme"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Theme.Holo"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionBarStyle"</span>&gt;</span>@style/MyActionBar<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionBarTabTextStyle"</span>&gt;</span>@style/MyActionBarTabText<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionMenuTextColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar 样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBar"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Widget.Holo.ActionBar"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:titleTextStyle"</span>&gt;</span>@style/MyActionBarTitleText<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar 标题文本 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBarTitleText"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/TextAppearance.Holo.Widget.ActionBar.Title"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar Tab标签 文本样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBarTabText"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Widget.Holo.ActionBar.TabText"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用Support库兼容2.1及其以后版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/values/themes.xml</span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 应用于程序或者活动的主题 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"CustomActionBarTheme"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Theme.AppCompat"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionBarStyle"</span>&gt;</span>@style/MyActionBar<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionBarTabTextStyle"</span>&gt;</span>@style/MyActionBarTabText<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionMenuTextColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 支持库兼容 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"actionBarStyle"</span>&gt;</span>@style/MyActionBar<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"actionBarTabTextStyle"</span>&gt;</span>@style/MyActionBarTabText<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"actionMenuTextColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar 样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBar"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Widget.AppCompat.ActionBar"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:titleTextStyle"</span>&gt;</span>@style/MyActionBarTitleText<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 支持库兼容 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"titleTextStyle"</span>&gt;</span>@style/MyActionBarTitleText<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar 标题文本 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBarTitleText"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/TextAppearance.AppCompat.Widget.ActionBar.Title"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 文本颜色属性textColor是可以配合支持库向后兼容的 --&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar Tab标签文本样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBarTabText"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Widget.AppCompat.ActionBar.TabText"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textColor"</span>&gt;</span>@color/actionbar_text<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 文本颜色属性textColor是可以配合支持库向后兼容的 --&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>设置Navigation Tags样式</strong></p>
+<p>仅支持Android 3.0及其以上版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/values/themes.xml</span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 应用于程序或活动的主题 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"CustomActionBarTheme"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Theme.Holo"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionBarTabStyle"</span>&gt;</span>@style/MyActionBarTabs<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar tabs 标签样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBarTabs"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Widget.Holo.ActionBar.TabView"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 标签指示器 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:background"</span>&gt;</span>@drawable/actionbar_tab_indicator<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用Support库，兼容Android 2.1及其以上版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/values/themes.xml</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 应用于程序或活动的主题 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"CustomActionBarTheme"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Theme.AppCompat"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:actionBarTabStyle"</span>&gt;</span>@style/MyActionBarTabs<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 支持库兼容 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"actionBarTabStyle"</span>&gt;</span>@style/MyActionBarTabs<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- ActionBar tabs 样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"MyActionBarTabs"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@style/Widget.AppCompat.ActionBar.TabView"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 标签指示器 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:background"</span>&gt;</span>@drawable/actionbar_tab_indicator<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 支持库兼容 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"background"</span>&gt;</span>@drawable/actionbar_tab_indicator<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>##Overlaying the Action Bar</p>
+<p>仅支持Android 3.0及其以上<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- the theme applied to the application or activity --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"CustomActionBarTheme"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@android:style/Theme.Holo"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowActionBarOverlay"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>使用Support库，兼容Android 2.1及其上版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 为程序或者活动应用的主题样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"CustomActionBarTheme"</span></span></span><br><span class="line"><span class="tag">           <span class="attr">parent</span>=<span class="string">"@android:style/Theme.AppCompat"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowActionBarOverlay"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- 兼容支持库 --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"windowActionBarOverlay"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意：使用Support库时，样式熟悉不能是<code>android:paddingTop=&quot;?android:attr/actionBarSize&quot;</code>，而是<code>android:paddingTop=&quot;?attr/actionBarSize&quot;</code>。</p>
+<p><strong>使用 actionBarSize 属性来指定顶部margin或padding的高度</strong></p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:paddingTop</span>=<span class="string">"?android:attr/actionBarSize"</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

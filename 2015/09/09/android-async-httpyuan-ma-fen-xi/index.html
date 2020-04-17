@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>android-async-http源码分析 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="学习一些命名规则 程序设计方式  ##功能特征  进行http请求，以回调的方式处理返回 非UI线程进行网络请求 使用线程池处理并发的资源请求 GET/POST请求参数化 文件分段上传 体积小，90kb 自动重试机制 自动对gizp进行解码 使用JsonHttpResponseHandler解析为json格式response 使用FileAsyncHttpResponseHandler保存res">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android-async-http源码分析">
+<meta property="og:url" content="http://yeshu.work/2015/09/09/android-async-httpyuan-ma-fen-xi/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="学习一些命名规则 程序设计方式  ##功能特征  进行http请求，以回调的方式处理返回 非UI线程进行网络请求 使用线程池处理并发的资源请求 GET/POST请求参数化 文件分段上传 体积小，90kb 自动重试机制 自动对gizp进行解码 使用JsonHttpResponseHandler解析为json格式response 使用FileAsyncHttpResponseHandler保存res">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-09-09T01:27:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android-async-http源码分析">
+<meta name="twitter:description" content="学习一些命名规则 程序设计方式  ##功能特征  进行http请求，以回调的方式处理返回 非UI线程进行网络请求 使用线程池处理并发的资源请求 GET/POST请求参数化 文件分段上传 体积小，90kb 自动重试机制 自动对gizp进行解码 使用JsonHttpResponseHandler解析为json格式response 使用FileAsyncHttpResponseHandler保存res">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-android-async-httpyuan-ma-fen-xi" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">android-async-http源码分析</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.09.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <ul>
+<li>学习一些命名规则</li>
+<li>程序设计方式</li>
+</ul>
+<p>##功能特征</p>
+<ul>
+<li>进行http请求，以回调的方式处理返回</li>
+<li>非UI线程进行网络请求</li>
+<li>使用线程池处理并发的资源请求</li>
+<li>GET/POST请求参数化</li>
+<li>文件分段上传</li>
+<li>体积小，90kb</li>
+<li>自动重试机制</li>
+<li>自动对gizp进行解码</li>
+<li>使用<code>JsonHttpResponseHandler</code>解析为json格式response</li>
+<li>使用<code>FileAsyncHttpResponseHandler</code>保存response为文件</li>
+<li>支持cookie存储，存储在SharedPreferences中</li>
+<li><code>BaseJsonHttpResponseHandler</code>中集成jackson、Gson等库</li>
+<li>支持编码设置，不仅仅<code>UTF-8</code></li>
+</ul>
+<p>##使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AsyncHttpClient client = <span class="keyword">new</span> AsyncHttpClient();</span><br><span class="line">client.get(<span class="string">"https://www.google.com"</span>, <span class="keyword">new</span> AsyncHttpResponseHandler() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// called before request is started</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(<span class="keyword">int</span> statusCode, Header[] headers, <span class="keyword">byte</span>[] response)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// called when response HTTP status is "200 OK"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(<span class="keyword">int</span> statusCode, Header[] headers, <span class="keyword">byte</span>[] errorResponse, Throwable e)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// called when response HTTP status is "4XX" (eg. 401, 403, 404)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRetry</span><span class="params">(<span class="keyword">int</span> retryNo)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// called when request is retried</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>推荐编码方式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> com.loopj.android.http.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwitterRestClient</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_URL = <span class="string">"https://api.twitter.com/1/"</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> AsyncHttpClient client = <span class="keyword">new</span> AsyncHttpClient();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">get</span><span class="params">(String url, RequestParams params, AsyncHttpResponseHandler responseHandler)</span> </span>&#123;</span><br><span class="line">      client.get(getAbsoluteUrl(url), params, responseHandler);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">post</span><span class="params">(String url, RequestParams params, AsyncHttpResponseHandler responseHandler)</span> </span>&#123;</span><br><span class="line">      client.post(getAbsoluteUrl(url), params, responseHandler);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getAbsoluteUrl</span><span class="params">(String relativeUrl)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> BASE_URL + relativeUrl;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用<code>PersistentCookieStore</code>持久化Cookies<br>使用<code>RequestParams</code>添加GET/POST请求参数<br>使用<code>RequestParams</code>上传文件<br>使用<code>FileAsyncHttpResponseHandler</code>下载二进制数据</p>
+<p>##命名</p>
+<ul>
+<li>FileWrapper</li>
+<li>StreamWrapper</li>
+<li>makeRequest()；</li>
+<li>makeRequestWithRetries()；</li>
+</ul>
+<p>##如何实现重试机制</p>
+<p><code>RetryHandler</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">makeRequest()</span><br><span class="line">makeRequestWithRetries()</span><br><span class="line"></span><br><span class="line"><span class="comment">//重试次数和重试间隔时间</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> maxRetries;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> retrySleepTimeMS;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">//出发重试时的场景</span></span><br><span class="line">   <span class="keyword">static</span> &#123;</span><br><span class="line">       <span class="comment">// Retry if the server dropped connection on us</span></span><br><span class="line">       exceptionWhitelist.add(NoHttpResponseException.class);</span><br><span class="line">       <span class="comment">// retry-this, since it may happens as part of a Wi-Fi to 3G failover</span></span><br><span class="line">       exceptionWhitelist.add(UnknownHostException.class);</span><br><span class="line">       <span class="comment">// retry-this, since it may happens as part of a Wi-Fi to 3G failover</span></span><br><span class="line">       exceptionWhitelist.add(SocketException.class);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// never retry timeouts</span></span><br><span class="line">       exceptionBlacklist.add(InterruptedIOException.class);</span><br><span class="line">       <span class="comment">// never retry SSL handshake failures</span></span><br><span class="line">       exceptionBlacklist.add(SSLException.class);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">//请求重试</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">retryRequest</span><span class="params">(IOException exception, <span class="keyword">int</span> executionCount, HttpContext context)</span>；</span></span><br><span class="line"><span class="function">   </span></span><br><span class="line"><span class="function">   <span class="title">if</span> <span class="params">(retry)</span> </span>&#123;</span><br><span class="line">           <span class="comment">// resend all idempotent requests</span></span><br><span class="line">           HttpUriRequest currentReq = (HttpUriRequest) context.getAttribute(ExecutionContext.HTTP_REQUEST);</span><br><span class="line">           <span class="keyword">if</span> (currentReq == <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>##如何实现解析回调</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ResponseHandlerInterface</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//内部存在一个Handler用于发送处理消息</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncHttpResponseHandler</span> <span class="keyword">implements</span> <span class="title">ResponseHandlerInterface</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TextHttpResponseHandler</span> <span class="keyword">extends</span> <span class="title">AsyncHttpResponseHandelr</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryHttpResponseHandler</span> <span class="keyword">extends</span> <span class="title">AsyncHttpResonseHandler</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">FileAsyncHttpResponseHandler</span> <span class="keyword">extends</span> <span class="title">AsyncHttpResponseHandler</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DataAsyncHttpResponseHandler</span> <span class="keyword">extends</span> <span class="title">AsyncHttpResponseHandler</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsonHttpResponseHandler</span> <span class="keyword">extends</span> <span class="title">TextHttpResponseHandler</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseJsonHttpResponseHandler</span>&lt;<span class="title">JSON_TYPE</span>&gt; <span class="keyword">extends</span> <span class="title">TextHttpResponseHandler</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>###AsyncHttpResponseHandler构造函数</p>
+<ul>
+<li>没有传入参数<code>Looper</code>则获取当前线程的<code>Looper</code>。一般使用情况下即为UI线程</li>
+<li>创建一个静态内部类<code>ResponseHandler</code>与此<code>Looper</code>关联，并将消息委托给<code>AsyncHttpResponseHandler</code>实例的<code>handleMessage</code>函数来处理</li>
+</ul>
+<p>##如何管理网络请求</p>
+<ul>
+<li>AsyncHttpRequest：异步网络请求</li>
+<li>RequestHandle: 控制异步网络请求的取消和运行</li>
+<li>通过标志位判断和取消网络请求</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AsyncHttpRequest request = <span class="keyword">new</span> AsyncHttpRequest(client, httpContext, uriRequest, contentType, responseHandler, context);</span><br><span class="line">        threadPool.submit(request);</span><br></pre></td></tr></table></figure>
+<p>##异步方式下的网络请求数据流程</p>
+<ul>
+<li><code>AsyncHttpRequest</code>是一个线程，加入线程池，执行<code>run()</code>方法进行网络请求</li>
+<li>执行完毕后，回调成员变量<code>TextHttpResponseHandler</code>的<code>onSuccess()</code>方法将返回数据交由其处理</li>
+<li><code>TextHttpResponseHandler</code>（及其子类）获取数据进行解析加工</li>
+</ul>
+<p>##线程池如何处理的</p>
+<p><code>AsyncHttpClient</code><br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">private</span> ExecutorService threadPool;</span><br><span class="line"></span><br><span class="line">threadPool = Executors.newCachedThreadPool();</span><br><span class="line"></span><br><span class="line">AsyncHttpRequest request = <span class="keyword">new</span> AsyncHttpRequest(client, httpContext, uriRequest, contentType, responseHandler, context);</span><br><span class="line"></span><br><span class="line">threadPool.submit(request);</span><br></pre></td></tr></table></figure></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>DialogFragment使用笔记 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="DialogFragment默认边框有黑色阴影  去掉黑色阴影   @Overridepublic void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCreate(savedInstanceState);    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DialogFragment使用笔记">
+<meta property="og:url" content="http://yeshu.work/2016/05/17/dialogfragmentshi-yong-bi-ji/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="DialogFragment默认边框有黑色阴影  去掉黑色阴影   @Overridepublic void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCreate(savedInstanceState);    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);&amp;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-05-16T19:08:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DialogFragment使用笔记">
+<meta name="twitter:description" content="DialogFragment默认边框有黑色阴影  去掉黑色阴影   @Overridepublic void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCreate(savedInstanceState);    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);&amp;">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-dialogfragmentshi-yong-bi-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">DialogFragment使用笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.17</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <ol>
+<li><p>DialogFragment默认边框有黑色阴影</p>
+</li>
+<li><p>去掉黑色阴影</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Theme.Common.Dialog.Alert"</span> <span class="attr">parent</span>=<span class="string">"android:Theme.Panel"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">    	<span class="comment">&lt;!-- 让Dialog背景为灰色，默认false是背景高亮 --&gt;</span>	</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:backgroundDimEnabled"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>设置Dialog固定宽高,在xml中设置是无效的</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onResume();</span><br><span class="line">    <span class="keyword">if</span> (getShowsDialog()) &#123;</span><br><span class="line">        <span class="comment">//Dialog显示时，设置Dialog的固定宽度。</span></span><br><span class="line">        getDialog().getWindow().setLayout(getActivity().getResources().getDimensionPixelSize(R.dimen.dialog_min_width), LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>设置Dialog无标题，点击外部是否消失</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (getShowsDialog()) &#123;</span><br><span class="line">          getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">          getDialog().setCanceledOnTouchOutside(<span class="keyword">false</span>);</span><br><span class="line">      &#125;</span><br><span class="line">	</span><br><span class="line"><span class="comment">//....</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

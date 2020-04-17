@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>大话设计模式笔记 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="##大话设计模式笔记  24种设计模式，4大原则 简单工厂模式和策略模式很像 工厂模式是简单工厂的改进版 开源项目二次开发时，可以利用装饰模式添加新功能 浏览器中用代理模式来优化下载 原型模式就是Java里面的clone()方法  ###1.简单工厂模式//优点：核心是工厂类，这个类负责产品的创建，而客户端可以免去产品创建的责任，实现了责任的分割。//缺点：工厂类集中了所有产品的创建逻辑，如果增加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大话设计模式笔记">
+<meta property="og:url" content="http://yeshu.work/2015/09/06/da-hua-she-ji-mo-shi-bi-ji/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="##大话设计模式笔记  24种设计模式，4大原则 简单工厂模式和策略模式很像 工厂模式是简单工厂的改进版 开源项目二次开发时，可以利用装饰模式添加新功能 浏览器中用代理模式来优化下载 原型模式就是Java里面的clone()方法  ###1.简单工厂模式//优点：核心是工厂类，这个类负责产品的创建，而客户端可以免去产品创建的责任，实现了责任的分割。//缺点：工厂类集中了所有产品的创建逻辑，如果增加">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-09-05T22:15:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大话设计模式笔记">
+<meta name="twitter:description" content="##大话设计模式笔记  24种设计模式，4大原则 简单工厂模式和策略模式很像 工厂模式是简单工厂的改进版 开源项目二次开发时，可以利用装饰模式添加新功能 浏览器中用代理模式来优化下载 原型模式就是Java里面的clone()方法  ###1.简单工厂模式//优点：核心是工厂类，这个类负责产品的创建，而客户端可以免去产品创建的责任，实现了责任的分割。//缺点：工厂类集中了所有产品的创建逻辑，如果增加">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-da-hua-she-ji-mo-shi-bi-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">大话设计模式笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.09.06</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>##大话设计模式笔记</p>
+<ul>
+<li>24种设计模式，4大原则</li>
+<li>简单工厂模式和策略模式很像</li>
+<li>工厂模式是简单工厂的改进版</li>
+<li>开源项目二次开发时，可以利用装饰模式添加新功能</li>
+<li>浏览器中用代理模式来优化下载</li>
+<li>原型模式就是Java里面的clone()方法</li>
+</ul>
+<p>###1.简单工厂模式<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//优点：核心是工厂类，这个类负责产品的创建，而客户端可以免去产品创建的责任，实现了责任的分割。</span></span><br><span class="line"><span class="comment">//缺点：工厂类集中了所有产品的创建逻辑，如果增加新的产品必须修改工厂角色的源码。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OperationFactory</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Operation <span class="title">createOperate</span><span class="params">(<span class="built_in">string</span> operate)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		Operation oper = null;</span><br><span class="line">		<span class="keyword">switch</span>(operate)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">				oper = <span class="keyword">new</span> OperationAdd();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">"-"</span>:</span><br><span class="line">				oper = <span class="keyword">new</span> OperationSub();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">"*"</span>:</span><br><span class="line">				oper = <span class="keyword">new</span> OperationMul();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">"/"</span></span><br><span class="line">				oper = <span class="keyword">new</span> OperationDiv();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> oper;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">Operation oper;</span><br><span class="line">oper = OperationFactory.createOperate(<span class="string">"+"</span>);</span><br><span class="line">oper.NumberA = <span class="number">1</span>;</span><br><span class="line">oper.NumberB = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">double</span> result = oper.GetResult();</span><br></pre></td></tr></table></figure></p>
+<p>###2.策略模式<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//策略模式就是用来封装一系列的算法.</span></span><br><span class="line"><span class="comment">//用户使用工厂模式产生算法，在通过CashContext类直接使用算法。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashContext</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	CashSuper cs = null;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">CashSuper</span><span class="params">(String type)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"正常收费"</span>:</span><br><span class="line">			CashNormal cs0 = <span class="keyword">new</span> CashNormal();</span><br><span class="line">			cs = cs0;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"满300烦100"</span>:</span><br><span class="line">			CashReturn cr1 = <span class="keyword">new</span> CashReturn(<span class="string">"300"</span>, <span class="string">"100"</span>);</span><br><span class="line">			cs = cs1;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"打8折"</span>:</span><br><span class="line">			CashRebate cr2 = <span class="keyword">new</span> CashRebate(<span class="string">"0.8"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">GetResult</span><span class="params">(<span class="keyword">double</span> money)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> cs.acceptCash(money);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">CashContext csuper = <span class="keyword">new</span> CashContext(<span class="string">"正常收费"</span>);</span><br><span class="line"><span class="keyword">double</span> price = csuper.GetResult(<span class="number">100</span>d);</span><br></pre></td></tr></table></figure></p>
+<p>###3.装饰模式<br><code>动态的给一个对象添加一些额外的职责，就增加功能来说，装饰模式比生成子类更为灵活。</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">abstract <span class="class"><span class="keyword">class</span> <span class="title">Component</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> abstract <span class="keyword">void</span> <span class="title">Operation</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span> :</span> Component</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> override <span class="keyword">void</span> <span class="title">Operation</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">abstract <span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> :</span> Component</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">protected</span> Component component;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">SetComponent</span><span class="params">(Component component)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.component = component;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> override <span class="keyword">void</span> <span class="title">Operation</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(null != component)</span><br><span class="line">		&#123;</span><br><span class="line">			component.Operation();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用</span></span><br><span class="line">ConcreteComponent c = <span class="keyword">new</span> ConcreteComponent();</span><br><span class="line">ConcreteDecoratorA d1 = <span class="keyword">new</span> ConcreteDecoratorA();</span><br><span class="line">ConcreteDecoratorB d2 = <span class="keyword">new</span> ConcreteDecoratorB();</span><br><span class="line"></span><br><span class="line"><span class="comment">//装饰</span></span><br><span class="line">d1.SetComponent(c);</span><br><span class="line">d2.SetComponent(d1);</span><br><span class="line"><span class="comment">//执行操作</span></span><br><span class="line">d2.Operation();</span><br></pre></td></tr></table></figure>
+<p>###4.代理模式<br><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">abstract <span class="class"><span class="keyword">class</span> <span class="title">Subject</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> abstract <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> :</span> Subject</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> override <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> :</span> Subject</span><br><span class="line">&#123;</span><br><span class="line">	RealSubject realSubject = <span class="keyword">new</span> RealSubject();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> override <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		realSubject.Requst();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//客户端使用</span></span><br><span class="line">Proxy proxy = <span class="keyword">new</span> Proxy();</span><br><span class="line">proxy.Request();</span><br></pre></td></tr></table></figure></p>
+<p>###5.工厂方法模式<br><code>克服了简单工厂违背开放-封闭原则的缺点，又保持了封装对象创建过程的优点。</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//工厂抽象类</span></span><br><span class="line">interface IFactory</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function">LeiFeng <span class="title">CreateLeiFeng</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//两个工厂子类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UndergraduateFactory</span> :</span> IFactory</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> LeiFeng <span class="title">CreateLeiFeng</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VolunteerFactory</span> :</span> IFactory</span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> LeiFeng <span class="title">CreanteLeiFeng</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//客户端决定使用哪个工厂</span></span><br><span class="line">IFactory factory = <span class="keyword">new</span> UndergraduateFactory();</span><br><span class="line">LeiFeng student = factory.CreateLeiFeng();</span><br></pre></td></tr></table></figure>
+<p>###6.原型模式</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用场景：一般在初始化的信息不发生变化的情况下，克隆是最好的办法。这即隐藏了对象的创建细节，又对性能是大大的提高</span></span><br><span class="line">abstract <span class="class"><span class="keyword">class</span> <span class="title">Prototype</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">private</span> String id;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Prototype</span><span class="params">(<span class="built_in">string</span> id)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">string</span> id</span><br><span class="line">	&#123;</span><br><span class="line">		get &#123; <span class="keyword">return</span> id; &#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> abstract Prototype <span class="title">Clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体的原型类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ContretePrototype</span> :</span> Prototype</span><br><span class="line">&#123;</span><br><span class="line">	public ConcretePrototype(string id) : base(id)</span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> override Prototype <span class="title">Clone</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//针对引用遍历需要深拷贝</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//客户端使用</span></span><br><span class="line">ConcretePrototype p1 = <span class="keyword">new</span> ConcretePrototype(<span class="string">"I"</span>);</span><br><span class="line">ConcretePrototype p2 = (ConcretePrototype)p1.Clone();</span><br></pre></td></tr></table></figure>
+<p>###7.模板方法模式</p>
+<p>###8.外观模式</p>
+<p>###9.建造者模式</p>
+<p>###10.观察者模式</p>
+<p>###11.抽象工厂模式</p>
+<p>###12.状态模式</p>
+<p>###13.适配器模式</p>
+<p>###14.备忘录模式</p>
+<p>###15.组合模式</p>
+<p>###16.迭代器模式</p>
+<p>###17.单例模式</p>
+<p>###18.桥接模式</p>
+<p>###19.命令模式</p>
+<p>###20.职责链模式</p>
+<p>###21.中介者模式</p>
+<p>###22.享元模式</p>
+<p>###23.解释器模式</p>
+<p>###24.访问者模式</p>
+<p>###单一职责原则<br><code>就一个类而言，应该仅有一个引起它变化的原因</code></p>
+<ul>
+<li>发现职责并把哪些职责相互分离</li>
+<li>如果你能想到多于一个动机去改变一个类，那么这个类就具有多于一个的职责</li>
+</ul>
+<p>###开放-封闭原则<br><code>是说软件实体（类、模块、函数等等）应该可以扩展，但是不可以修改。对于扩展是开放的，对于更改是封闭的</code></p>
+<ul>
+<li>面对需求，对程序的改动是通过增加新的代码进行的，而不是更改现有的代码</li>
+<li>猜测出最有可能发生变化的种类，然后构造出抽象来隔离那些变化</li>
+</ul>
+<p>###依赖倒转原则<br><code>A. 高层模块不应该依赖底层模块。两个都应该依赖抽象
+B. 抽象不应该依赖细节。细节应该依赖抽象</code></p>
+<ul>
+<li>针对接口编程，不要针对实现编程</li>
+<li>里氏代换原则：子类型必须能够替换掉他们的父类型。</li>
+</ul>
+<p>###迪米特法则</p>
+<p>###模式总结</p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

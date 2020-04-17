@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android项目架构迭代 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="Android项目架构迭代第一次迭代MVC失血模型的model, Activity的作为Control, xml作为View。 Activity需要处理UI的展示，用户的交互，实现业务逻辑，职责过于庞大，代码臃肿。 第二次迭代MVC-(View + Control + ServiceManager + Repository + Model)根据数据层，业务层，展示层的三层思想，添加了数据层DB,业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android项目架构迭代">
+<meta property="og:url" content="http://yeshu.work/2019/03/25/Android项目架构迭代/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Android项目架构迭代第一次迭代MVC失血模型的model, Activity的作为Control, xml作为View。 Activity需要处理UI的展示，用户的交互，实现业务逻辑，职责过于庞大，代码臃肿。 第二次迭代MVC-(View + Control + ServiceManager + Repository + Model)根据数据层，业务层，展示层的三层思想，添加了数据层DB,业">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android项目架构迭代">
+<meta name="twitter:description" content="Android项目架构迭代第一次迭代MVC失血模型的model, Activity的作为Control, xml作为View。 Activity需要处理UI的展示，用户的交互，实现业务逻辑，职责过于庞大，代码臃肿。 第二次迭代MVC-(View + Control + ServiceManager + Repository + Model)根据数据层，业务层，展示层的三层思想，添加了数据层DB,业">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Android项目架构迭代"><span class="toc-text">Android项目架构迭代</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一次迭代MVC"><span class="toc-text">第一次迭代MVC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二次迭代MVC-View-Control-ServiceManager-Repository-Model"><span class="toc-text">第二次迭代MVC-(View + Control + ServiceManager + Repository + Model)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三次迭代MVP-View-Presenter-Service-Repository-Model"><span class="toc-text">第三次迭代MVP(View + Presenter + Service + Repository + Model  )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四次迭代-UI层-UseCase-Service-Repository-DomainModel）"><span class="toc-text">第四次迭代-(UI层 + UseCase + Service + Repository + DomainModel）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五次迭代-（UI层-UseCase-Service）"><span class="toc-text">第五次迭代-（UI层 + UseCase + Service）</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Android项目架构迭代" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android项目架构迭代</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="Android项目架构迭代"><a href="#Android项目架构迭代" class="headerlink" title="Android项目架构迭代"></a>Android项目架构迭代</h2><h3 id="第一次迭代MVC"><a href="#第一次迭代MVC" class="headerlink" title="第一次迭代MVC"></a>第一次迭代MVC</h3><p>失血模型的model, Activity的作为Control, xml作为View。</p>
+<p>Activity需要处理UI的展示，用户的交互，实现业务逻辑，职责过于庞大，代码臃肿。</p>
+<h3 id="第二次迭代MVC-View-Control-ServiceManager-Repository-Model"><a href="#第二次迭代MVC-View-Control-ServiceManager-Repository-Model" class="headerlink" title="第二次迭代MVC-(View + Control + ServiceManager + Repository + Model)"></a>第二次迭代MVC-(View + Control + ServiceManager + Repository + Model)</h3><p>根据数据层，业务层，展示层的三层思想，添加了数据层DB,业务层Service,App作为展示层。</p>
+<p>相比于之前，将业务层和数据层整理出来了。但是Activity依然需要处理UI展示，Serivice的交互。</p>
+<h3 id="第三次迭代MVP-View-Presenter-Service-Repository-Model"><a href="#第三次迭代MVP-View-Presenter-Service-Repository-Model" class="headerlink" title="第三次迭代MVP(View + Presenter + Service + Repository + Model  )"></a>第三次迭代MVP(View + Presenter + Service + Repository + Model  )</h3><p>将Activity,Fragment作为View, Presenter作为View和Service的桥梁。</p>
+<p>MVP相对于之前的优点是写代码的时候View和Service完全独立，最终Presenter作为桥梁连接就行，思路很清晰，写起来很爽。但是也存在一些麻烦：</p>
+<ul>
+<li>Presenter中常常需要完全复制一片Activity,Fragment的生命周期，导致我们又要多维护一系列的状态。</li>
+<li>维护代码时，当一个页面交互很复杂的时候，代码的执行流程会在Presenter和View两个文件中跳转来跳转去，很容易打断思路，不易理解。</li>
+<li>当一个页面很简单时，直接将Activity作为Control的写法，代码会更简单，也更容易理解。</li>
+<li>Service中既存在细粒度接口，又存在针对当前版本的业务功能设计的粗粒度接口，当程序业务功能改变时，需要修改Service中的粗粒度接口，违背了开放封闭原则</li>
+</ul>
+<p>所以下一步的重构主要问题是，将Service中的细粒度和粗粒度的接口分开，隔离变化和不变化的业务接口，从而遵循开放封闭原则</p>
+<h3 id="第四次迭代-UI层-UseCase-Service-Repository-DomainModel）"><a href="#第四次迭代-UI层-UseCase-Service-Repository-DomainModel）" class="headerlink" title="第四次迭代-(UI层 + UseCase + Service + Repository + DomainModel）"></a>第四次迭代-(UI层 + UseCase + Service + Repository + DomainModel）</h3><p>为解决上述问题,这次设计中的角色职责如下：</p>
+<ul>
+<li>Service:提供基于业务基础功能的不会随版本变化而变化的细粒度接口</li>
+<li>UseCase:提供基于当前版本功能的粗粒度接口</li>
+<li>Repository:提供数据的存储，包含远程数据，本地数据</li>
+<li>Domain model ：领域模型</li>
+<li>UI层：表示项目的展示层，可以采用mvc或者MVP的方式来调用UseCase</li>
+</ul>
+<p>其中每个层次，角色之间只依赖接口，不依赖具体实现。具体实现参考<a href="http://five.agency/android-architecture-part-2-clean-architecture/" target="_blank" rel="noopener">The Clean Architecture</a></p>
+<p>基于这样的设计，每次只需要删除或新增相关页面UseCase就可以了，而不用去修改原有代码，遵循了开放封闭原则。</p>
+<h3 id="第五次迭代-（UI层-UseCase-Service）"><a href="#第五次迭代-（UI层-UseCase-Service）" class="headerlink" title="第五次迭代-（UI层 + UseCase + Service）"></a>第五次迭代-（UI层 + UseCase + Service）</h3><p>在后续的思考中发现，只有本地App才需要关心Domain model, Repository等业务的具体实现细节。而在大多数项目中往往是服务器负责实现业务，客户端只负责数据展示和用户交互。在这种理想情况下的架构设计应该是即可：</p>
+<pre><code>MVC/MVP + WebServiceApi
+WebServiceApi: 为服务端提供的粗粒度的业务功能接口
+</code></pre><p>还有一种App是服务端提供部分业务功能Api，还有一部分业务功能需要本地配合实现。针对这样的客户端架构设计如下：</p>
+<pre><code>MVC/MVP + UseCase + WebServiceApi/LocalServiceApi
+UseCase: 提供给UI层的统一粗粒度接口
+WebServiceApi: 服务端提供的粗粒度的业务功能接口
+LocalServiceApi: 本地实现的细粒度接口
+</code></pre>
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

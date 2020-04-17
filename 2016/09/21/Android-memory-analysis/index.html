@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android memory analysis | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="查看Android设备上单个进程的可用内存$ adb shell cat /system/build.propdalvik.vm.heapgrowthlimit=128mdalvik.vm.heapmaxfree=8mdalvik.vm.heapminfree=512kdalvik.vm.heapsize=256mdalvik.vm.heapstartsize=8mdalvik.vm.heapta">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android memory analysis">
+<meta property="og:url" content="http://yeshu.work/2016/09/21/Android-memory-analysis/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="查看Android设备上单个进程的可用内存$ adb shell cat /system/build.propdalvik.vm.heapgrowthlimit=128mdalvik.vm.heapmaxfree=8mdalvik.vm.heapminfree=512kdalvik.vm.heapsize=256mdalvik.vm.heapstartsize=8mdalvik.vm.heapta">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android memory analysis">
+<meta name="twitter:description" content="查看Android设备上单个进程的可用内存$ adb shell cat /system/build.propdalvik.vm.heapgrowthlimit=128mdalvik.vm.heapmaxfree=8mdalvik.vm.heapminfree=512kdalvik.vm.heapsize=256mdalvik.vm.heapstartsize=8mdalvik.vm.heapta">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#查看Android设备上单个进程的可用内存"><span class="toc-text">查看Android设备上单个进程的可用内存</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查看进程的内存使用情况"><span class="toc-text">查看进程的内存使用情况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#内存泄漏，内存优化分析"><span class="toc-text">内存泄漏，内存优化分析</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Android-memory-analysis" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android memory analysis</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.09.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h5 id="查看Android设备上单个进程的可用内存"><a href="#查看Android设备上单个进程的可用内存" class="headerlink" title="查看Android设备上单个进程的可用内存"></a>查看Android设备上单个进程的可用内存</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell cat /system/build.prop</span><br><span class="line"></span><br><span class="line">dalvik.vm.heapgrowthlimit=128m</span><br><span class="line">dalvik.vm.heapmaxfree=8m</span><br><span class="line">dalvik.vm.heapminfree=512k</span><br><span class="line">dalvik.vm.heapsize=256m</span><br><span class="line">dalvik.vm.heapstartsize=8m</span><br><span class="line">dalvik.vm.heaptargetutilization=0.75</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell getprop | grep dalvik.vm.heapgrowthlimit </span><br><span class="line">[dalvik.vm.heapgrowthlimit]: [128m]</span><br></pre></td></tr></table></figure>
+<p><code>dalvik.vm.heapsize</code>表示单个进程可用最大内存<br><code>dalvik.vm.heapgrowthlimit</code>表示程序运行过程中实际只能使用的内存</p>
+<ul>
+<li><p>dalvik.vm.heapstartsize</p>
+<blockquote>
+<p>堆分配的初始大小，调整这个值会影响到应用的流畅性和整体ram消耗。这个值越小，系统ram消耗越慢，但是由于初始值较小，一些较大的应用需要扩张这个堆，从而引发gc和堆调整的策略，会应用反应更慢。相反，这个值越大系统ram消耗越快，但是程序更流畅。</p>
+</blockquote>
+</li>
+<li><p>dalvik.vm.heapgrowthlimit</p>
+<blockquote>
+<p>受控情况下的极限堆（仅仅针对dalvik堆，不包括native堆）大小，dvm heap是可增长的，但是正常情况下dvm heap的大小是不会超过dalvik.vm.heapgrowthlimit的值（非正常情况下面会详细说明）。这个值控制那些受控应用的极限堆大小，如果受控的应用dvm heap size超过该值，则将引发oom（out of memory）。</p>
+</blockquote>
+</li>
+<li>dalvik.vm.heapsize<blockquote>
+<p>不受控情况下的极限堆大小，这个就是堆的最大值。不管它是不是受控的。这个值会影响非受控应用的dalvik heap size。一旦dalvik heap size超过这个值，直接引发oom。</p>
+</blockquote>
+</li>
+</ul>
+<p><a href="http://blog.csdn.net/cqupt_chen/article/details/11068129" target="_blank" rel="noopener">android dalvik heap 浅析</a></p>
+<h5 id="查看进程的内存使用情况"><a href="#查看进程的内存使用情况" class="headerlink" title="查看进程的内存使用情况"></a>查看进程的内存使用情况</h5><ol>
+<li><code>$ adb shell dumpsys meminfo com.huami.midong</code></li>
+</ol>
+<ol start="2">
+<li><p><a href="http://android-developers.blogspot.com.es/2014/01/process-stats-understanding-how-your.html" target="_blank" rel="noopener">使用进程统计信息查看内存使用情况</a> Settings &gt; Developer options &gt; Process Stats.</p>
+</li>
+<li><p>Android Device Monitor查看，选中进程－&gt;Update Heap </p>
+</li>
+<li><p>Android studio -&gt; Android Monitor查看</p>
+<pre><code>Activity Manager state
+PackageInformation
+Memory Usage
+Memory user over time
+Graphics State
+Memory 查看内存使用情况，发起gc
+CPU
+Network
+</code></pre></li>
+</ol>
+<p><a href="https://developer.android.com/studio/profile/am-memory.html?utm_medium=android-studio" target="_blank" rel="noopener">Memory Monitor</a></p>
+<h5 id="内存泄漏，内存优化分析"><a href="#内存泄漏，内存优化分析" class="headerlink" title="内存泄漏，内存优化分析"></a>内存泄漏，内存优化分析</h5><p>两个思路</p>
+<ul>
+<li>通过<code>mat</code>分析占用大内存的可疑对象，为什么没有释放</li>
+<li><p>通过<code>Android studio</code>的 <code>memory montior</code>的<code>Reference Tree</code>分析哪些类拥有引用是可疑的，比较他们的生命周期</p>
+<pre><code>Android studio Memory Monitory －&gt; Dump java heap -&gt; Analyzer Task -&gt; Detect Leaked Activities / Find Duplicate Strings
+</code></pre></li>
+</ul>
+<p><a href="https://developer.android.com/studio/profile/am-hprof.html" target="_blank" rel="noopener">Android studio中分析 Dump java heap</a></p>
+<p>这两天发现了4个oom问题</p>
+<ol>
+<li>高斯模糊渐变效果实现方案优化，减少内存使用避免oom</li>
+<li>自定义字体使用<code>Tpyeface.createFromAsset()</code>导致内存泄漏</li>
+<li>static 变量引用Activity导致 activity leak</li>
+<li>LocationListener没有注销导致 activity leak</li>
+</ol>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

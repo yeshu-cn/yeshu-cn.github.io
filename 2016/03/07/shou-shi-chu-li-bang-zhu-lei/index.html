@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>手势处理帮助类 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="GestureDetector 通过MotionEvents检测各种手势和事件，并通过GestureDetector.OnGestureListener回调处理。 To use this class:  Create an instance of the GestureDetector for your View In the onTouchEvent(MotionEvent) method en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手势处理帮助类">
+<meta property="og:url" content="http://yeshu.work/2016/03/07/shou-shi-chu-li-bang-zhu-lei/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="GestureDetector 通过MotionEvents检测各种手势和事件，并通过GestureDetector.OnGestureListener回调处理。 To use this class:  Create an instance of the GestureDetector for your View In the onTouchEvent(MotionEvent) method en">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-03-08T18:47:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="手势处理帮助类">
+<meta name="twitter:description" content="GestureDetector 通过MotionEvents检测各种手势和事件，并通过GestureDetector.OnGestureListener回调处理。 To use this class:  Create an instance of the GestureDetector for your View In the onTouchEvent(MotionEvent) method en">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-shou-shi-chu-li-bang-zhu-lei" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">手势处理帮助类</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.03.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><strong>GestureDetector</strong></p>
+<p>通过<code>MotionEvents</code>检测各种手势和事件，并通过<code>GestureDetector.OnGestureListener</code>回调处理。</p>
+<p>To use this class:</p>
+<ul>
+<li>Create an instance of the <code>GestureDetector</code> for your <code>View</code></li>
+<li>In the <code>onTouchEvent(MotionEvent)</code> method ensure you call <code>onTouchEvent(MotionEvent)</code>. The methods defined in your callback will be executed when the events occur.</li>
+<li>If listening for <code>onContextClick(MotionEvent)</code> you must call <code>onGenericMotionEvent(MotionEvent)</code> in <code>onGenericMotionEvent(MotionEvent)</code>.</li>
+</ul>
+<p>code:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DetectingGesturesActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">GestureDetector</span>.<span class="title">OnGestureListener</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEBUG_TAG = <span class="string">"Gestures"</span>;</span><br><span class="line">    <span class="keyword">private</span> GestureDetector mDetector;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_detecting_gestures);</span><br><span class="line"></span><br><span class="line">        mDetector = <span class="keyword">new</span> GestureDetector(<span class="keyword">this</span>, <span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mDetector.onTouchEvent(event);</span><br><span class="line">        <span class="comment">// Be sure to call the superclass implementation</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onDown</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        Log.d(DEBUG_TAG,<span class="string">"onDown: "</span> + event.toString());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onFling</span><span class="params">(MotionEvent event1, MotionEvent event2,</span></span></span><br><span class="line"><span class="function"><span class="params">                           <span class="keyword">float</span> velocityX, <span class="keyword">float</span> velocityY)</span> </span>&#123;</span><br><span class="line">        Log.d(DEBUG_TAG, <span class="string">"onFling: "</span> + event1.toString()+event2.toString());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLongPress</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        Log.d(DEBUG_TAG, <span class="string">"onLongPress: "</span> + event.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onScroll</span><span class="params">(MotionEvent e1, MotionEvent e2, <span class="keyword">float</span> distanceX,</span></span></span><br><span class="line"><span class="function"><span class="params">                            <span class="keyword">float</span> distanceY)</span> </span>&#123;</span><br><span class="line">        Log.d(DEBUG_TAG, <span class="string">"onScroll: "</span> + e1.toString()+e2.toString());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onShowPress</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        Log.d(DEBUG_TAG, <span class="string">"onShowPress: "</span> + event.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onSingleTapUp</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        Log.d(DEBUG_TAG, <span class="string">"onSingleTapUp: "</span> + event.toString());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

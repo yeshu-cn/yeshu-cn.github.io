@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android MediaPlayer笔记 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="笔记You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android MediaPlayer笔记">
+<meta property="og:url" content="http://yeshu.work/2015/10/16/android-mediaplayerbi-ji/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="笔记You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-10-16T04:54:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android MediaPlayer笔记">
+<meta name="twitter:description" content="笔记You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Manifest-声明"><span class="toc-text">Manifest 声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MediaPlayer使用"><span class="toc-text">MediaPlayer使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asynchronous-Preparation"><span class="toc-text">Asynchronous Preparation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Managing-State"><span class="toc-text">Managing State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Releasing-the-MediaPlayer"><span class="toc-text">Releasing the MediaPlayer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-a-Service-with-MediaPlayer"><span class="toc-text">Using a Service with MediaPlayer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-asynchronously"><span class="toc-text">Running asynchronously</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handling-asynchronnous-errors"><span class="toc-text">Handling asynchronnous errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-wake-locks"><span class="toc-text">Using wake locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-as-foreground-service"><span class="toc-text">Running as foreground service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handling-audio-focus"><span class="toc-text">Handling audio focus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Performing-cleanup"><span class="toc-text">Performing cleanup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handling-the-AUDIO-BECOMING-NOISY-Intent"><span class="toc-text">Handling the AUDIO_BECOMING_NOISY Intent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Retrieving-Media-from-a-Content-Resolver"><span class="toc-text">Retrieving Media from a Content Resolver</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-android-mediaplayerbi-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android MediaPlayer笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.10.16</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p>You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during a call.</p>
+<h2 id="Manifest-声明"><a href="#Manifest-声明" class="headerlink" title="Manifest 声明"></a>Manifest 声明</h2><ul>
+<li><p>Internet Permission - If you are using MediaPlayer to stream network-based content, your application must request network access.<br><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</code></p>
+</li>
+<li><p>Wake Lock Permission - If your player application needs to keep the screen from dimming or the processor from sleeping, or uses the MediaPlayer.setScreenOnWhilePlaying() or MediaPlayer.setWakeMode() methods, you must request this permission.<br><code>&lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot; /&gt;</code></p>
+</li>
+</ul>
+<h2 id="MediaPlayer使用"><a href="#MediaPlayer使用" class="headerlink" title="MediaPlayer使用"></a>MediaPlayer使用</h2><p>One of the most important components of the media framework is the MediaPlayer class. An object of this class can fetch, decode, and play both audio and video with minimal setup. It supports several different media sources such as:</p>
+<ul>
+<li>Local resources</li>
+<li>Internal URIs, such as one you might obtain from a * Content Resolver</li>
+<li>External URLs (streaming)</li>
+</ul>
+<p>Android支持播放的媒体格式：<a href="https://developer.android.com/guide/appendix/media-formats.html" target="_blank" rel="noopener">https://developer.android.com/guide/appendix/media-formats.html</a></p>
+<p>播放/res/raw/中文件<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// no need to call prepare(); create() does that for you</span></span><br><span class="line">MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);</span><br><span class="line">mediaPlayer.start();</span><br></pre></td></tr></table></figure></p>
+<p>a URI available locally in the system<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Uri myUri = ....; <span class="comment">// initialize Uri here</span></span><br><span class="line">MediaPlayer mediaPlayer = <span class="keyword">new</span> MediaPlayer();</span><br><span class="line">mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);</span><br><span class="line">mediaPlayer.setDataSource(getApplicationContext(), myUri);</span><br><span class="line">mediaPlayer.prepare();</span><br><span class="line">mediaPlayer.start();</span><br></pre></td></tr></table></figure></p>
+<p>Playing from a remote URL via HTTP streaming<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String url = <span class="string">"http://........"</span>; <span class="comment">// your URL here</span></span><br><span class="line">MediaPlayer mediaPlayer = <span class="keyword">new</span> MediaPlayer();</span><br><span class="line">mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);</span><br><span class="line">mediaPlayer.setDataSource(url);</span><br><span class="line">mediaPlayer.prepare(); <span class="comment">// might take long! (for buffering, etc)</span></span><br><span class="line">mediaPlayer.start();</span><br></pre></td></tr></table></figure></p>
+<p><strong>Note:</strong> If you’re passing a URL to stream an online media file, the file must be capable of progressive download.</p>
+<p><strong>Caution:</strong> You must either catch or pass IllegalArgumentException and IOException when using setDataSource(), because the file you are referencing might not exist.</p>
+<h3 id="Asynchronous-Preparation"><a href="#Asynchronous-Preparation" class="headerlink" title="Asynchronous Preparation"></a>Asynchronous Preparation</h3><p>the call to <code>prepare()</code> can take a long time to execute, because it might involve fetching and decoding media data.</p>
+<p>remember that anything that takes more than a tenth of a second to respond in the UI will cause a noticeable pause and will give the user the impression that your application is slow.</p>
+<p>this pattern is so common when using <code>MediaPlayer</code> that the framework supplies a convenient way to accomplish this task by using the <code>prepareAsync()</code> method. This method starts preparing the media in the background and returns immediately. When the media is done preparing, the <code>onPrepared()</code> method of the <code>MediaPlayer.OnPreparedListener</code>, configured through <code>setOnPreparedListener()</code> is called.</p>
+<h3 id="Managing-State"><a href="#Managing-State" class="headerlink" title="Managing State"></a>Managing State</h3><p>When you call stop(), however, notice that you cannot call start() again until you prepare the MediaPlayer again.</p>
+<p>状态表：<a href="https://developer.android.com/images/mediaplayer_state_diagram.gif" target="_blank" rel="noopener">https://developer.android.com/images/mediaplayer_state_diagram.gif</a></p>
+<p>calling its methods from the wrong state is a common cause of bug</p>
+<h3 id="Releasing-the-MediaPlayer"><a href="#Releasing-the-MediaPlayer" class="headerlink" title="Releasing the MediaPlayer"></a>Releasing the MediaPlayer</h3><p>you should always take extra precautions to make sure you are not hanging on to a <code>MediaPlayer</code> instance longer than necessary. When you are done with it, you should always call <code>release()</code> to make sure any system resources allocated to it are properly released. For example, if you are using a MediaPlayer and your activity receives a call to onStop(), you must release the <code>MediaPlayer</code>, because it makes little sense to hold on to it while your activity is not interacting with the user (unless you are playing media in the background, which is discussed in the next section). When your activity is resumed or restarted, of course, you need to create a new <code>MediaPlayer</code> and prepare it again before resuming playback.</p>
+<p>释放资源<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mediaPlayer.release();</span><br><span class="line">mediaPlayer = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure></p>
+<p>资源浪费场景<br>if you forgot to release the <code>MediaPlayer</code> when your activity is stopped, but create a new one when the activity starts again.此时横竖屏切换</p>
+<h2 id="Using-a-Service-with-MediaPlayer"><a href="#Using-a-Service-with-MediaPlayer" class="headerlink" title="Using a Service with MediaPlayer"></a>Using a Service with MediaPlayer</h2><h3 id="Running-asynchronously"><a href="#Running-asynchronously" class="headerlink" title="Running asynchronously"></a>Running asynchronously</h3><p>in fact,if you’re running an activity and a service from the same application, they use the same thread (the “main thread”) by defaul</p>
+<p>Service中播放语音<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> <span class="keyword">implements</span> <span class="title">MediaPlayer</span>.<span class="title">OnPreparedListener</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ACTION_PLAY = <span class="string">"com.example.action.PLAY"</span>;</span><br><span class="line">    MediaPlayer mMediaPlayer = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">onStartCommand</span><span class="params">(Intent intent, <span class="keyword">int</span> flags, <span class="keyword">int</span> startId)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">if</span> (intent.getAction().equals(ACTION_PLAY)) &#123;</span><br><span class="line">            mMediaPlayer = ... <span class="comment">// initialize it here</span></span><br><span class="line">            mMediaPlayer.setOnPreparedListener(<span class="keyword">this</span>);</span><br><span class="line">            mMediaPlayer.prepareAsync(); <span class="comment">// prepare async to not block main thread</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Called when MediaPlayer is ready */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPrepared</span><span class="params">(MediaPlayer player)</span> </span>&#123;</span><br><span class="line">        player.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Handling-asynchronnous-errors"><a href="#Handling-asynchronnous-errors" class="headerlink" title="Handling asynchronnous errors"></a>Handling asynchronnous errors</h3><p>It’s important to remember that when an error occurs, the <code>MediaPlayer</code> moves to the Error state (see the documentation for the <code>MediaPlayer</code> class for the full state diagram) and you must reset it before you can use it again.<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> <span class="keyword">implements</span> <span class="title">MediaPlayer</span>.<span class="title">OnErrorListener</span> </span>&#123;</span><br><span class="line">    MediaPlayer mMediaPlayer;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initMediaPlayer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...initialize the MediaPlayer here...</span></span><br><span class="line"></span><br><span class="line">        mMediaPlayer.setOnErrorListener(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onError</span><span class="params">(MediaPlayer mp, <span class="keyword">int</span> what, <span class="keyword">int</span> extra)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ... react appropriately ...</span></span><br><span class="line">        <span class="comment">// The MediaPlayer has moved to the Error state, must be reset!</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Using-wake-locks"><a href="#Using-wake-locks" class="headerlink" title="Using wake locks"></a>Using wake locks</h3><p>the Android system tries to conserve battery while the device is sleeping, the system tries to shut off any of the phone’s features that are not necessary, including the CPU and the WiFi hardware. However, if your service is playing or streaming music,</p>
+<p>In order to ensure that your service continues to run under those conditions, you have to use “wake locks.” A wake lock is a way to signal to the system that your application is using some feature that should stay available even if the phone is idle.</p>
+<p><strong>Notice:</strong> You should always use wake locks sparingly and hold them only for as long as truly necessary, because they significantly reduce the battery life of the device.</p>
+<p>To ensure that the CPU continues running while your MediaPlayer is playing, call the setWakeMode() method when initializing your MediaPlayer. Once you do, the MediaPlayer holds the specified lock while playing and releases the lock when paused or stopped:</p>
+<p> CPU remains awake<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mMediaPlayer = <span class="keyword">new</span> MediaPlayer();</span><br><span class="line"><span class="comment">// ... other initialization here ...</span></span><br><span class="line">mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);</span><br></pre></td></tr></table></figure></p>
+<p>hold a WifiLock as well<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">WifiLock wifiLock = ((WifiManager) getSystemService(Context.WIFI_SERVICE))</span><br><span class="line">    .createWifiLock(WifiManager.WIFI_MODE_FULL, <span class="string">"mylock"</span>);</span><br><span class="line"></span><br><span class="line">wifiLock.acquire();</span><br></pre></td></tr></table></figure></p>
+<p>When you pause or stop your media, or when you no longer need the network, you should release the lock:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">wifiLock.release();</span><br></pre></td></tr></table></figure></p>
+<h3 id="Running-as-foreground-service"><a href="#Running-as-foreground-service" class="headerlink" title="Running as foreground service"></a>Running as foreground service</h3><p>用户需要进行交互的Activity<br>A foreground service holds a higher level of importance within the system—the system will almost never kill the service, because it is of immediate importance to the user. When running in the foreground, the service also must provide a status bar notification to ensure that users are aware of the running service and allow them to open an activity that can interact with the service</p>
+<p>In order to turn your service into a foreground service, you must create a Notification for the status bar and call startForeground() from the Service. For example:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String songName;</span><br><span class="line"><span class="comment">// assign the song name to songName</span></span><br><span class="line">PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), <span class="number">0</span>,</span><br><span class="line">                <span class="keyword">new</span> Intent(getApplicationContext(), MainActivity.class),</span><br><span class="line">                PendingIntent.FLAG_UPDATE_CURRENT);</span><br><span class="line">Notification notification = <span class="keyword">new</span> Notification();</span><br><span class="line">notification.tickerText = text;</span><br><span class="line">notification.icon = R.drawable.play0;</span><br><span class="line">notification.flags |= Notification.FLAG_ONGOING_EVENT;</span><br><span class="line">notification.setLatestEventInfo(getApplicationContext(), <span class="string">"MusicPlayerSample"</span>,</span><br><span class="line">                <span class="string">"Playing: "</span> + songName, pi);</span><br><span class="line">startForeground(NOTIFICATION_ID, notification);</span><br></pre></td></tr></table></figure></p>
+<p>只有真正需要时才使用<code>foreground service</code>状态，不用是release it<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">stopForeground(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Handling-audio-focus"><a href="#Handling-audio-focus" class="headerlink" title="Handling audio focus"></a>Handling audio focus</h3><p>请求获取focus<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);</span><br><span class="line"><span class="keyword">int</span> result = audioManager.requestAudioFocus(<span class="keyword">this</span>, AudioManager.STREAM_MUSIC,</span><br><span class="line">    AudioManager.AUDIOFOCUS_GAIN);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) &#123;</span><br><span class="line">    <span class="comment">// could not get audio focus.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>The first parameter to <code>requestAudioFocus()</code> is an <code>AudioManager.OnAudioFocusChangeListener</code><br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span></span></span><br><span class="line"><span class="class">                <span class="keyword">implements</span> <span class="title">AudioManager</span>.<span class="title">OnAudioFocusChangeListener</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAudioFocusChange</span><span class="params">(<span class="keyword">int</span> focusChange)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Do something based on focus change...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>focusChange</code> value:  </p>
+<ul>
+<li>AUDIOFOCUS_GAIN: You have gained the audio focus.</li>
+<li>AUDIOFOCUS_LOSS: You have lost the audio focus for a presumably long time. You must stop all audio playback. Because you should expect not to have focus back for a long time, this would be a good place to clean up your resources as much as possible. For example, you should release the MediaPlayer.</li>
+<li>AUDIOFOCUS_LOSS_TRANSIENT: You have temporarily lost audio focus, but should receive it back shortly. You must stop all audio playback, but you can keep your resources because you will probably get focus back shortly.</li>
+<li>AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK: You have temporarily lost audio focus, but you are allowed to continue to play audio quietly (at a low volume) instead of killing audio completely.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAudioFocusChange</span><span class="params">(<span class="keyword">int</span> focusChange)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (focusChange) &#123;</span><br><span class="line">        <span class="keyword">case</span> AudioManager.AUDIOFOCUS_GAIN:</span><br><span class="line">            <span class="comment">// resume playback</span></span><br><span class="line">            <span class="keyword">if</span> (mMediaPlayer == <span class="keyword">null</span>) initMediaPlayer();</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (!mMediaPlayer.isPlaying()) mMediaPlayer.start();</span><br><span class="line">            mMediaPlayer.setVolume(<span class="number">1.0f</span>, <span class="number">1.0f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS:</span><br><span class="line">            <span class="comment">// Lost focus for an unbounded amount of time: stop playback and release media player</span></span><br><span class="line">            <span class="keyword">if</span> (mMediaPlayer.isPlaying()) mMediaPlayer.stop();</span><br><span class="line">            mMediaPlayer.release();</span><br><span class="line">            mMediaPlayer = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:</span><br><span class="line">            <span class="comment">// Lost focus for a short time, but we have to stop</span></span><br><span class="line">            <span class="comment">// playback. We don't release the media player because playback</span></span><br><span class="line">            <span class="comment">// is likely to resume</span></span><br><span class="line">            <span class="keyword">if</span> (mMediaPlayer.isPlaying()) mMediaPlayer.pause();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:</span><br><span class="line">            <span class="comment">// Lost focus for a short time, but it's ok to keep playing</span></span><br><span class="line">            <span class="comment">// at an attenuated level</span></span><br><span class="line">            <span class="keyword">if</span> (mMediaPlayer.isPlaying()) mMediaPlayer.setVolume(<span class="number">0.1f</span>, <span class="number">0.1f</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Keep in mind that the audio focus APIs are available only with API level 8 (Android 2.2) and above</p>
+<h3 id="Performing-cleanup"><a href="#Performing-cleanup" class="headerlink" title="Performing cleanup"></a>Performing cleanup</h3><p><code>Servcie</code>的<code>onDesotry()</code>方法中一定记得释放资源<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">   MediaPlayer mMediaPlayer;</span><br><span class="line">   <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (mMediaPlayer != <span class="keyword">null</span>) mMediaPlayer.release();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Handling-the-AUDIO-BECOMING-NOISY-Intent"><a href="#Handling-the-AUDIO-BECOMING-NOISY-Intent" class="headerlink" title="Handling the AUDIO_BECOMING_NOISY Intent"></a>Handling the AUDIO_BECOMING_NOISY Intent</h2><p>ACTION_AUDIO_BECOMING_NOISY</p>
+<h2 id="Retrieving-Media-from-a-Content-Resolver"><a href="#Retrieving-Media-from-a-Content-Resolver" class="headerlink" title="Retrieving Media from a Content Resolver"></a>Retrieving Media from a Content Resolver</h2><p>参考：<a href="http://developer.android.com/guide/topics/media/mediaplayer.html" target="_blank" rel="noopener">http://developer.android.com/guide/topics/media/mediaplayer.html</a><br>一篇英文，看了两个小时…</p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

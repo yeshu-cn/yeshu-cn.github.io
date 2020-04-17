@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android 优化网络请求 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="Android 优化网络请求https://developer.android.com/training/efficient-downloads/efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 优化网络请求">
+<meta property="og:url" content="http://yeshu.work/2017/11/21/Android-优化网络请求/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Android 优化网络请求https://developer.android.com/training/efficient-downloads/efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png">
+<meta property="og:image" content="https://developer.android.com/images/efficient-downloads/graphs.png">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 优化网络请求">
+<meta name="twitter:description" content="Android 优化网络请求https://developer.android.com/training/efficient-downloads/efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
+<meta name="twitter:image" content="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-优化网络请求"><span class="toc-text">Android 优化网络请求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Understand-The-Radio-State-Machine"><span class="toc-text">Understand The Radio State Machine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Understand-how-apps-can-impact-the-radio-state-machine"><span class="toc-text">Understand how apps can impact the radio state machine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prefetch-Data-预取数据"><span class="toc-text">Prefetch Data (预取数据)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#how"><span class="toc-text">how</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#预取数据时防止用户不用数据造成的流量浪费"><span class="toc-text">预取数据时防止用户不用数据造成的流量浪费</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Batch-Transfer-and-Connections-聚合数据传输和网络连接"><span class="toc-text">Batch Transfer and Connections (聚合数据传输和网络连接)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reduce-Connections"><span class="toc-text">Reduce Connections</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Network-Profiler"><span class="toc-text">使用Network Profiler</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Android-优化网络请求" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android 优化网络请求</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.11.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Android-优化网络请求"><a href="#Android-优化网络请求" class="headerlink" title="Android 优化网络请求"></a>Android 优化网络请求</h1><p><a href="https://developer.android.com/training/efficient-downloads/efficient-network-access.html" target="_blank" rel="noopener">https://developer.android.com/training/efficient-downloads/efficient-network-access.html</a></p>
+<p>这篇文章介绍无线模块消耗电量的原因，并给出优化方案：</p>
+<ul>
+<li>预先获取数据</li>
+<li>聚合网络请求</li>
+</ul>
+<h2 id="Understand-The-Radio-State-Machine"><a href="#Understand-The-Radio-State-Machine" class="headerlink" title="Understand The Radio State Machine"></a>Understand The Radio State Machine</h2><p><code>Radio</code>下文就叫无线模块</p>
+<p>处于运行状态的无线模块会消耗大量电量，所以无线模块会在不同的模式间切换来节省消耗。</p>
+<p>典型的无线模块会在三种不同的状态间切换：</p>
+<ol>
+<li><strong>Full power</strong>： 进行网络请求时，高功耗  </li>
+<li><strong>Low power</strong>：中间状态，电量消耗只有Full power 的一半</li>
+<li><strong>Standby</strong>：没有网络请求时的待机状态，低功耗</li>
+</ol>
+<p>low power 和 standby 状态会处于低功耗，但是会造成延迟网络请求。因为low power状态转换为full power状态需要1.5秒的时间，standy 状态转换为 full power 状态需要2秒的时间。</p>
+<p>为了减少状态切换造成的网络请求延时，无线模块会延迟向低功耗状态的转换</p>
+<p><img src="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png" alt></p>
+<p>不同的设备（2G,3G,LTE,etc.）的延时时间不同</p>
+<h2 id="Understand-how-apps-can-impact-the-radio-state-machine"><a href="#Understand-how-apps-can-impact-the-radio-state-machine" class="headerlink" title="Understand how apps can impact the radio state machine"></a>Understand how apps can impact the radio state machine</h2><p>根据上图</p>
+<ul>
+<li>每18秒请求一个1秒的数据，一分钟内可以请求3次，获取3秒的数据。此时会让无线模块一直处于耗电状态</li>
+<li>聚合网络请求，一次请求3秒数据。此时无线模块仅仅只会有20秒处于耗电状态</li>
+</ul>
+<p>上面例子中：同样时间内，请求同样时长数据，聚合网络请求会大大的减少耗电量</p>
+<p><img src="https://developer.android.com/images/efficient-downloads/graphs.png" alt></p>
+<h2 id="Prefetch-Data-预取数据"><a href="#Prefetch-Data-预取数据" class="headerlink" title="Prefetch Data (预取数据)"></a>Prefetch Data (预取数据)</h2><h3 id="how"><a href="#how" class="headerlink" title="how"></a>how</h3><ul>
+<li>聚合多个网络请求为一个单独的网络请求</li>
+<li>不能过度使用预取数据的策略，因为如果用户用不到数据，会造成流量等的浪费</li>
+</ul>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>减少无线模块激活的次数，从而减少耗电量</li>
+<li>减少无线模块状态切换时造成的延时</li>
+<li>减少网络带宽的要求</li>
+<li>减少网络请求次数，提高app性能</li>
+<li>预取数据带来的用户体验的提升</li>
+</ol>
+<h3 id="预取数据时防止用户不用数据造成的流量浪费"><a href="#预取数据时防止用户不用数据造成的流量浪费" class="headerlink" title="预取数据时防止用户不用数据造成的流量浪费"></a>预取数据时防止用户不用数据造成的流量浪费</h3><p>在wifi的情况下预取数据，非wifi的情况下不预取</p>
+<h2 id="Batch-Transfer-and-Connections-聚合数据传输和网络连接"><a href="#Batch-Transfer-and-Connections-聚合数据传输和网络连接" class="headerlink" title="Batch Transfer and Connections (聚合数据传输和网络连接)"></a>Batch Transfer and Connections (聚合数据传输和网络连接)</h2><p>在3G的情况下，每一次网络请求都会有20秒左右的处于电池的高功耗状态</p>
+<p>所以假设每隔20秒请求一下数据，会使无线模块一直处于高功耗状态。</p>
+<h2 id="Reduce-Connections"><a href="#Reduce-Connections" class="headerlink" title="Reduce Connections"></a>Reduce Connections</h2><p>就是叫你减少网络连接，聚合网络请求</p>
+<h2 id="使用Network-Profiler"><a href="#使用Network-Profiler" class="headerlink" title="使用Network Profiler"></a>使用Network Profiler</h2><p>利用network profiler可以清楚的看到网络请求发送的频率和具体内容，方便我们调试优化网络请求</p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

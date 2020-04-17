@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>https通信流程 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="浏览器将自己的一套加密规则发送给网站 网站选取其中一组加密算法和Hash算法，并将自己的信息已证书的形式发送给浏览器。证书中包含网站地址、加密公钥、证书颁发机构等信息。 浏览器获得网站证书后浏览器要做一下工作:  a. 验证证书的合法性 b. 如果证书受信任，或者用户接受了不受信任的证书，浏览器会生成一串随机数的密码，并用证书提供的公钥加密。 c. 使用密码加密一段握手消息，发送给浏览器  网站">
+<meta property="og:type" content="article">
+<meta property="og:title" content="https通信流程">
+<meta property="og:url" content="http://yeshu.work/2015/09/08/httpsliu-cheng/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="浏览器将自己的一套加密规则发送给网站 网站选取其中一组加密算法和Hash算法，并将自己的信息已证书的形式发送给浏览器。证书中包含网站地址、加密公钥、证书颁发机构等信息。 浏览器获得网站证书后浏览器要做一下工作:  a. 验证证书的合法性 b. 如果证书受信任，或者用户接受了不受信任的证书，浏览器会生成一串随机数的密码，并用证书提供的公钥加密。 c. 使用密码加密一段握手消息，发送给浏览器  网站">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-09-07T21:04:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="https通信流程">
+<meta name="twitter:description" content="浏览器将自己的一套加密规则发送给网站 网站选取其中一组加密算法和Hash算法，并将自己的信息已证书的形式发送给浏览器。证书中包含网站地址、加密公钥、证书颁发机构等信息。 浏览器获得网站证书后浏览器要做一下工作:  a. 验证证书的合法性 b. 如果证书受信任，或者用户接受了不受信任的证书，浏览器会生成一串随机数的密码，并用证书提供的公钥加密。 c. 使用密码加密一段握手消息，发送给浏览器  网站">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-httpsliu-cheng" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">https通信流程</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.09.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <ol>
+<li>浏览器将自己的一套加密规则发送给网站</li>
+<li>网站选取其中一组加密算法和Hash算法，并将自己的信息已证书的形式发送给浏览器。证书中包含网站地址、加密公钥、证书颁发机构等信息。</li>
+<li><p>浏览器获得网站证书后浏览器要做一下工作:</p>
+<p> a. 验证证书的合法性<br> b. 如果证书受信任，或者用户接受了不受信任的证书，浏览器会生成一串随机数的密码，并用证书提供的公钥加密。<br> c. 使用密码加密一段握手消息，发送给浏览器</p>
+</li>
+<li><p>网站接收到浏览器发来的数据之后要做一下的操作：</p>
+<p> a. 使用自己的私钥信息解密出用于通信的加密密码，使用密码解密浏览器发送来的握手消息，并验证Hash是否与浏览器发来的一致。<br> b. 使用获取的加密密码发送一段握手消息给浏览器</p>
+</li>
+<li><p>浏览器解密并计算握手消息，并通过Hash判断数据的完整性，正确性。</p>
+</li>
+<li>至此结束，以后通过加密密码进行数据加密通信</li>
+</ol>
+<p>##用到的算法<br>非对称加密：网站提供，发送公钥，保存私钥。用于获取浏览器生成的随机密码</p>
+<p>对称加密：浏览器随机生成的密钥。用于数据通信时进行加密，解密。</p>
+<p>Hash算法：浏览器提供，网站选择使用哪一个。用于验证数据包的完整性。</p>
+<p>##Fiddler中间人攻击，截取https通信<br>浏览器-&gt;Fiddler-&gt;网站</p>
+<ul>
+<li>浏览器和fiddler进行https通信  </li>
+<li>fiddler获取浏览器请求，并通过https转发请求到真正的网站服务器</li>
+</ul>
+<p>##加密方法<br>非对称加密算法：RSA，DSA/DSS</p>
+<p>对称加密算法：AES，RC4，3DES</p>
+<p>HASH算法：MD5，SHA1，SHA256</p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

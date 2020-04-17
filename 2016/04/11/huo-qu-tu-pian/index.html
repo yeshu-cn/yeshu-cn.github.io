@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>获取图片 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="Uri格式有下面三种：    file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png content://media/external/images/media/75342 content://com.android.providers.media.documents/document/image:75342  Uri处理InputStream i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取图片">
+<meta property="og:url" content="http://yeshu.work/2016/04/11/huo-qu-tu-pian/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Uri格式有下面三种：    file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png content://media/external/images/media/75342 content://com.android.providers.media.documents/document/image:75342  Uri处理InputStream i">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-04-11T01:54:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="获取图片">
+<meta name="twitter:description" content="Uri格式有下面三种：    file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png content://media/external/images/media/75342 content://com.android.providers.media.documents/document/image:75342  Uri处理InputStream i">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-huo-qu-tu-pian" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">获取图片</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.04.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><strong>Uri格式有下面三种：</strong>  </p>
+<ol>
+<li>file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png</li>
+<li>content://media/external/images/media/75342</li>
+<li>content://com.android.providers.media.documents/document/image:75342</li>
+</ol>
+<p><strong>Uri处理</strong><br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStream is = getActivity().getContentResolver().openInputStream(uri);</span><br></pre></td></tr></table></figure></p>
+<p>上面代码可以打开1和2格式的Uri,3格式的Uri打开会抛异常：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java.lang.SecurityException: Permission Denial: reading com.android.providers.media.MediaDocumentsProvider uri content://com.android.providers.media.documents/document/image:75343 from pid=24763, uid=10209 requires android.permission.MANAGE_DOCUMENTS, or grantUriPermission()</span><br></pre></td></tr></table></figure>
+<p><strong>Uri获取</strong>  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; SystemInfo.ANDROID_VERSION_CODE.KITKAT)&#123;</span><br><span class="line">             intent = <span class="keyword">new</span> Intent();</span><br><span class="line">             intent.setAction(Intent.ACTION_GET_CONTENT);</span><br><span class="line">             intent.setType(<span class="string">"image/*"</span>);</span><br><span class="line">             getActivity().startActivityForResult(intent, REQ_PHOTO);</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             intent = <span class="keyword">new</span> Intent(Intent.ACTION_OPEN_DOCUMENT);</span><br><span class="line">             intent.addCategory(Intent.CATEGORY_OPENABLE);</span><br><span class="line">             intent.setType(<span class="string">"image/*"</span>);</span><br><span class="line">             getActivity().startActivityForResult(intent, REQ_PHOTO_KITKAT);</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<p><code>Intent.ACTION_GET_CONTENT</code> 4.4以前选择图片:</p>
+<ul>
+<li>file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png</li>
+<li>content://media/external/images/media/75342</li>
+</ul>
+<p><code>Intent.ACTION_GET_CONTENT</code> 4.4以后选择<code>相册</code>中图片：</p>
+<ul>
+<li>file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png</li>
+<li>content://media/external/images/media/75342</li>
+</ul>
+<p><code>Intent.ACTION_GET_CONTENT</code> 4.4以后选择<code>最近</code>中图片，或者<code>文件管理器</code>中图片：</p>
+<ul>
+<li>content://com.android.providers.media.documents/document/image:75342</li>
+</ul>
+<p><code>Intent.ACTION_OPEN_DOCUMENT</code> 4.4以后以这种方式选择图片都返回：</p>
+<ul>
+<li>content://com.android.providers.media.documents/document/image:75342</li>
+</ul>
+<p>4.4以前Android会打开注册了监听<code>Intent.ACTION_GET_CONTENT</code>的App,但4.4以后Android会打开一个<code>documentsui</code>的内置程序，根据其中选择图片的位置不同，返回不同格式的Uri。</p>
+<p>即4.4以前使用<code>Intent.ACTION_GET_CONTENT</code>选择图片方式和返回是固定的：</p>
+<ul>
+<li>file:////storage/emulated/0/123/绑定手环/绑定手环_其他用户绑定.png</li>
+<li>content://media/external/images/media/75342</li>
+</ul>
+<p>但4.4以后使用<code>Intent.ACTION_GET_CONTENT</code>选择图片时，会根据选择的位置（<code>最近</code>，<code>相册</code>和<code>文件管理器</code>等）返回不同格式的Uri。</p>
+<p>所以4.4以后使用<code>Intent.ACTION_OPEN_DOUCMENT</code>来选择图片返回固定格式的Uri。</p>
+<p><strong><code>Storage access framework</code>中的<code>Uri</code>使用</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@TargetApi</span>(Build.VERSION_CODES.KITKAT)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getPath</span><span class="params">(<span class="keyword">final</span> Context context, <span class="keyword">final</span> Uri uri)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> isKitKat = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// DocumentProvider</span></span><br><span class="line">    <span class="keyword">if</span> (isKitKat &amp;&amp; DocumentsContract.isDocumentUri(context, uri)) &#123;</span><br><span class="line">        <span class="comment">// ExternalStorageProvider</span></span><br><span class="line">        <span class="keyword">if</span> (isExternalStorageDocument(uri)) &#123;</span><br><span class="line">            <span class="keyword">final</span> String docId = DocumentsContract.getDocumentId(uri);</span><br><span class="line">            <span class="keyword">final</span> String[] split = docId.split(<span class="string">":"</span>);</span><br><span class="line">            <span class="keyword">final</span> String type = split[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"primary"</span>.equalsIgnoreCase(type)) &#123;</span><br><span class="line">                <span class="keyword">return</span> Environment.getExternalStorageDirectory() + <span class="string">"/"</span> + split[<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// TODO handle non-primary volumes</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// DownloadsProvider</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (isDownloadsDocument(uri)) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> String id = DocumentsContract.getDocumentId(uri);</span><br><span class="line">            <span class="keyword">final</span> Uri contentUri = ContentUris.withAppendedId(</span><br><span class="line">                    Uri.parse(<span class="string">"content://downloads/public_downloads"</span>), Long.valueOf(id));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> getDataColumn(context, contentUri, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// MediaProvider</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (isMediaDocument(uri)) &#123;</span><br><span class="line">            <span class="keyword">final</span> String docId = DocumentsContract.getDocumentId(uri);</span><br><span class="line">            <span class="keyword">final</span> String[] split = docId.split(<span class="string">":"</span>);</span><br><span class="line">            <span class="keyword">final</span> String type = split[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">            Uri contentUri = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"image"</span>.equals(type)) &#123;</span><br><span class="line">                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"video"</span>.equals(type)) &#123;</span><br><span class="line">                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"audio"</span>.equals(type)) &#123;</span><br><span class="line">                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> String selection = <span class="string">"_id=?"</span>;</span><br><span class="line">            <span class="keyword">final</span> String[] selectionArgs = <span class="keyword">new</span> String[] &#123;</span><br><span class="line">                    split[<span class="number">1</span>]</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> getDataColumn(context, contentUri, selection, selectionArgs);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// MediaStore (and general)</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"content"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Return the remote address</span></span><br><span class="line">        <span class="keyword">if</span> (isGooglePhotosUri(uri))</span><br><span class="line">            <span class="keyword">return</span> uri.getLastPathSegment();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> getDataColumn(context, uri, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// File</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"file"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</span><br><span class="line">        <span class="keyword">return</span> uri.getPath();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Get the value of the data column for this Uri. This is useful for</span></span><br><span class="line"><span class="comment"> * MediaStore Uris, and other file-based ContentProviders.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> context The context.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri The Uri to query.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> selection (Optional) Filter used in the query.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> selectionArgs (Optional) Selection arguments used in the query.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> The value of the _data column, which is typically a file path.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDataColumn</span><span class="params">(Context context, Uri uri, String selection,</span></span></span><br><span class="line"><span class="function"><span class="params">                                   String[] selectionArgs)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Cursor cursor = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">final</span> String column = <span class="string">"_data"</span>;</span><br><span class="line">    <span class="keyword">final</span> String[] projection = &#123;</span><br><span class="line">            column</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,</span><br><span class="line">                <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (cursor != <span class="keyword">null</span> &amp;&amp; cursor.moveToFirst()) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> index = cursor.getColumnIndexOrThrow(column);</span><br><span class="line">            <span class="keyword">return</span> cursor.getString(index);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (cursor != <span class="keyword">null</span>)</span><br><span class="line">            cursor.close();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri The Uri to check.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> Whether the Uri authority is ExternalStorageProvider.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isExternalStorageDocument</span><span class="params">(Uri uri)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"com.android.externalstorage.documents"</span>.equals(uri.getAuthority());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri The Uri to check.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> Whether the Uri authority is DownloadsProvider.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isDownloadsDocument</span><span class="params">(Uri uri)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"com.android.providers.downloads.documents"</span>.equals(uri.getAuthority());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri The Uri to check.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> Whether the Uri authority is MediaProvider.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isMediaDocument</span><span class="params">(Uri uri)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"com.android.providers.media.documents"</span>.equals(uri.getAuthority());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> uri The Uri to check.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> Whether the Uri authority is Google Photos.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isGooglePhotosUri</span><span class="params">(Uri uri)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"com.google.android.apps.photos.content"</span>.equals(uri.getAuthority());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>官方解析方法见：<a href="http://developer.android.com/intl/zh-cn/guide/topics/providers/document-provider.html" target="_blank" rel="noopener">http://developer.android.com/intl/zh-cn/guide/topics/providers/document-provider.html</a></p>
+<p>参考资料：<a href="http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri-for-intent-action-get-content#" target="_blank" rel="noopener">http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri-for-intent-action-get-content#</a></p>
+<p><strong>4.4中新增特性：Storage Access Framework</strong><br>作用目的：The SAF makes it simple for users to browse and open documents, images, and other files across all of their their preferred document storage providers. A standard, easy-to-use UI lets users browse files and access recents in a consistent way across apps and providers</p>
+<p>让用户通过一个storage providers访问所有资源，并且提供一个统一的UI浏览访问图片，文件等。</p>
+<p>什么是时候返回的Uri是Provider中提供的？什么时候是直接“file:////绝对路径”的格式？</p>
+<p>Uri和URI是两个不同的东西：<br>URI格式：<code>http://username:password@host:8080/directory/file?query#fragment</code></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>代码规范笔记 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="只记录一些自己接触过的或思考过的点  每次只声明一个变量 不要使用组合声明，比如int a, b;。  default的情况要写出来 每个switch语句都包含一个default语句组，即使它什么代码也不包含。    量词列表：量词后缀说明 First,Last,Next,Prev,Cur,List,Map,Set,Arr    动画命名例子    规范写法 fade_in    淡入 fade_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代码规范笔记">
+<meta property="og:url" content="http://yeshu.work/2016/05/17/dai-ma-gui-fan-bi-ji/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="只记录一些自己接触过的或思考过的点  每次只声明一个变量 不要使用组合声明，比如int a, b;。  default的情况要写出来 每个switch语句都包含一个default语句组，即使它什么代码也不包含。    量词列表：量词后缀说明 First,Last,Next,Prev,Cur,List,Map,Set,Arr    动画命名例子    规范写法 fade_in    淡入 fade_">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-05-17T00:28:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代码规范笔记">
+<meta name="twitter:description" content="只记录一些自己接触过的或思考过的点  每次只声明一个变量 不要使用组合声明，比如int a, b;。  default的情况要写出来 每个switch语句都包含一个default语句组，即使它什么代码也不包含。    量词列表：量词后缀说明 First,Last,Next,Prev,Cur,List,Map,Set,Arr    动画命名例子    规范写法 fade_in    淡入 fade_">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#资料来源和更多"><span class="toc-text">资料来源和更多</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-dai-ma-gui-fan-bi-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">代码规范笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.17</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>只记录一些自己接触过的或思考过的点</p>
+<ul>
+<li><p>每次只声明一个变量</p>
+<pre><code>不要使用组合声明，比如int a, b;。
+</code></pre></li>
+<li><p>default的情况要写出来</p>
+<pre><code>每个switch语句都包含一个default语句组，即使它什么代码也不包含。
+</code></pre></li>
+</ul>
+<ul>
+<li><p>量词列表：量词后缀说明</p>
+<pre><code>First,Last,Next,Prev,Cur,List,Map,Set,Arr
+</code></pre></li>
+</ul>
+<ul>
+<li><p>动画命名例子    规范写法</p>
+<pre><code>fade_in    淡入
+fade_out    淡出
+push_down_in    从下方推入
+push_down_out    从下方推出
+push_left    推向左方
+slide_in_from_top    从头部滑动进入
+zoom_enter    变形进入
+slide_in    滑动进入
+shrink_to_middle    中间缩小
+</code></pre></li>
+</ul>
+<ul>
+<li><p>捕获的异常：不能忽视</p>
+<pre><code>  除了下面的例子，对捕获的异常不做响应是极少正确的。(典型的响应方式是打印日志，或者如果它被认为是不可能的，则把它当作一个 AssertionError 重新抛出。) 如果它确实是不需要在catch块中做任何响应，需要做注释加以说明(如下面的例子)。
+</code></pre></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">int</span> i = Integer.parseInt(response);</span><br><span class="line">    <span class="keyword">return</span> handleNumericResponse();</span><br><span class="line">&#125; <span class="keyword">catch</span> (NumberFormatException ok) &#123;</span><br><span class="line">    <span class="comment">// it's not numeric; that's fine, just continue</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> handleTextResponse(response);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>避免使用全局变量和类成员（class member）来传递信息（会让函数不在具有明确的输入输出特性）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    String x;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">findX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       ...</span><br><span class="line">       x = ...;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      findX();</span><br><span class="line">      ...</span><br><span class="line">      print(x);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>写成</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">String <span class="title">findX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   ...</span><br><span class="line">   x = ...;</span><br><span class="line">   <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> x = findX();</span><br><span class="line">  print(x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用有意义的函数和变量名字（变量的生命应当放在理她使用最近的地方）</li>
+<li>不要重用局部变量</li>
+<li>把复杂的表达式提取出去，做成中间变量</li>
+<li><p>写模块化的代码</p>
+<pre><code>有些人吵着闹着要让程序“模块化”，结果他们的做法是把代码分部到多个文件和目录里面，然后把这些目录或者文件叫做“module”。他们甚至把这些目录分放在不同的 VCS repo 里面。结果这样的作法并没有带来合作的流畅，而是带来了许多的麻烦。这是因为他们其实并不理解什么叫做“模块”，肤浅的把代码切割开来，分放在不同的位置，其实非但不能达到模块化的目的，而且制造了不必要的麻烦。
+方法：
+1. 避免写太长的函数
+2. 制造小的工具函数
+3. 每个函数只做一件简单的事情
+
+有些人喜欢制造一些“通用”的函数，既可以做这个又可以做那个，它的内部依据某些变量和条件，来“选择”这个函数所要做的事情。
+</code></pre></li>
+<li>避免使用全局变量和类成员（class member）来传递信息（会让函数不在具有明确的输入输出特性）</li>
+<li><p>不要把<code>null</code>放进“容器数据结构”里面</p>
+<pre><code>函数调用者：明确理解null所表示的意义，尽早检查和处理null返回值，减少它的传播
+
+函数作者：明确声明不接受null参数，当参数是null时立即崩溃。
+不要试图对null进行“容错”，不要让程序继续往下执行。如果调用者使用了null作为参数，那么调用者（而不是函数作者）应该对程序的崩溃负全责。
+（就在于人们对于null的“容忍态度”。这种“保护式”的写法，试图“容错”，试图“优雅的处理null”，其结果是让调用者更加肆无忌惮的传递null给你的函数。）
+（容错这种保护式写法，最终会让调用者写代码毫无忌惮，将错误因子导出传递，造成很难排查错误和代码逻辑混乱）
+</code></pre><p>正确做法：</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">requireNonNull</span><span class="params">(T obj)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (obj == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>防止过度设计</p>
+<pre><code>另外一种过度工程的来源，是过度的关心“代码重用”。很多人“可用”的代码还没写出来呢，就在关心“重用”。为了让代码可以重用，最后被自己搞出来的各种框架捆住手脚，最后连可用的代码就没写好。如果可用的代码都写不好，又何谈重用呢？
+
+根据这些，我总结出来的防止过度工程的原则如下：
+1. 先把眼前的问题解决掉，解决好，再考虑将来的扩展问题。
+2. 先写出可用的代码，反复推敲，再考虑是否需要重用的问题。
+3. 先写出可用，简单，明显没有bug的代码，再考虑测试的问题。
+</code></pre></li>
+</ul>
+<h2 id="资料来源和更多"><a href="#资料来源和更多" class="headerlink" title="资料来源和更多"></a>资料来源和更多</h2><ul>
+<li><a href="http://www.yinwang.org/blog-cn/2015/11/21/programming-philosophy" target="_blank" rel="noopener">http://www.yinwang.org/blog-cn/2015/11/21/programming-philosophy</a></li>
+<li><a href="http://keeganlee.me/post/android/20150709" target="_blank" rel="noopener">http://keeganlee.me/post/android/20150709</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

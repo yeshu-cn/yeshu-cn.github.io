@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Typeface.createFromAsset 内存泄漏问题依然存在 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="https://code.google.com/p/android/issues/detail?id=9904 这评论说在3.2上已经修复了该问题，新framework中也却是添加了staem-&amp;gt;unref(),但是自己在5.0.2上使用自定义字体依然存在内存泄漏.不知道哪里造成的 $ adb shell dumpsys meminfo work.yeshu.tfftestApplicati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Typeface.createFromAsset 内存泄漏问题依然存在">
+<meta property="og:url" content="http://yeshu.work/2016/09/20/Typeface-createFromAsset-内存泄漏问题依然存在/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="https://code.google.com/p/android/issues/detail?id=9904 这评论说在3.2上已经修复了该问题，新framework中也却是添加了staem-&amp;gt;unref(),但是自己在5.0.2上使用自定义字体依然存在内存泄漏.不知道哪里造成的 $ adb shell dumpsys meminfo work.yeshu.tfftestApplicati">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.126Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Typeface.createFromAsset 内存泄漏问题依然存在">
+<meta name="twitter:description" content="https://code.google.com/p/android/issues/detail?id=9904 这评论说在3.2上已经修复了该问题，新framework中也却是添加了staem-&amp;gt;unref(),但是自己在5.0.2上使用自定义字体依然存在内存泄漏.不知道哪里造成的 $ adb shell dumpsys meminfo work.yeshu.tfftestApplicati">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Typeface-createFromAsset-内存泄漏问题依然存在" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Typeface.createFromAsset 内存泄漏问题依然存在</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.09.20</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><a href="https://code.google.com/p/android/issues/detail?id=9904" target="_blank" rel="noopener">https://code.google.com/p/android/issues/detail?id=9904</a></p>
+<p>这评论说在3.2上已经修复了该问题，新framework中也却是添加了<code>staem-&gt;unref()</code>,但是自己在5.0.2上使用自定义字体依然存在内存泄漏.不知道哪里造成的</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell dumpsys meminfo work.yeshu.tfftest</span><br><span class="line">Applications Memory Usage (kB):</span><br><span class="line">Uptime: 167918 Realtime: 167918</span><br><span class="line"></span><br><span class="line">** MEMINFO <span class="keyword">in</span> pid 8200 [work.yeshu.tfftest] **</span><br><span class="line">                   Pss  Private  Private  Swapped     Heap     Heap     Heap</span><br><span class="line">                 Total    Dirty    Clean    Dirty     Size    Alloc     Free</span><br><span class="line">                ------   ------   ------   ------   ------   ------   ------</span><br><span class="line">  Native Heap     3837     3760        0        0    12180    10072       15</span><br><span class="line">  Dalvik Heap     4165     3764        0        0    32000    19470    12530</span><br><span class="line"> Dalvik Other      732      732        0        0</span><br><span class="line">        Stack      228      228        0        0</span><br><span class="line">    Other dev        5        0        4        0</span><br><span class="line">     .so mmap     1730      248      172      200</span><br><span class="line">    .apk mmap      319        0       12        0</span><br><span class="line">    .ttf mmap      146        0       40        0</span><br><span class="line">    .dex mmap     2980        0     2876        0</span><br><span class="line">    code mmap     1355        0      220        0</span><br><span class="line">   image mmap     1538      876      364        0</span><br><span class="line">   Other mmap      369        4      200        0</span><br><span class="line">     Graphics     2720     2720        0        0</span><br><span class="line">           GL     9276     9276        0        0</span><br><span class="line">      Unknown     1994     1980        0        0</span><br><span class="line">        TOTAL    31394    23588     3888      200    44180    29542    12545</span><br><span class="line"></span><br><span class="line"> Objects</span><br><span class="line">               Views:       32         ViewRootImpl:        1</span><br><span class="line">         AppContexts:        3           Activities:        1</span><br><span class="line">              Assets:        8        AssetManagers:        8</span><br><span class="line">       Local Binders:       12        Proxy Binders:       16</span><br><span class="line">    Death Recipients:        1</span><br><span class="line">     OpenSSL Sockets:        0</span><br><span class="line"></span><br><span class="line"> SQL</span><br><span class="line">         MEMORY_USED:        0</span><br><span class="line">  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> Asset Allocations</span><br><span class="line">    zip:/data/app/work.yeshu.tfftest-2/base.apk:/assets/SanzenPersonalUse.ttf: 351K</span><br><span class="line">    zip:/data/app/work.yeshu.tfftest-2/base.apk:/assets/SanzenPersonalUse.ttf: 351K</span><br></pre></td></tr></table></figure>
+<p>重复打开页面Asset Allocations会不停的增加</p>
+<p>处理方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FontCache</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Hashtable&lt;String, Typeface&gt; fontCache = <span class="keyword">new</span> Hashtable&lt;String, Typeface&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Typeface <span class="title">get</span><span class="params">(String name, Context context)</span> </span>&#123;</span><br><span class="line">        Typeface tf = fontCache.get(name);</span><br><span class="line">        <span class="keyword">if</span>(tf == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                tf = Typeface.createFromAsset(context.getAssets(), name);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            fontCache.put(name, tf);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> tf;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

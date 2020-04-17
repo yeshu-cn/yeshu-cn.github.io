@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>App导航设计原则 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="导航的设计原则遵循导航的设计原则是为了给用户提供一个统一的，可预期的用户体验 App只有一个固定的主页面 用户启动程序后看到的页面 用户退出时看到的页面  初始化页面，登录页面不算 stack表示app的导航状态naviagtion stack最底层的应该是start desination,最顶层是current destination Up按钮 at the start destination,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App导航设计原则">
+<meta property="og:url" content="http://yeshu.work/2018/07/25/App导航设计原则/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="导航的设计原则遵循导航的设计原则是为了给用户提供一个统一的，可预期的用户体验 App只有一个固定的主页面 用户启动程序后看到的页面 用户退出时看到的页面  初始化页面，登录页面不算 stack表示app的导航状态naviagtion stack最底层的应该是start desination,最顶层是current destination Up按钮 at the start destination,">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="App导航设计原则">
+<meta name="twitter:description" content="导航的设计原则遵循导航的设计原则是为了给用户提供一个统一的，可预期的用户体验 App只有一个固定的主页面 用户启动程序后看到的页面 用户退出时看到的页面  初始化页面，登录页面不算 stack表示app的导航状态naviagtion stack最底层的应该是start desination,最顶层是current destination Up按钮 at the start destination,">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#导航的设计原则"><span class="toc-text">导航的设计原则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#App只有一个固定的主页面"><span class="toc-text">App只有一个固定的主页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stack表示app的导航状态"><span class="toc-text">stack表示app的导航状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Up按钮"><span class="toc-text">Up按钮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Up按键和Back按键效果一样"><span class="toc-text">Up按键和Back按键效果一样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过Deep-linking跳转进入到目的页面时，导航也应该遵循正常的返回逻辑"><span class="toc-text">通过Deep linking跳转进入到目的页面时，导航也应该遵循正常的返回逻辑</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-App导航设计原则" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">App导航设计原则</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.07.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="导航的设计原则"><a href="#导航的设计原则" class="headerlink" title="导航的设计原则"></a>导航的设计原则</h1><p>遵循导航的设计原则是为了给用户提供一个统一的，可预期的用户体验</p>
+<h2 id="App只有一个固定的主页面"><a href="#App只有一个固定的主页面" class="headerlink" title="App只有一个固定的主页面"></a>App只有一个固定的主页面</h2><ul>
+<li>用户启动程序后看到的页面</li>
+<li>用户退出时看到的页面</li>
+</ul>
+<p>初始化页面，登录页面不算</p>
+<h2 id="stack表示app的导航状态"><a href="#stack表示app的导航状态" class="headerlink" title="stack表示app的导航状态"></a>stack表示app的导航状态</h2><p><code>naviagtion stack</code>最底层的应该是<code>start desination</code>,最顶层是<code>current destination</code></p>
+<h2 id="Up按钮"><a href="#Up按钮" class="headerlink" title="Up按钮"></a>Up按钮</h2><ul>
+<li>at the start destination, the Up button should not be shown</li>
+<li>当通过第三方启动app时，up按钮应该执行自己app的退出逻辑，不需要返回第三方app</li>
+</ul>
+<h2 id="Up按键和Back按键效果一样"><a href="#Up按键和Back按键效果一样" class="headerlink" title="Up按键和Back按键效果一样"></a>Up按键和Back按键效果一样</h2><h2 id="通过Deep-linking跳转进入到目的页面时，导航也应该遵循正常的返回逻辑"><a href="#通过Deep-linking跳转进入到目的页面时，导航也应该遵循正常的返回逻辑" class="headerlink" title="通过Deep linking跳转进入到目的页面时，导航也应该遵循正常的返回逻辑"></a>通过Deep linking跳转进入到目的页面时，导航也应该遵循正常的返回逻辑</h2><p>from:<a href="https://developer.android.com/topic/libraries/architecture/navigation/navigation-principles" target="_blank" rel="noopener">https://developer.android.com/topic/libraries/architecture/navigation/navigation-principles</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

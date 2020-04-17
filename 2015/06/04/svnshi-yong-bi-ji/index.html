@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>SVN使用笔记 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="#SVN使用笔记简要记录下自己使用过的一些命令 trunk:开发主目录branch：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去tags:经过测试无bug，发布版本时的代码 ##Mac上创建Svn服务创建svn仓库 svnadmin create ~/svn/myproject 创建三个默认的空目录 cd ~/svn/myproject mkdir trunk mkdir">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN使用笔记">
+<meta property="og:url" content="http://yeshu.work/2015/06/04/svnshi-yong-bi-ji/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="#SVN使用笔记简要记录下自己使用过的一些命令 trunk:开发主目录branch：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去tags:经过测试无bug，发布版本时的代码 ##Mac上创建Svn服务创建svn仓库 svnadmin create ~/svn/myproject 创建三个默认的空目录 cd ~/svn/myproject mkdir trunk mkdir">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-06-03T23:27:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVN使用笔记">
+<meta name="twitter:description" content="#SVN使用笔记简要记录下自己使用过的一些命令 trunk:开发主目录branch：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去tags:经过测试无bug，发布版本时的代码 ##Mac上创建Svn服务创建svn仓库 svnadmin create ~/svn/myproject 创建三个默认的空目录 cd ~/svn/myproject mkdir trunk mkdir">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-svnshi-yong-bi-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">SVN使用笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.06.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>#SVN使用笔记<br>简要记录下自己使用过的一些命令</p>
+<p><strong>trunk</strong>:开发主目录<br><strong>branch</strong>：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去<br><strong>tags</strong>:经过测试无bug，发布版本时的代码</p>
+<p>##Mac上创建Svn服务<br>创建svn仓库</p>
+<pre><code>svnadmin create ~/svn/myproject
+</code></pre><p>创建三个默认的空目录</p>
+<pre><code>cd ~/svn/myproject
+mkdir trunk
+mkdir branch
+mkdir tags
+</code></pre><p>配置svn用户信息</p>
+<pre><code>cd conf/
+编辑目录下svnserve.conf passwd authz文件
+</code></pre><p>启动服务：</p>
+<pre><code>svnserve -d -r ~/svn/myproject
+</code></pre><p>##Svn命令管理项目</p>
+<p>导入项目</p>
+<pre><code>svn import -m &quot;new project&quot; cscrobot svn://192.168.2.2/myproject/trunk/cscrobot
+注意：这里cscrobot是一个子项目个根目录，svn只会导入cscrobot目录中的文件，所以需要在后面路径中加上/cscrobot，svn才会帮你创建一个cscrobot目录
+</code></pre><p>创建tags</p>
+<pre><code>svn copy svn://192.168.2.2/myproject/trunk svn://192.168.2.2/myproject/tags/release-1.3 -m &quot;1.3 released&quot;
+</code></pre><p>##资料<br>解释trunk,branch,tags三个目录的使用场景：<br><a href="http://www.chinasb.org/archives/2011/04/1709.shtml" target="_blank" rel="noopener">http://www.chinasb.org/archives/2011/04/1709.shtml</a><br>创建和删除 branch, tags:<br><a href="http://blog.csdn.net/yangzhongxuan/article/details/7519948" target="_blank" rel="noopener">http://blog.csdn.net/yangzhongxuan/article/details/7519948</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

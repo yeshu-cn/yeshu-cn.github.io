@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>memory leak | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="查看内存使用情况，判断是否有内存泄漏：adb shell dumpsys meminfo &amp;lt;com.xx.app&amp;gt; Android内存泄露分析简要思路 android程序内存被分为2部分：native和dalvik，dalvik就是我们平常说的java堆，我们创建的对象是在这里面分配的，而bitmap是直接在native上分配的，对于内存的限制是 native+dalvik 不能超过最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="memory leak">
+<meta property="og:url" content="http://yeshu.work/2016/09/14/memory-leak/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="查看内存使用情况，判断是否有内存泄漏：adb shell dumpsys meminfo &amp;lt;com.xx.app&amp;gt; Android内存泄露分析简要思路 android程序内存被分为2部分：native和dalvik，dalvik就是我们平常说的java堆，我们创建的对象是在这里面分配的，而bitmap是直接在native上分配的，对于内存的限制是 native+dalvik 不能超过最">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.129Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="memory leak">
+<meta name="twitter:description" content="查看内存使用情况，判断是否有内存泄漏：adb shell dumpsys meminfo &amp;lt;com.xx.app&amp;gt; Android内存泄露分析简要思路 android程序内存被分为2部分：native和dalvik，dalvik就是我们平常说的java堆，我们创建的对象是在这里面分配的，而bitmap是直接在native上分配的，对于内存的限制是 native+dalvik 不能超过最">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#查看内存使用情况，判断是否有内存泄漏："><span class="toc-text">查看内存使用情况，判断是否有内存泄漏：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Android-具体内存泄漏场景"><span class="toc-text">Android 具体内存泄漏场景</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#引用类型"><span class="toc-text">引用类型</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-memory-leak" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">memory leak</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.09.14</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h5 id="查看内存使用情况，判断是否有内存泄漏："><a href="#查看内存使用情况，判断是否有内存泄漏：" class="headerlink" title="查看内存使用情况，判断是否有内存泄漏："></a>查看内存使用情况，判断是否有内存泄漏：</h5><p><code>adb shell dumpsys meminfo &lt;com.xx.app&gt;</code></p>
+<p><a href="http://blog.csdn.net/ljphhj/article/details/44966023" target="_blank" rel="noopener">Android内存泄露分析简要思路</a></p>
+<p>android程序内存被分为2部分：native和dalvik，dalvik就是我们平常说的java堆，我们创建的对象是在这里面分配的，而bitmap是直接在native上分配的，对于内存的限制是 native+dalvik 不能超过最大限制。android程序内存一般限制在16M，当然也有24M的。</p>
+<p><a href="http://blog.csdn.net/xyz_lmn/article/details/7001892" target="_blank" rel="noopener">adb shell dumpsys 命令 查看内存</a>  </p>
+<h5 id="Android-具体内存泄漏场景"><a href="#Android-具体内存泄漏场景" class="headerlink" title="Android 具体内存泄漏场景"></a>Android 具体内存泄漏场景</h5><ol>
+<li>线程生命周期过长，使一些对象没有及时回收</li>
+<li>static生命周期过长，使一些对象没有及时回收</li>
+<li>handler的MessageQueue中Message生命周期过长，使内部类Handler中的Activity没有及时回收</li>
+<li>Receiver等没有反注册</li>
+</ol>
+<h5 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h5><table>
+<thead>
+<tr>
+<th>Refrernce type</th>
+<th>回收时机</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strong reference</td>
+<td>JVM停止运行时</td>
+<td>对象的一般状态</td>
+</tr>
+<tr>
+<td>Soft reference</td>
+<td>内存不足时终止</td>
+<td>构造缓存，内存不足时回收</td>
+</tr>
+<tr>
+<td>Weak reference</td>
+<td>gc回收时</td>
+<td>构造缓存，随时会被回收</td>
+</tr>
+<tr>
+<td>Phatom reference(虚引用)</td>
+<td>gc回收时</td>
+<td>不知道</td>
+</tr>
+</tbody>
+</table>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android Package Structure Best Practice | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="原则Packages are mainly useful for two reasons:  A package provides a unique namespace for the types it contains.(可以根据类型将文件组织在一个包中，例如service, model,Adapter等, 即根据layer划分) Classes in the same package can">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Package Structure Best Practice">
+<meta property="og:url" content="http://yeshu.work/2016/05/17/android-package-structure-best-practice/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="原则Packages are mainly useful for two reasons:  A package provides a unique namespace for the types it contains.(可以根据类型将文件组织在一个包中，例如service, model,Adapter等, 即根据layer划分) Classes in the same package can">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://7xt69f.com1.z0.glb.clouddn.com/1-A-m20R0Qve-eB4ishqZc_Q.png">
+<meta property="og:updated_time" content="2016-05-16T22:54:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Package Structure Best Practice">
+<meta name="twitter:description" content="原则Packages are mainly useful for two reasons:  A package provides a unique namespace for the types it contains.(可以根据类型将文件组织在一个包中，例如service, model,Adapter等, 即根据layer划分) Classes in the same package can">
+<meta name="twitter:image" content="http://7xt69f.com1.z0.glb.clouddn.com/1-A-m20R0Qve-eB4ishqZc_Q.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-6"><a class="toc-link" href="#原则"><span class="toc-text">原则</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#最佳实践"><span class="toc-text">最佳实践</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#来源资料"><span class="toc-text">来源资料</span></a>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-android-package-structure-best-practice" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android Package Structure Best Practice</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.17</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h6 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h6><p>Packages are mainly useful for two reasons:</p>
+<ol>
+<li>A package provides a unique namespace for the types it contains.(可以根据类型将文件组织在一个包中，例如service, model,Adapter等, 即根据layer划分)</li>
+<li>Classes in the same package can access each other’s package-access members.（可以根据业务逻辑之间的权限关系将文件组织在一个包中，即根据feature划分）</li>
+</ol>
+<p>但2的优先级应该更高，然后在根据1的特性来组织项目。即优先根据feature划分模块，再在其中根据layer划分。</p>
+<h6 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h6><p>￼<img src="http://7xt69f.com1.z0.glb.clouddn.com/1-A-m20R0Qve-eB4ishqZc_Q.png" alt="demo"></p>
+<p><strong>用自己的话讲</strong></p>
+<ol>
+<li>可以通过项目文件架构了解app的基本功能</li>
+<li>导航度高，很容易找到相关代码。再查看代码时不用在不同的package之间跳来跳去</li>
+<li>低耦合，高内聚，模块度高。很容易维护，扩展代码。</li>
+</ol>
+<p><strong>Gains and Benefits</strong></p>
+<ul>
+<li>By looking at the structure you can already tell what the app is all about (figure 1); （可读性高，通过项目文件架构就能了解app的基本功能）</li>
+<li>Higher modularity; （每个包之间相互独立，模块化高）</li>
+<li>Easier code navigation; （导航性高，容易找到代码）</li>
+<li>Higher level of abstraction;</li>
+<li>Separates both features and layers; （先按features分层，再按layer分层）</li>
+<li>More readable and maintainable structure;</li>
+<li>More cohesion; （和2一样，高内聚性）</li>
+<li>Much easier to scale;</li>
+<li>Less chance to accidentally modify unrelated classes or files;</li>
+<li>Much easier to add or remove application features;</li>
+<li>And much more reusable modules.</li>
+</ul>
+<h4 id="来源资料"><a href="#来源资料" class="headerlink" title="来源资料"></a>来源资料</h4><ul>
+<li><a href="http://stackoverflow.com/questions/5525872/android-project-package-structure" target="_blank" rel="noopener">http://stackoverflow.com/questions/5525872/android-project-package-structure</a></li>
+<li><a href="https://medium.com/@cesarmcferreira/package-by-features-not-layers-2d076df1964d#.hg4s10o2e" target="_blank" rel="noopener">https://medium.com/@cesarmcferreira/package-by-features-not-layers-2d076df1964d#.hg4s10o2e</a></li>
+<li><a href="https://medium.com/@joaquimadraz/pragmatic-clean-code-architecture-d0d34f38849a#.ppbt2xdi8" target="_blank" rel="noopener">https://medium.com/@joaquimadraz/pragmatic-clean-code-architecture-d0d34f38849a#.ppbt2xdi8</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

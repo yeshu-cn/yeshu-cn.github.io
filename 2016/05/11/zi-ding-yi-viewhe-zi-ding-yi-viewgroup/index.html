@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>自定义View和自定义ViewGroup | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="原理绘制View的三个流程  measure-&amp;gt;onMeasure计算出view的大小mMeasureWidth和mMeasuredHeight，并置mPrivateFlags状态为已测量PFLAG_MEASURED_DIMENSION_SET layout-&amp;gt;onLayout根据子view的大小计算所有自view的位置坐标mLeft,mTop,mBottom,mRight,并置mPr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义View和自定义ViewGroup">
+<meta property="og:url" content="http://yeshu.work/2016/05/11/zi-ding-yi-viewhe-zi-ding-yi-viewgroup/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="原理绘制View的三个流程  measure-&amp;gt;onMeasure计算出view的大小mMeasureWidth和mMeasuredHeight，并置mPrivateFlags状态为已测量PFLAG_MEASURED_DIMENSION_SET layout-&amp;gt;onLayout根据子view的大小计算所有自view的位置坐标mLeft,mTop,mBottom,mRight,并置mPr">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-05-10T23:37:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义View和自定义ViewGroup">
+<meta name="twitter:description" content="原理绘制View的三个流程  measure-&amp;gt;onMeasure计算出view的大小mMeasureWidth和mMeasuredHeight，并置mPrivateFlags状态为已测量PFLAG_MEASURED_DIMENSION_SET layout-&amp;gt;onLayout根据子view的大小计算所有自view的位置坐标mLeft,mTop,mBottom,mRight,并置mPr">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CustomView"><span class="toc-text">CustomView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CustomViewGroup"><span class="toc-text">CustomViewGroup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-zi-ding-yi-viewhe-zi-ding-yi-viewgroup" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">自定义View和自定义ViewGroup</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.05.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>绘制<code>View</code>的三个流程</p>
+<ol>
+<li><code>measure</code>-&gt;<code>onMeasure</code>计算出<code>view</code>的大小<code>mMeasureWidth</code>和<code>mMeasuredHeight</code>，并置<code>mPrivateFlags</code>状态为已测量<code>PFLAG_MEASURED_DIMENSION_SET</code></li>
+<li><code>layout</code>-&gt;<code>onLayout</code>根据子<code>view</code>的大小计算所有自<code>view</code>的位置坐标<code>mLeft</code>,<code>mTop</code>,<code>mBottom</code>,<code>mRight</code>,并置<code>mPrivateFlags3</code>为已布局<code>PFLAG3_IS_LAID_OUT</code></li>
+<li><code>draw</code>-&gt;<code>onDraw</code>根据前面计算的坐标绘制<code>View</code>的具体内容</li>
+</ol>
+<p>Android中应用程序是按消息机制执行的，每次处理一个消息，如果该消息引起<code>View</code>的状态变化，则在代码中仅仅做一些状态表示，然后发送一个异步消息，而不是立即重绘。然后在下一次消息处理中，根据保存的状态数据，绘制不同的界面效果。</p>
+<p>layout_width意义：自己期望父视图给自己的大小，可以近似的看做是自己的大小设定。将和父视图的layout_width一起确定自己的大小。</p>
+<h2 id="CustomView"><a href="#CustomView" class="headerlink" title="CustomView"></a>CustomView</h2><p>可以参考<code>TextView</code>,<code>ImageView</code>源码</p>
+<ol>
+<li>继承自View</li>
+<li>重写onMeasure()方法</li>
+<li>重写onDraw()方法</li>
+</ol>
+<p>protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)</p>
+<ol>
+<li><code>widthMeasureSpec</code>, <code>heightMeasureSpec</code>由父视图通过xml中定义的<code>layout_width</code>,<code>layout_height</code>结合自己的大小算出来的子视图的大小<code>规格</code></li>
+<li>在该函数中我们需要通过自己的<strong>实际大小</strong>结合<strong>规格</strong>算出最后的结果</li>
+<li><code>resolveSize(width, widthMeasureSpec)</code>函数实现上述功能，第一个参数表示<strong>实际大小</strong>，第二个参数表示父视图传给我们的<strong>规格</strong></li>
+<li><code>setMeasuredDimension</code>函数来设置最终的大小</li>
+</ol>
+<p>View没有子视图，所以不需要去调用子视图的<code>measure()</code>,不需要调用子视图的<code>layout()</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomView</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Paint mPaint;</span><br><span class="line">    <span class="keyword">private</span> Drawable mDrawable;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, defStyleAttr, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TargetApi</span>(Build.VERSION_CODES.LOLLIPOP)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr, <span class="keyword">int</span> defStyleRes)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr, defStyleRes);</span><br><span class="line">        TypedArray a = context.getTheme().obtainStyledAttributes(</span><br><span class="line">                attrs,</span><br><span class="line">                R.styleable.CustomView,</span><br><span class="line">                defStyleAttr, defStyleRes</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        mDrawable = a.getDrawable(R.styleable.CustomView_bg);</span><br><span class="line">        a.recycle();</span><br><span class="line"></span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mPaint = <span class="keyword">new</span> Paint();</span><br><span class="line">        mPaint.setAntiAlias(<span class="keyword">true</span>);</span><br><span class="line">        mPaint.setColor(Color.RED);</span><br><span class="line">        mPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        drawBackground(canvas);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">drawBackground</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//getIntrinsicWidth获取的是图片拉伸后的大小</span></span><br><span class="line">        <span class="keyword">int</span> width = mDrawable.getIntrinsicWidth();</span><br><span class="line">        <span class="keyword">int</span> height = mDrawable.getIntrinsicHeight();</span><br><span class="line">        mDrawable.setBounds(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());</span><br><span class="line">        mDrawable.draw(canvas);</span><br><span class="line">        canvas.drawRect(<span class="number">0</span>, <span class="number">0</span>, getWidth(), getHeight(), mPaint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//如果不重写，自定义View在默认情况下不管是math_parent还是warp_content都能占满父容器的剩余空间。具体原因跟下代码就知道了。</span></span><br><span class="line">        <span class="comment">//super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span></span><br><span class="line">        <span class="keyword">int</span> width = mDrawable.getIntrinsicWidth() + getPaddingLeft() + getPaddingRight();</span><br><span class="line">        <span class="keyword">int</span> height = mDrawable.getIntrinsicHeight() + getPaddingTop() + getPaddingBottom();</span><br><span class="line">        <span class="comment">//view的大小由自己想要的大小和Constraints imposed by the parent确定</span></span><br><span class="line">        <span class="comment">//其中widthMeasureSpec由parent调用childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec, mPaddingLeft + mPaddingRight, lp.width);获取</span></span><br><span class="line">        <span class="comment">//获取childMeasureSpec需要由父控件的规格+自己想要的规格综合确定</span></span><br><span class="line">        setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CustomViewGroup"><a href="#CustomViewGroup" class="headerlink" title="CustomViewGroup"></a>CustomViewGroup</h2><p>可以参考<code>FrameLayout</code>,<code>LinearLayout</code>等源码</p>
+<ol>
+<li>继承<code>ViewGroup</code>,并实现构造函数</li>
+<li>重写<code>onMeasrure()</code>,处理子视图的<code>measure</code>并设置自己的宽高</li>
+<li>重写<code>onLayout()</code>，处理子视图的<code>layout</code></li>
+<li>重写<code>generateLayoutParams</code>系类函数，因为默认的LayoutParams只有<code>layout_width</code>和<code>layout_height</code>属性，处理不了<code>margin</code>。具体怎么用参考<code>LienarLayout</code>源码中怎么处理的</li>
+</ol>
+<p>处理子视图的<code>measure</code>，直接调用<code>measureChild()</code>或者<code>measureChildWithMargins()</code>,<code>measureChildren()</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChild</span><span class="params">(View child, <span class="keyword">int</span> parentWidthMeasureSpec,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">int</span> parentHeightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//这里父视图读取了xml中的layoutParams,综合自己情况算出子视图的规格</span></span><br><span class="line">    <span class="keyword">final</span> LayoutParams lp = child.getLayoutParams();</span><br><span class="line">			</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,</span><br><span class="line">            mPaddingLeft + mPaddingRight, lp.width);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,</span><br><span class="line">            mPaddingTop + mPaddingBottom, lp.height);</span><br><span class="line"></span><br><span class="line">    child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>处理子视图的<code>layout</code>,直接调用<code>child.layout(.....)</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomViewGroup</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomViewGroup</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomViewGroup</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomViewGroup</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, defStyleAttr, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TargetApi</span>(Build.VERSION_CODES.LOLLIPOP)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomViewGroup</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr, <span class="keyword">int</span> defStyleRes)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr, defStyleRes);</span><br><span class="line"></span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> LayoutParams <span class="title">generateDefaultLayoutParams</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.generateDefaultLayoutParams();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> LayoutParams <span class="title">generateLayoutParams</span><span class="params">(LayoutParams p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.generateLayoutParams(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LayoutParams <span class="title">generateLayoutParams</span><span class="params">(AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.generateLayoutParams(attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">checkLayoutParams</span><span class="params">(LayoutParams p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.checkLayoutParams(p);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> childCount = getChildCount();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> width = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> height = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        measureChildren(widthMeasureSpec, heightMeasureSpec);</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; childCount; i++) &#123;</span><br><span class="line">            View child = getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span> (child.getVisibility() != GONE) &#123;</span><br><span class="line">                measureChild(child, widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">                <span class="comment">//width = width + child.getMeasuredWidth();</span></span><br><span class="line">                width = Math.max(width, child.getMeasuredWidth());</span><br><span class="line">                height = Math.max(height, child.getMeasuredHeight());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span></span><br><span class="line">        setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; getChildCount(); i++) &#123;</span><br><span class="line">            View child = getChildAt(i);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> cl = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> ct = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> cb = child.getMeasuredHeight();</span><br><span class="line">            <span class="keyword">int</span> cr = child.getMeasuredWidth();</span><br><span class="line">            child.layout(cl, ct, cr, cb);</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        super.onLayout(changed, l, t, r, b);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>measureSpec，onMeasure,onLayout,onDraw等基本概念<br><a href>http://www.eoeandroid.com/thread-556155-1-1.html</a></p>
+<p>讲解<code>resolveSizeAndState</code>中<code>childMeasuredState</code>作用，基本上不用管它，传值0就行了。<br><a href>http://stackoverflow.com/questions/13650903/whats-the-utility-of-the-third-argument-of-view-resolvesizeandstate
+</a></p>
+<p>有讲resolveSizeAndState和MarginLayoutParams<br><a href>http://blog.csdn.net/aigestudio/article/details/43378131</a></p>
+<p>自定义View和自定义Layout的例子，里面有将margin参数的处理<br><a href>http://blog.csdn.net/aigestudio/article/details/42989325</a></p>
+<p><a href>http://blog.csdn.net/aigestudio/article/details/43907299</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 
-  <html class="light page-home">
+  <html class="light page-post">
 
 
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
-  <title>yeshu blog</title>
+  <title>项目架构中Module使用 | yeshu blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,13 +15,17 @@
     <meta name="keywords" content="yeshu android">
   
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="yeshu blog">
-<meta property="og:url" content="http://yeshu.work/index.html">
+  <meta name="description" content="Android 多Module遇到的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目架构中Module使用">
+<meta property="og:url" content="http://yeshu.work/2017/03/03/项目架构中Module使用/index.html">
 <meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Android 多Module遇到的问题">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.137Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="yeshu blog">
+<meta name="twitter:title" content="项目架构中Module使用">
+<meta name="twitter:description" content="Android 多Module遇到的问题">
 
   
 
@@ -57,159 +61,74 @@
 
   
 
-  
-  <div class="content content-archive">
-  <div class="page-header">
-
-  
-    <div class="breadcrumb">
-      <div class="location">Blog</div>
-      <i class="icon-location"></i>
-    </div>
-  
-
-  
-
-
-  <div class="box-blog-info">
-    <a class="avatar" href="/">
-      <img src="/images/avatar.jpg" alt="" />
-    </a>
-    <div class="info">
-      <h3 class="name" style="font-family: calligraffittiregular">
-        yeshu blog
-      </h3>
-      <div class="slogan">
-        听歌写代码
-      </div>
-    </div>
-  </div>
+  <div class="post-header">
+   
 
 </div>
 
 
-  <div class="post-list-box archive-body">
-    <ul class="list-post">  <li class="item-year item item-title item-title-0">
-    <a href="/archives/2020" class="text-year">
-      2020
-      <i class="icon-shu"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">04-17</span>
-
-  
-  <a class="post-title" href="/2020/04/17/flavor权限，依赖，源文件配置/">flavor权限，依赖，源文件配置</a>
-
-
-</li>
-  <li class="item-year item item-title item-title-4">
-    <a href="/archives/2019" class="text-year">
-      2019
-      <i class="icon-zhu"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">05-31</span>
-
-  
-  <a class="post-title" href="/2019/05/31/使用sharepreference还是database/">使用sharepreference还是database?</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">03-25</span>
-
-  
-  <a class="post-title" href="/2019/03/25/Android项目架构迭代/">Android项目架构迭代</a>
-
-
-</li>
-  <li class="item-year item item-title item-title-3">
-    <a href="/archives/2018" class="text-year">
-      2018
-      <i class="icon-gou"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">10-22</span>
-
-  
-  <a class="post-title" href="/2018/10/22/关于组件化/">关于组件化</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">09-07</span>
-
-  
-  <a class="post-title" href="/2018/09/07/Web-Api-and-Repository/">Web Api and Repository</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">08-28</span>
-
-  
-  <a class="post-title" href="/2018/08/28/DialogFragment调用dismiss-过快/">DialogFragment调用dismiss()过快</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">07-25</span>
-
-  
-  <a class="post-title" href="/2018/07/25/App导航设计原则/">App导航设计原则</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">06-04</span>
-
-  
-  <a class="post-title" href="/2018/06/04/依赖倒置/">依赖倒置</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">06-01</span>
-
-  
-  <a class="post-title" href="/2018/06/01/LiveData笔记/">LiveData笔记</a>
-
-
-</li>
-<li class="item-post item">
-  <span class="post-date">05-30</span>
-
-  
-  <a class="post-title" href="/2018/05/30/mvc-mvp-viewModel-liveData架构实现区别/">mvc,mvp,viewModel+liveData架构实现区别</a>
-
-
-</li>
-</ul>
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android-多Module遇到的问题"><span class="toc-text">Android 多Module遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建Module的原则"><span class="toc-text">创建Module的原则</span></a></li></ol>
   </div>
 
-  <div class="archive-footer">
+
+
+<div class="content content-post CENTER">
+   <article id="post-项目架构中Module使用" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">项目架构中Module使用</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.03.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
     
-  <div class="pagination">
-    <nav class="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/"><i class="icon-angle-right"></i></a>
-    </nav>
-  </div>
+      <h3 id="Android-多Module遇到的问题"><a href="#Android-多Module遇到的问题" class="headerlink" title="Android 多Module遇到的问题"></a>Android 多Module遇到的问题</h3><a id="more"></a>
+<ol>
+<li>重复字符串，图片资源文件难以统计，处理。</li>
+<li>编译速度慢</li>
+<li>容易滥用，能用package的地方也用module, 不符合module设计初衷</li>
+<li>随着需求的变化，很容易module之间相互依赖成网，程序架构变的更加混乱</li>
+<li>Module中swith里面不能使用R.id.xxx</li>
+<li>必然会创建一个公共的Module用于存放公共资源，公共UI组件，公共Utils类。但是这样一个公共的Module的存在就是个大错误。谁都往里面加代码，但谁都不敢去改这里面的代码。这个module就像是一个越堆越高的垃圾山</li>
+</ol>
+<h3 id="创建Module的原则"><a href="#创建Module的原则" class="headerlink" title="创建Module的原则"></a>创建Module的原则</h3><ol>
+<li>不创建module,用package区分模块和代码</li>
+<li>除非你有明确的需求，其中一部分代码需要编译为jar、arr包给第三方使用，那可以将其抽出作为moudle</li>
+</ol>
 
-
+    
   </div>
+</article>
+
 </div>
 
 
 
 
 
-
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
 
 
 
@@ -301,6 +220,17 @@
 </div>
 
 
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
 
   
 

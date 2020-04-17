@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>依赖倒置 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&amp;gt; 高层模块（调用底层模块实现用户场景功能） 依赖倒">
+<meta property="og:type" content="article">
+<meta property="og:title" content="依赖倒置">
+<meta property="og:url" content="http://yeshu.work/2018/06/04/依赖倒置/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&amp;gt; 高层模块（调用底层模块实现用户场景功能） 依赖倒">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="依赖倒置">
+<meta name="twitter:description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&amp;gt; 高层模块（调用底层模块实现用户场景功能） 依赖倒">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖倒置"><span class="toc-text">依赖倒置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制反转"><span class="toc-text">控制反转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖注入"><span class="toc-text">依赖注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-Locator"><span class="toc-text">Service Locator</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#疑问？"><span class="toc-text">疑问？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖注入和Service-Locator对比"><span class="toc-text">依赖注入和Service Locator对比</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-依赖倒置" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">依赖倒置</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.06.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="依赖倒置"><a href="#依赖倒置" class="headerlink" title="依赖倒置"></a>依赖倒置</h2><p>依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。</p>
+<p><strong>What</strong></p>
+<p>Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现</p>
+<p><strong>Why</strong></p>
+<p>传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。</p>
+<pre><code>底层模块（具体实现）--&gt; 高层模块（调用底层模块实现用户场景功能）
+</code></pre><p>依赖倒置后：只要抽象/接口不变，高层模块就不用变化。修改实现代码也可通过新增代码文件来实现，而不需要修改原有代码。</p>
+<pre><code>抽象/接口 --&gt; 底层模块（实现接口的具体功能）
+抽象/接口 --&gt; 高层模块（调用接口实现用户场景功能）
+</code></pre><p><strong>How</strong></p>
+<p>三个模块</p>
+<ul>
+<li>IService</li>
+<li>ServiceImpl</li>
+<li>UI</li>
+</ul>
+<p>调用流程</p>
+<ol>
+<li>IService-&gt; ServiceImpl </li>
+<li>UI层通过注入赋值得到IService实例</li>
+<li>UI层功能-&gt; IService.execute(); </li>
+</ol>
+<h2 id="控制反转"><a href="#控制反转" class="headerlink" title="控制反转"></a>控制反转</h2><p><code>new</code>对象地方的转移</p>
+<p><strong>What</strong></p>
+<p>Inversion of Control(IoC) :对象控制权（new对象的权利）进行转移，转移到第三方，比如交给IoC容器，它就是一个创建对象的工厂，你要什么对象，它就给你什么对象。有了IoC容器，原来的依赖关系就没了，都变成了依赖IoC容器了。</p>
+<p><strong>why</strong></p>
+<p>一般程序流程</p>
+<pre><code>UI层功能1-&gt; new ServiceImpl(param1, param2, param3)
+UI层功能2-&gt; new ServiceImpl(param1, param2, param3)
+UI层功能3-&gt; new ServiceImpl(param1, param2, param3)
+</code></pre><p>以上设计需要UI层里面<code>new ServiceImpl()</code>,从而导致依赖了底层的具体实现，会有如下缺点：</p>
+<ol>
+<li>依赖了底层的具体实现，违反了依赖倒置原则</li>
+<li>需要多次new一个ServiceImpl对象，浪费资源</li>
+<li>UI层需要知道如何怎么ServiceImpl的构造参数，依赖哪些对象，从而增加代码复杂度，并产生很多重复代码 </li>
+</ol>
+<p>可以利用控制反转的思想解决上述缺点</p>
+<p><strong>how</strong></p>
+<p>两个实现方法:</p>
+<ol>
+<li>依赖注入 </li>
+<li>Service Locator</li>
+</ol>
+<h3 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h3><p>Dependency Injection</p>
+<p>让IoC容器去<code>new</code> ServiceImpl实例，并通过“注入”的方式赋值给UI层。实现和底层ServiceImpl的解耦</p>
+<h3 id="Service-Locator"><a href="#Service-Locator" class="headerlink" title="Service Locator"></a>Service Locator</h3><p>让UI层全部依赖ServiceLocator,由ServiceLocator提供各种ServiceImpl实例，实现和底层ServiceImpl的解耦</p>
+<p>一般流程：</p>
+<ol>
+<li>ServiceLocator.registerService();</li>
+<li>ServiceLocator.getServcie();</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ServiceManager ourInstance = <span class="keyword">new</span> ServiceManager();</span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;String, BaseService&gt; mServiceHashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ServiceManager <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ourInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ServiceManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerService</span><span class="params">(String serviceName, BaseService service)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == serviceName || <span class="keyword">null</span> == service) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mServiceHashMap.put(serviceName, service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BaseService <span class="title">getService</span><span class="params">(String serviceName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mServiceHashMap.get(serviceName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="疑问？"><a href="#疑问？" class="headerlink" title="疑问？"></a>疑问？</h4><p>ServieImpl的<code>new</code>是在ServiceLocator中呢，还是其他地方？还是都可以</p>
+<h3 id="依赖注入和Service-Locator对比"><a href="#依赖注入和Service-Locator对比" class="headerlink" title="依赖注入和Service Locator对比"></a>依赖注入和Service Locator对比</h3><ol>
+<li>Service Locator允许你在一个类 中“解决”依赖问题</li>
+<li>DI允许你从类外“注入”依赖</li>
+<li>当使用service locator时，每个类都有一个对service locator的依赖</li>
+</ol>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

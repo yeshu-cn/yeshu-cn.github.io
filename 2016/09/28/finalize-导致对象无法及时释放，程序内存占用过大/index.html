@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>finalize 导致对象无法及时释放，程序内存占用过大 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。 分析思路  先用Dump Java heap查看哪个类占用的空间最大 再用Allocation Tracking 分析，查看哪段代码申请的  遇到的问题  Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上 Memory monitory曲线图中的Al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="finalize 导致对象无法及时释放，程序内存占用过大">
+<meta property="og:url" content="http://yeshu.work/2016/09/28/finalize-导致对象无法及时释放，程序内存占用过大/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。 分析思路  先用Dump Java heap查看哪个类占用的空间最大 再用Allocation Tracking 分析，查看哪段代码申请的  遇到的问题  Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上 Memory monitory曲线图中的Al">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="finalize 导致对象无法及时释放，程序内存占用过大">
+<meta name="twitter:description" content="感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。 分析思路  先用Dump Java heap查看哪个类占用的空间最大 再用Allocation Tracking 分析，查看哪段代码申请的  遇到的问题  Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上 Memory monitory曲线图中的Al">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FinalizerReference-介绍"><span class="toc-text">FinalizerReference 介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-finalize-使用"><span class="toc-text">Java finalize()使用</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-finalize-导致对象无法及时释放，程序内存占用过大" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">finalize 导致对象无法及时释放，程序内存占用过大</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.09.28</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。</p>
+<p>分析思路</p>
+<ol>
+<li>先用Dump Java heap查看哪个类占用的空间最大</li>
+<li>再用Allocation Tracking 分析，查看哪段代码申请的</li>
+</ol>
+<p>遇到的问题</p>
+<ol>
+<li>Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上</li>
+<li>Memory monitory曲线图中的Allocated,Free两条线看不懂….</li>
+</ol>
+<p>但是还是有一点成果，用Allocation Tracking中发现有个<code>FinalizerReference</code>类竟然有3656个，共占用内存116M,App运行时总共才160M, what the fuck!</p>
+<h2 id="FinalizerReference-介绍"><a href="#FinalizerReference-介绍" class="headerlink" title="FinalizerReference 介绍"></a>FinalizerReference 介绍</h2><p>复写了<code>finalize()</code>方法的类可能会导致对象无法及时释放，程序占用过大内存，OOM。</p>
+<blockquote>
+<p>ava.lang.ref.FinalizerReference 是 Java/Dalvik GC 相关的一个类，所有 Override finalize() 方法的 Object，最后都会被 FinalizerReference 类的静态变量引用。所以当它们没有强引用时不会被 VM 立即回收，而是 『在GC时』会将这些 Override finalize() 方法的 Object 压入到 ReferenceQueue 中。同时会有一个守护线程『Finalize Daemon』来真正处理调用他们的 finalize() 函数，实现垃圾回收。</p>
+</blockquote>
+<p><a href="http://blog.csdn.net/gwgking2012/article/details/41278949" target="_blank" rel="noopener">Android(jave)中关于finalize必须要注意的几件事
+</a></p>
+<h2 id="Java-finalize-使用"><a href="#Java-finalize-使用" class="headerlink" title="Java finalize()使用"></a>Java <code>finalize()</code>使用</h2><ol>
+<li><code>finalize()</code>是一个用于释放非Java资源的方法（如：文件句柄，数据库连接等）</li>
+<li>垃圾回收器回收对象时首先会调用该对象的<code>finalize()</code>方法，并且会再下一次回收时来真正的回收对象占用的内存空间</li>
+<li>复写方法时最后需要调用<code>super.finalize()</code>.</li>
+</ol>
+<p>避免使用原因</p>
+<ol>
+<li>垃圾回收器触发回收的时机不确定</li>
+<li>需要经历两次回收才能真正的回收掉资源</li>
+</ol>
+<p><a href="http://www.voidcn.com/blog/YJian2008/article/p-200031.html" target="_blank" rel="noopener">java中finalize终结方法的一些问题
+</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

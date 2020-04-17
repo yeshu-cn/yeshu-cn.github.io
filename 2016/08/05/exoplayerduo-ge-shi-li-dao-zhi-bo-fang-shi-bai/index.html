@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>ExoPlayer多个实例导致播放失败 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="切换视频源的时候，重新创建了一个ExoPlayer实例，并且没有释放之前的ExoPlayer导致视频播放不了。 错误信息如下08-05 11:10:10.586 28237-21861/com.huami.midong E/ExoPlayerImplInternal: Internal track renderer error.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExoPlayer多个实例导致播放失败">
+<meta property="og:url" content="http://yeshu.work/2016/08/05/exoplayerduo-ge-shi-li-dao-zhi-bo-fang-shi-bai/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="切换视频源的时候，重新创建了一个ExoPlayer实例，并且没有释放之前的ExoPlayer导致视频播放不了。 错误信息如下08-05 11:10:10.586 28237-21861/com.huami.midong E/ExoPlayerImplInternal: Internal track renderer error.">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-08-05T00:17:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ExoPlayer多个实例导致播放失败">
+<meta name="twitter:description" content="切换视频源的时候，重新创建了一个ExoPlayer实例，并且没有释放之前的ExoPlayer导致视频播放不了。 错误信息如下08-05 11:10:10.586 28237-21861/com.huami.midong E/ExoPlayerImplInternal: Internal track renderer error.">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-exoplayerduo-ge-shi-li-dao-zhi-bo-fang-shi-bai" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">ExoPlayer多个实例导致播放失败</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.08.05</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>切换视频源的时候，重新创建了一个ExoPlayer实例，并且没有释放之前的ExoPlayer导致视频播放不了。</p>
+<p>错误信息如下<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">08-05 11:10:10.586 28237-21861/com.huami.midong E/ExoPlayerImplInternal: Internal track renderer error.</span><br><span class="line">                                                                         com.google.android.exoplayer.ExoPlaybackException: com.google.android.exoplayer.MediaCodecTrackRenderer$DecoderInitializationException: Decoder init failed: OMX.qcom.video.decoder.avc, MediaFormat(1, video/avc, -1, 59046, 1920, 1080, 0, 1.0, -1, -1, null, 2000000, false, -1, -1, -1, -1, -1)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.notifyAndThrowDecoderInitError(MediaCodecTrackRenderer.java:414)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.maybeInitCodec(MediaCodecTrackRenderer.java:400)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.onInputFormatChanged(MediaCodecTrackRenderer.java:768)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecVideoTrackRenderer.onInputFormatChanged(MediaCodecVideoTrackRenderer.java:333)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.readFormat(MediaCodecTrackRenderer.java:524)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.doSomeWork(MediaCodecTrackRenderer.java:507)</span><br><span class="line">                                                                             at com.google.android.exoplayer.SampleSourceTrackRenderer.doSomeWork(SampleSourceTrackRenderer.java:129)</span><br><span class="line">                                                                             at com.google.android.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:434)</span><br><span class="line">                                                                             at com.google.android.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:213)</span><br><span class="line">                                                                             at android.os.Handler.dispatchMessage(Handler.java:98)</span><br><span class="line">                                                                             at android.os.Looper.loop(Looper.java:135)</span><br><span class="line">                                                                             at android.os.HandlerThread.run(HandlerThread.java:61)</span><br><span class="line">                                                                             at com.google.android.exoplayer.util.PriorityHandlerThread.run(PriorityHandlerThread.java:40)</span><br><span class="line">                                                                          Caused by: com.google.android.exoplayer.MediaCodecTrackRenderer$DecoderInitializationException: Decoder init failed: OMX.qcom.video.decoder.avc, MediaFormat(1, video/avc, -1, 59046, 1920, 1080, 0, 1.0, -1, -1, null, 2000000, false, -1, -1, -1, -1, -1)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.maybeInitCodec(MediaCodecTrackRenderer.java:400) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.onInputFormatChanged(MediaCodecTrackRenderer.java:768) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecVideoTrackRenderer.onInputFormatChanged(MediaCodecVideoTrackRenderer.java:333) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.readFormat(MediaCodecTrackRenderer.java:524) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.doSomeWork(MediaCodecTrackRenderer.java:507) </span><br><span class="line">                                                                             at com.google.android.exoplayer.SampleSourceTrackRenderer.doSomeWork(SampleSourceTrackRenderer.java:129) </span><br><span class="line">                                                                             at com.google.android.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:434) </span><br><span class="line">                                                                             at com.google.android.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:213) </span><br><span class="line">                                                                             at android.os.Handler.dispatchMessage(Handler.java:98) </span><br><span class="line">                                                                             at android.os.Looper.loop(Looper.java:135) </span><br><span class="line">                                                                             at android.os.HandlerThread.run(HandlerThread.java:61) </span><br><span class="line">                                                                             at com.google.android.exoplayer.util.PriorityHandlerThread.run(PriorityHandlerThread.java:40) </span><br><span class="line">                                                                          Caused by: android.media.MediaCodec$CodecException: Error 0xffffffea</span><br><span class="line">                                                                             at android.media.MediaCodec.native_configure(Native Method)</span><br><span class="line">                                                                             at android.media.MediaCodec.configure(MediaCodec.java:577)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecVideoTrackRenderer.configureCodec(MediaCodecVideoTrackRenderer.java:328)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.maybeInitCodec(MediaCodecTrackRenderer.java:389)</span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.onInputFormatChanged(MediaCodecTrackRenderer.java:768) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecVideoTrackRenderer.onInputFormatChanged(MediaCodecVideoTrackRenderer.java:333) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.readFormat(MediaCodecTrackRenderer.java:524) </span><br><span class="line">                                                                             at com.google.android.exoplayer.MediaCodecTrackRenderer.doSomeWork(MediaCodecTrackRenderer.java:507) </span><br><span class="line">                                                                             at com.google.android.exoplayer.SampleSourceTrackRenderer.doSomeWork(SampleSourceTrackRenderer.java:129) </span><br><span class="line">                                                                             at com.google.android.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:434) </span><br><span class="line">                                                                             at com.google.android.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:213) </span><br><span class="line">                                                                             at android.os.Handler.dispatchMessage(Handler.java:98) </span><br><span class="line">                                                                             at android.os.Looper.loop(Looper.java:135) </span><br><span class="line">                                                                             at android.os.HandlerThread.run(HandlerThread.java:61) </span><br><span class="line">                                                                             at com.google.android.exoplayer.util.PriorityHandlerThread.run(PriorityHandlerThread.java:40)</span><br></pre></td></tr></table></figure></p>
+<p>原因：设备上能使用的<code>hardware decoder</code>数量有限，所以要及时释放ExoPlayer</p>
+<p>There will be a limit on the maximum number of hardware decoders that you can instantiate, which you’re hitting.</p>
+<p>参考：<a href="https://github.com/google/ExoPlayer/issues/273" target="_blank" rel="noopener">https://github.com/google/ExoPlayer/issues/273</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

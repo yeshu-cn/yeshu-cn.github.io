@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>IOS测试环境 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="#####IOS测试环境名词概念 ######1. Certificates    需要mac下导出csr证书文件和一个App ID来生成Certificate，表示一台特定的mac中调试特定app。    分为Developer(开发证书)和Production(生产证书)两种。 ######2. Identifiers    需要创建APP ID,表示一个特定的APP(app的唯一标识)  #">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IOS测试环境">
+<meta property="og:url" content="http://yeshu.work/2014/12/15/ji-guang-tui-song/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="#####IOS测试环境名词概念 ######1. Certificates    需要mac下导出csr证书文件和一个App ID来生成Certificate，表示一台特定的mac中调试特定app。    分为Developer(开发证书)和Production(生产证书)两种。 ######2. Identifiers    需要创建APP ID,表示一个特定的APP(app的唯一标识)  #">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2014-12-14T23:10:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IOS测试环境">
+<meta name="twitter:description" content="#####IOS测试环境名词概念 ######1. Certificates    需要mac下导出csr证书文件和一个App ID来生成Certificate，表示一台特定的mac中调试特定app。    分为Developer(开发证书)和Production(生产证书)两种。 ######2. Identifiers    需要创建APP ID,表示一个特定的APP(app的唯一标识)  #">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-ji-guang-tui-song" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">IOS测试环境</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.12.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>#####<em>IOS测试环境名词概念</em></p>
+<p>######1. Certificates<br>    需要mac下导出csr证书文件和一个App ID来生成Certificate，表示一台特定的mac中调试特定app。<br>    分为Developer(开发证书)和Production(生产证书)两种。</p>
+<p>######2. Identifiers<br>    需要创建APP ID,表示一个特定的APP(app的唯一标识) </p>
+<p>######3. Devices<br>    需要设备的UDID,表示一台特定的设备（iphone,ipad）</p>
+<p>######4. Provisioning Profiles<br>    综合上面三项信息的一个描述文件 </p>
+<blockquote>
+<p>一台设备上运行应用程序的过程如下(以Developer Provisioning Profile为例):</p>
+</blockquote>
+<blockquote>
+<p>1 检查app 的 bunld ID 是否 matches Provisioning Profile 的 App ID<br>2 检查 app 的 entitements 是否 matches Provisioning Profile 的 entitements<br>3 用Certificate来验证签名签名<br>4 检查此设备的UDID是否存在于 Provisioning Profiles中 （仅在 非发布证书中）</p>
+</blockquote>
+<p>#####_其他_</p>
+<p>######APNS<br>    Apple Push Notification Server（苹果消息推送服务器）<br>    消息推送数据流程：Client App Server—-&gt;APNS—-&gt;Iphone—-&gt;Client App</p>
+<p>######MAC中请求生成CSR文件    </p>
+<pre><code>1. 打开&quot;钥匙串访问工具&quot;
+2. Select Keychain Access &gt; Certificate Assistant &gt; Request a Certificate from a Certificate Authority.  
+3. 输入用户电子邮箱地址，常用名称（John Doe Dev key）。CA Email地址留空。
+4. 存储到磁盘
+</code></pre><p>######参考资料<br><a href="http://www.cnblogs.com/zhaoyang/p/3582436.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhaoyang/p/3582436.html</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

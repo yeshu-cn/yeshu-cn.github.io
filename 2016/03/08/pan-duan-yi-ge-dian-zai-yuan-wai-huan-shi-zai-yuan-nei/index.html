@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>判断一个点在圆外还是在圆内 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="圆心到这个点的距离小于圆的半径,则这个点在圆内圆心到这个点的距离等于圆的半径,则这个点在圆周上圆心到这个点的距离大于圆的半径,则这个点在圆外   private boolean isInArea(float x, float y, float touchX, float touchY, float radius) &amp;#123;        float diffX = touchX - x;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="判断一个点在圆外还是在圆内">
+<meta property="og:url" content="http://yeshu.work/2016/03/08/pan-duan-yi-ge-dian-zai-yuan-wai-huan-shi-zai-yuan-nei/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="圆心到这个点的距离小于圆的半径,则这个点在圆内圆心到这个点的距离等于圆的半径,则这个点在圆周上圆心到这个点的距离大于圆的半径,则这个点在圆外   private boolean isInArea(float x, float y, float touchX, float touchY, float radius) &amp;#123;        float diffX = touchX - x;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-03-07T18:44:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="判断一个点在圆外还是在圆内">
+<meta name="twitter:description" content="圆心到这个点的距离小于圆的半径,则这个点在圆内圆心到这个点的距离等于圆的半径,则这个点在圆周上圆心到这个点的距离大于圆的半径,则这个点在圆外   private boolean isInArea(float x, float y, float touchX, float touchY, float radius) &amp;#123;        float diffX = touchX - x;">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-pan-duan-yi-ge-dian-zai-yuan-wai-huan-shi-zai-yuan-nei" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">判断一个点在圆外还是在圆内</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.03.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>圆心到这个点的距离小于圆的半径,则这个点在圆内<br>圆心到这个点的距离等于圆的半径,则这个点在圆周上<br>圆心到这个点的距离大于圆的半径,则这个点在圆外  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isInArea</span><span class="params">(<span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="keyword">float</span> touchX, <span class="keyword">float</span> touchY, <span class="keyword">float</span> radius)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">float</span> diffX = touchX - x;</span><br><span class="line">        <span class="keyword">float</span> diffY = touchY - y;</span><br><span class="line">        <span class="keyword">return</span> Math.pow(diffX, <span class="number">2</span>) + Math.pow(diffY, <span class="number">2</span>) &lt;= <span class="number">2</span> * Math.pow(radius, <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

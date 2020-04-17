@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android MVP架构笔记 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： //布局文件命名addtask_ac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android MVP架构笔记">
+<meta property="og:url" content="http://yeshu.work/2016/04/18/android-mvpjia-gou-bi-ji/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： //布局文件命名addtask_ac">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-04-18T04:02:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android MVP架构笔记">
+<meta name="twitter:description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： //布局文件命名addtask_ac">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#TO-DO-MVP项目按页面模块划分"><span class="toc-text">TO-DO-MVP项目按页面模块划分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Model-and-Repository"><span class="toc-text">Model and Repository</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity"><span class="toc-text">Activity</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Presneter-and-View"><span class="toc-text">Presneter and View</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实践"><span class="toc-text">实践</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVP思想写代码"><span class="toc-text">MVP思想写代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MVC的问题"><span class="toc-text">MVC的问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#别人的说法"><span class="toc-text">别人的说法</span></a>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-android-mvpjia-gou-bi-ji" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android MVP架构笔记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.04.18</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>Basic Model-View-Presenter architecture. <a href="ttps://github.com/googlesamples/android-architecture/tree/todo-mvp" target="_blank" rel="noopener">Android 官方架构Demo</a></p>
+<h4 id="TO-DO-MVP项目按页面模块划分"><a href="#TO-DO-MVP项目按页面模块划分" class="headerlink" title="TO-DO-MVP项目按页面模块划分"></a>TO-DO-MVP项目按页面模块划分</h4><p>页面模块</p>
+<ul>
+<li>addedittask</li>
+<li>tasks</li>
+<li>statistics</li>
+<li>taskdetai</li>
+</ul>
+<p>data 和 utils</p>
+<ul>
+<li>data</li>
+<li>utils</li>
+</ul>
+<p>两个基类：BaseView，BasePresenter</p>
+<p>命名方式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//布局文件命名</span><br><span class="line">addtask_act.xml</span><br><span class="line">addtask_frag.xml</span><br><span class="line">task_item.xml</span><br><span class="line"></span><br><span class="line">//资源文件命名</span><br><span class="line">ic_xxx.png</span><br><span class="line"></span><br><span class="line">&lt;color name=&quot;colorPrimary&quot;&gt;#455A64&lt;/color&gt;</span><br><span class="line">&lt;color name=&quot;colorPrimaryDark&quot;&gt;#263238&lt;/color&gt;</span><br><span class="line">&lt;color name=&quot;colorAccent&quot;&gt;#D50000&lt;/color&gt;  </span><br><span class="line"></span><br><span class="line">//xml中id命名</span><br><span class="line">android:id=&quot;@+id/noTasksIcon&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="Model-and-Repository"><a href="#Model-and-Repository" class="headerlink" title="Model and Repository"></a>Model and Repository</h4><ul>
+<li>Task</li>
+<li>TasksRepository:by using the remote data source only if the local database doesn’t exist or is empty.</li>
+</ul>
+<p>TasksDataSource(interface)定义task的增删改查操作：获取，保存、更新、删除。</p>
+<ol>
+<li>函数名为业务方式,</li>
+<li>函数的操作对象必须是Task,参数为Task或者Task相关属性</li>
+</ol>
+<p>DataSource分为TasksRemoteDataSource和TasksLocalDataSource,分别都实现TasksDataSource接口</p>
+<p>TasksRepository则是用户维护管理两个DataSource的。</p>
+<p>Repostory中包含数据模型的操作</p>
+<h4 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h4><p><code>TasksActivity</code>包含<code>TasksPresenter</code></p>
+<ul>
+<li>初始化必要的界面代码，如<code>toolbar</code>, <code>drawerLayout</code>，加载<code>fragment</code></li>
+<li>实例化<code>Presenter</code></li>
+</ul>
+<h4 id="Presneter-and-View"><a href="#Presneter-and-View" class="headerlink" title="Presneter and View"></a>Presneter and View</h4><p><code>TasksPresenter</code>作用:监听UI事件，执行业务逻辑，获取数据并更新UI显示</p>
+<p><code>TasksContract</code>：包含<code>View</code>和<code>Presenter</code>两个接口,用于定义<code>View</code>和<code>Presenter</code>的行为，</p>
+<p><code>Presenter</code>包含<code>Repository</code>和<code>view</code><br><code>TasksFragment</code>作为<code>View</code>包含<code>Presenter</code></p>
+<p><code>Presenter</code>负责处理业务相关函数<br><code>View</code>负责处理UI显示的函数</p>
+<p><code>View</code>中单纯的全部是<code>View</code>的展示方法,但是<code>View</code>中包含<code>Presenter</code>，因为一些UI的交互必须从其中<code>View</code>中传递告诉<code>Presenter</code></p>
+<p><code>Presenter</code>中包含业务方法、<code>Repository</code>和成员<code>View</code>，因为业务需要数据和控制UI的展示</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>MVP</code>构成其实包含：（<code>Model</code>,<code>Repository</code>）, <code>Presenter</code>, <code>View</code><br>其中核心代码：</p>
+<ul>
+<li><code>Model</code>：业务模型的定义</li>
+<li><code>Presenter</code>和<code>View</code>的<code>Interface</code>的定义。这两个定义清楚了，整个项目的层次就会很清楚</li>
+</ul>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>在工作中，虽然没有单独的实现<code>Presenter</code>和<code>View</code>文件。但已经尝试将代码按照<code>View</code>的UI展示方法方法和<code>Presneter</code>的业务方法进行区分，如果需要重构为<code>MVP</code>的话只需要将其中方法提取至单独的<code>Presenter</code>和<code>View</code>中即可。</p>
+<p>因为感觉不是很大的项目，不想建立太多的<code>Presenter</code>和<code>View</code>文件，所以代码还是全部写在Activity中，如果项目足够大的话，会考虑用标准的mvp项目文件架构形式</p>
+<p>这样做的成果就是需求变动的时候往往只需要注释掉莫行代码即可，快速无误，不用担心对其他业务逻辑或UI显示造成影响。</p>
+<h4 id="MVP思想写代码"><a href="#MVP思想写代码" class="headerlink" title="MVP思想写代码"></a>MVP思想写代码</h4><ul>
+<li><code>View</code>层负责UI展示，<code>Presenter</code>层负责业务逻辑。两部分代码需要隔离分清楚，函数级别的松耦合，易维护，复用性高（对应抽象成单独的<code>Presenter</code>,<code>View</code>类文件，是文件类级别的）。</li>
+<li>有一个<code>Model</code>业务模型大家都知道，但是<code>Repository</code>层总是没能理清楚。（参考DDD中的Repository）</li>
+</ul>
+<h4 id="MVC的问题"><a href="#MVC的问题" class="headerlink" title="MVC的问题"></a><code>MVC</code>的问题</h4><p><code>MVC</code>中的<code>Activity</code>即充当<code>View</code>又充当<code>Controller</code>。其中的逻辑代码紧紧的关联着UI，不能复用，混乱。</p>
+<h2 id="别人的说法"><a href="#别人的说法" class="headerlink" title="别人的说法"></a>别人的说法</h2><p><a href="http://blog.csdn.net/vector_yi/article/details/24719873" target="_blank" rel="noopener">http://blog.csdn.net/vector_yi/article/details/24719873</a></p>
+<p>缺点：额外的代码复杂度及学习成本。多了Presenter和View类</p>
+<p>优点：</p>
+<ol>
+<li>降低耦合度</li>
+<li>模块职责划分明显</li>
+<li>利于测试驱动开发</li>
+<li>代码复用</li>
+<li>隐藏数据</li>
+<li>代码灵活性</li>
+</ol>
+<p><strong>因：</strong><br>Activity并不是一个标准的MVC模式中的Controller， 它的首要职责是加载应用的布局和初始化用户界面，并接受并处理来自用户的操作请求，进而作出响应。随着界面及其逻辑的复杂度不断提升，Activity类的职责不断增加，以致变得庞大臃肿。</p>
+<p><strong>果：</strong><br>我们将其中复杂的逻辑处理移至另外的一个类（Presneter）中时，Activity其实就是MVP模式中View，它负责UI元素的初始化，建立UI元素与Presenter的关联（Listener之类），同时自己也会处理一些简单的逻辑（复杂的逻辑交由Presenter处理）.</p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Android Drawable Resources | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="Drawable ResourcesA drawable resource is a general concept for a graphic that can be drawn to the screen. There are several different types of drawables:  Bitmap File   Nine-Patch File   Layer List">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Drawable Resources">
+<meta property="og:url" content="http://yeshu.work/2015/10/27/android-drawable-resources/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Drawable ResourcesA drawable resource is a general concept for a graphic that can be drawn to the screen. There are several different types of drawables:  Bitmap File   Nine-Patch File   Layer List">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2015-10-27T05:10:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Drawable Resources">
+<meta name="twitter:description" content="Drawable ResourcesA drawable resource is a general concept for a graphic that can be drawn to the screen. There are several different types of drawables:  Bitmap File   Nine-Patch File   Layer List">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Drawable-Resources"><span class="toc-text">Drawable Resources</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Layer-List"><span class="toc-text">Layer List</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#State-List"><span class="toc-text">State List</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Level-List"><span class="toc-text">Level List</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transition-Drawable"><span class="toc-text">Transition Drawable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inset-Drawable"><span class="toc-text">Inset Drawable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clip-Drawable"><span class="toc-text">Clip Drawable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scale-Drawable"><span class="toc-text">Scale Drawable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shape-Drawabel"><span class="toc-text">Shape Drawabel</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-android-drawable-resources" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Android Drawable Resources</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.10.27</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Drawable-Resources"><a href="#Drawable-Resources" class="headerlink" title="Drawable Resources"></a>Drawable Resources</h1><p>A drawable resource is a general concept for a graphic that can be drawn to the screen.</p>
+<p>There are several different types of drawables:</p>
+<ul>
+<li>Bitmap File  </li>
+<li>Nine-Patch File  </li>
+<li>Layer List  </li>
+<li>State List  </li>
+<li>Level List  </li>
+<li>Transition Drawable  </li>
+<li>Inset Drawable  </li>
+<li>Clip Drawable  </li>
+<li>Shape Drawable  </li>
+</ul>
+<h2 id="Layer-List"><a href="#Layer-List" class="headerlink" title="Layer List"></a>Layer List</h2><p>A <code>LayerDrawable</code> is a drawable object that manages an array of other drawables. Each drawable in the list is drawn in the order of the list—the last drawable in the list is drawn on top.</p>
+<p>Each drawable is represented by an <code>&lt;item&gt;</code> element inside a single <code>&lt;layer-list&gt;</code> element.</p>
+<p><code>&lt;layer-list&gt;</code> This must be the root element. Contains one or more ｀<item>｀ elements.</item></p>
+<p>命名空间：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">xmlns:android="http://schemas.android.com/apk/res/android"</span><br></pre></td></tr></table></figure></p>
+<p><code>&lt;item&gt;</code>Must be a child of a <selector> element. Accepts child ｀<bitmap>｀ elements.</bitmap></selector></p>
+<p>example</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"#ff0000"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:left</span>=<span class="string">"2dp"</span> <span class="attr">android:right</span>=<span class="string">"2dp"</span> <span class="attr">android:top</span>=<span class="string">"2dp"</span> <span class="attr">android:bottom</span>=<span class="string">"2dp"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"#ffffff"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bitmap</span> <span class="attr">android:src</span>=<span class="string">"@drawable/android_red"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:top</span>=<span class="string">"10dp"</span> <span class="attr">android:left</span>=<span class="string">"10dp"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bitmap</span> <span class="attr">android:src</span>=<span class="string">"@drawable/android_green"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:top</span>=<span class="string">"20dp"</span> <span class="attr">android:left</span>=<span class="string">"20dp"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bitmap</span> <span class="attr">android:src</span>=<span class="string">"@drawable/android_blue"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="State-List"><a href="#State-List" class="headerlink" title="State List"></a>State List</h2><p>最常用的selector</p>
+<h2 id="Level-List"><a href="#Level-List" class="headerlink" title="Level List"></a>Level List</h2><p>Android 电量图标显示用到的技术</p>
+<h2 id="Transition-Drawable"><a href="#Transition-Drawable" class="headerlink" title="Transition Drawable"></a>Transition Drawable</h2><h2 id="Inset-Drawable"><a href="#Inset-Drawable" class="headerlink" title="Inset Drawable"></a>Inset Drawable</h2><h2 id="Clip-Drawable"><a href="#Clip-Drawable" class="headerlink" title="Clip Drawable"></a>Clip Drawable</h2><h2 id="Scale-Drawable"><a href="#Scale-Drawable" class="headerlink" title="Scale Drawable"></a>Scale Drawable</h2><h2 id="Shape-Drawabel"><a href="#Shape-Drawabel" class="headerlink" title="Shape Drawabel"></a>Shape Drawabel</h2><p><code>android:shape=[&quot;rectangle&quot; | &quot;oval&quot; | &quot;line&quot; | &quot;ring&quot;]</code>　缺省值是rectangle</p>
+<p><code>&lt;stroke&gt;</code>边框颜色</p>
+<p><code>&lt;solid&gt;</code>填充颜色</p>
+<p><code>&lt;padding&gt;</code>不知道什么效果</p>
+<p><code>&lt;gradient&gt;</code>填充渐变颜色</p>
+<p><code>&lt;corners&gt;</code>设置圆角<br><strong>如何设置特定上下左右位置圆角</strong> Every corner must (initially) be provided a corner radius greater than 1, or else no corners are rounded. If you want specific corners to not be rounded, a work-around is to use android:radius to set a default corner radius greater than 1, but then override each and every corner with the values you really want, providing zero (“0dp”) where you don’t want rounded corners.</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- android:shape默认缺省值：rectangle --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:shape</span>=<span class="string">"rectangle"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;gradient--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--android:startColor="#FFFF0000"--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--android:endColor="#80FF00FF"--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--android:angle="45"/&gt;--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;padding android:left="7dp"--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--android:top="7dp"--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--android:right="7dp"--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--android:bottom="7dp" /&gt;--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"@color/colorPrimary"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">stroke</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:color</span>=<span class="string">"@color/colorAccent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:width</span>=<span class="string">"2px"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>关于组件化 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="#关于组件化 定义 模块化：指业务功能代码的职责单一，解耦合，易维护，扩展。 组件化：将原项目中子业务代码，拆分为可复用，可独立立项的项目。  我的流程 先做好基础的代码模块化 https://five.agency/android-architecture-part-2-clean-architecture/ 参考这片文章的思想、模块划分，写出好模块化代码 再做好组件化 根据实际的业务需求，将其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于组件化">
+<meta property="og:url" content="http://yeshu.work/2018/10/22/关于组件化/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="#关于组件化 定义 模块化：指业务功能代码的职责单一，解耦合，易维护，扩展。 组件化：将原项目中子业务代码，拆分为可复用，可独立立项的项目。  我的流程 先做好基础的代码模块化 https://five.agency/android-architecture-part-2-clean-architecture/ 参考这片文章的思想、模块划分，写出好模块化代码 再做好组件化 根据实际的业务需求，将其">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于组件化">
+<meta name="twitter:description" content="#关于组件化 定义 模块化：指业务功能代码的职责单一，解耦合，易维护，扩展。 组件化：将原项目中子业务代码，拆分为可复用，可独立立项的项目。  我的流程 先做好基础的代码模块化 https://five.agency/android-architecture-part-2-clean-architecture/ 参考这片文章的思想、模块划分，写出好模块化代码 再做好组件化 根据实际的业务需求，将其">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的流程"><span class="toc-text">我的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#很多网上“组件化”文章犯了两个错误"><span class="toc-text">很多网上“组件化”文章犯了两个错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-text">最后</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-关于组件化" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">关于组件化</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.10.22</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>#关于组件化</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ol>
+<li>模块化：指业务功能代码的职责单一，解耦合，易维护，扩展。</li>
+<li>组件化：将原项目中子业务代码，拆分为可复用，可独立立项的项目。</li>
+</ol>
+<h2 id="我的流程"><a href="#我的流程" class="headerlink" title="我的流程"></a>我的流程</h2><ol>
+<li>先做好基础的代码模块化<br> <a href="https://five.agency/android-architecture-part-2-clean-architecture/" target="_blank" rel="noopener">https://five.agency/android-architecture-part-2-clean-architecture/</a> 参考这片文章的思想、模块划分，写出好模块化代码</li>
+<li>再做好组件化<br> 根据实际的业务需求，将其中的代码提取出来，“组件化”为可以编译，复用的子项目。</li>
+</ol>
+<h2 id="很多网上“组件化”文章犯了两个错误"><a href="#很多网上“组件化”文章犯了两个错误" class="headerlink" title="很多网上“组件化”文章犯了两个错误"></a>很多网上“组件化”文章犯了两个错误</h2><ol>
+<li>没有理解第一条，全篇都只是在处理第二条</li>
+<li>第二条工作中过度设计，将所有的业务都“组件化”为单独的子项目。而为了实现这一目标，给项目增加了很多额外的技术债务和复杂度</li>
+</ol>
+<p>例如：<a href="https://juejin.im/entry/5bc7f791f265da0a8d36c1fb" target="_blank" rel="noopener">https://juejin.im/entry/5bc7f791f265da0a8d36c1fb</a></p>
+<ol>
+<li>组件化的核心是代码的模块化，代码模块化的核心是遵循程序设计的七大原则，写出好的代码。而本文对此基本没有描述，全篇只是讲代码文件放在哪里好，怎么实现所有子业务可独立编译的框架。</li>
+<li>该方案中共用代码，初始化，gradle编译关系的处理。都是为了实现所谓的“组件化”而增加的技术债务，相比原生的程序开发流程，并没有简化代码，提高性能，增加可读性。反而更加复杂化</li>
+<li>知乎有业务需要独立编译运行的需求吗？如果没有，那将所有业务都设计成能直接编译运行就属于过度设计。</li>
+</ol>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><blockquote>
+<p>   有些人吵着闹着要让程序“模块化”，结果他们的做法是把代码分部到多个文件和目录里面，然后把这些目录或者文件叫做“module”。他们甚至把这些目录分放在不同的VCS repo里面。结果这样的作法并没有带来合作的流畅，而是带来了许多的麻烦。这是因为他们其实并不理解什么叫做“模块”，肤浅的把代码切割开来，分放在不同的位置，其实非但不能达到模块化的目的，而且制造了不必要的麻烦。</p>
+<p>   真正的模块化，并不是文本意义上的，而是逻辑意义上的。一个模块应该像一个电路芯片，它有定义良好的输入和输出。实际上一种很好的模块化方法早已经存在，它的名字叫做“函数”。每一个函数都有明确的输入（参数）和输出（返回值），同一个文件里可以包含多个函数，所以你其实根本不需要把代码分开在多个文件或者目录里面，同样可以完成代码的模块化。我可以把代码全都写在同一个文件里，却仍然是非常模块化的代码。</p>
+</blockquote>
+<p>from:<a href="http://www.yinwang.org/blog-cn/2015/11/21/programming-philosophy" target="_blank" rel="noopener">http://www.yinwang.org/blog-cn/2015/11/21/programming-philosophy</a></p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

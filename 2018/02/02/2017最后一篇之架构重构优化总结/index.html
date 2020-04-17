@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>2017最后一篇之架构重构优化总结 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="架构组成单元 Model：业务模型 ModelRepository：业务模型的持久化 ModelService：模块提供的业务服务 UseCase：由ModelService和Repository组合形成的用户需要的功能 UI：界面  新老架构示意图 新架构的优点 层次结构更加清晰 各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则） 模块职责更加明确，可读性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2017最后一篇之架构重构优化总结">
+<meta property="og:url" content="http://yeshu.work/2018/02/02/2017最后一篇之架构重构优化总结/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="架构组成单元 Model：业务模型 ModelRepository：业务模型的持久化 ModelService：模块提供的业务服务 UseCase：由ModelService和Repository组合形成的用户需要的功能 UI：界面  新老架构示意图 新架构的优点 层次结构更加清晰 各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则） 模块职责更加明确，可读性">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png">
+<meta property="og:updated_time" content="2020-04-17T08:12:21.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2017最后一篇之架构重构优化总结">
+<meta name="twitter:description" content="架构组成单元 Model：业务模型 ModelRepository：业务模型的持久化 ModelService：模块提供的业务服务 UseCase：由ModelService和Repository组合形成的用户需要的功能 UI：界面  新老架构示意图 新架构的优点 层次结构更加清晰 各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则） 模块职责更加明确，可读性">
+<meta name="twitter:image" content="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#架构组成单元"><span class="toc-text">架构组成单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新老架构示意图"><span class="toc-text">新老架构示意图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新架构的优点"><span class="toc-text">新架构的优点</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-2017最后一篇之架构重构优化总结" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">2017最后一篇之架构重构优化总结</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.02.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="架构组成单元"><a href="#架构组成单元" class="headerlink" title="架构组成单元"></a>架构组成单元</h2><ul>
+<li>Model：业务模型</li>
+<li>ModelRepository：业务模型的持久化</li>
+<li>ModelService：模块提供的业务服务</li>
+<li>UseCase：由ModelService和Repository组合形成的用户需要的功能</li>
+<li>UI：界面</li>
+</ul>
+<h2 id="新老架构示意图"><a href="#新老架构示意图" class="headerlink" title="新老架构示意图"></a>新老架构示意图</h2><p><img src="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png" alt></p>
+<h2 id="新架构的优点"><a href="#新架构的优点" class="headerlink" title="新架构的优点"></a>新架构的优点</h2><ul>
+<li>层次结构更加清晰</li>
+<li>各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则）</li>
+<li>模块职责更加明确，可读性更强，方便维护，和单元测试</li>
+<li>扩展新功能时，只需要新增，删除UseCase文件即可。而原来老架构中的Service需要修改文件内部代码，违反了开放封闭原则</li>
+</ul>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

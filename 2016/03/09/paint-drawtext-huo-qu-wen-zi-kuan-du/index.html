@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Paint.drawText()获取文字宽度 | yeshu blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="yeshu android">
+  
+
+  <meta name="description" content="String str = &quot;Hello&quot;;  canvas.drawText( str , x , y , paint);    //1. 粗略计算文字宽度  Log.d(TAG, &quot;measureText=&quot; + paint.measureText(str));    //2. 计算文字所在矩形，可以得到宽高  Rect rect = new Rect();  paint.getTextBoun">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Paint.drawText()获取文字宽度">
+<meta property="og:url" content="http://yeshu.work/2016/03/09/paint-drawtext-huo-qu-wen-zi-kuan-du/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="String str = &quot;Hello&quot;;  canvas.drawText( str , x , y , paint);    //1. 粗略计算文字宽度  Log.d(TAG, &quot;measureText=&quot; + paint.measureText(str));    //2. 计算文字所在矩形，可以得到宽高  Rect rect = new Rect();  paint.getTextBoun">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2016-03-09T04:38:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Paint.drawText()获取文字宽度">
+<meta name="twitter:description" content="String str = &quot;Hello&quot;;  canvas.drawText( str , x , y , paint);    //1. 粗略计算文字宽度  Log.d(TAG, &quot;measureText=&quot; + paint.measureText(str));    //2. 计算文字所在矩形，可以得到宽高  Rect rect = new Rect();  paint.getTextBoun">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+</head>
+</html>
+<body>
+
+
+  
+
+  <div class="post-header">
+   
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-paint-drawtext-huo-qu-wen-zi-kuan-du" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Paint.drawText()获取文字宽度</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.03.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>yeshu</span>
+        </span>
+      
+
+      
+
+
+      
+
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">"Hello"</span>;  </span><br><span class="line">canvas.drawText( str , x , y , paint);  </span><br><span class="line">  </span><br><span class="line"><span class="comment">//1. 粗略计算文字宽度  </span></span><br><span class="line">Log.d(TAG, <span class="string">"measureText="</span> + paint.measureText(str));  </span><br><span class="line">  </span><br><span class="line"><span class="comment">//2. 计算文字所在矩形，可以得到宽高  </span></span><br><span class="line">Rect rect = <span class="keyword">new</span> Rect();  </span><br><span class="line">paint.getTextBounds(str, <span class="number">0</span>, str.length(), rect);  </span><br><span class="line"><span class="keyword">int</span> w = rect.width();  </span><br><span class="line"><span class="keyword">int</span> h = rect.height();  </span><br><span class="line">Log.d(TAG, <span class="string">"w="</span> +w+<span class="string">"  h="</span>+h);  </span><br><span class="line">  </span><br><span class="line"><span class="comment">//3. 精确计算文字宽度  </span></span><br><span class="line"><span class="keyword">int</span> textWidth = getTextWidth(paint, str);  </span><br><span class="line">Log.d(TAG, <span class="string">"textWidth="</span> + textWidth);  </span><br><span class="line"></span><br><span class="line"><span class="comment">//第二个参数是一个数组.传进去个长度跟字符串长度相同的float数组,方法调用后,里边塞的是每个字符的长度.  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getTextWidth</span><span class="params">(Paint paint, String str)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">int</span> iRet = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">if</span> (str != <span class="keyword">null</span> &amp;&amp; str.length() &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">            <span class="keyword">int</span> len = str.length();  </span><br><span class="line">            <span class="keyword">float</span>[] widths = <span class="keyword">new</span> <span class="keyword">float</span>[len];  </span><br><span class="line">            paint.getTextWidths(str, widths);  </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;  </span><br><span class="line">                iRet += (<span class="keyword">int</span>) Math.ceil(widths[j]);  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> iRet;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>资料：</p>
+<ul>
+<li><a href="http://www.eoeandroid.com/thread-13672-1-1.html?_dsign=773b5e0d" target="_blank" rel="noopener">http://www.eoeandroid.com/thread-13672-1-1.html?_dsign=773b5e0d</a></li>
+<li><a href="http://blog.csdn.net/chuekup/article/details/7518239" target="_blank" rel="noopener">http://blog.csdn.net/chuekup/article/details/7518239</a></li>
+</ul>
+<p><code>measureText()</code>比<code>getTextBounds</code>多加上了左右的间距(Advance value)<br> <a href="http://stackoverflow.com/questions/7549182/android-paint-measuretext-vs-gettextbounds" target="_blank" rel="noopener">http://stackoverflow.com/questions/7549182/android-paint-measuretext-vs-gettextbounds</a></p>
+<p><code>getTextWidths()</code> ：Return the advance widths for the characters in the string。<br>主要看回答中的两张图就明白了。<br><a href="http://stackoverflow.com/questions/20103312/paint-gettextwidths-what-is-advance-width" target="_blank" rel="noopener">http://stackoverflow.com/questions/20103312/paint-gettextwidths-what-is-advance-width</a></p>
+<p>所以<code>measureText()</code>和<code>getTextWidths()</code>方法获取的宽度是相同的，测试过了。</p>
+
+    
+  </div>
+</article>
+
+</div>
+
+
+
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
