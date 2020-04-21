@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-
-
-  <html class="light page-post">
-
-
+<html lang="">
 <head>
-  <meta charset="utf-8">
-  
-  <title>Android MediaPlayer笔记 | yeshu blog</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="/css/main.css">
 
-  
-    <meta name="keywords" content="yeshu android" />
-  
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="笔记You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during">
 <meta property="og:type" content="article">
@@ -26,84 +31,163 @@
 <meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
 
+<link rel="canonical" href="http://yeshu.work/2015/10/16/android-mediaplayerbi-ji/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>Android MediaPlayer笔记 | yeshu blog</title>
   
 
-  
-    <link rel="icon" href="/favicon.ico">
-  
-
-  <link href="/css/styles.css?v=028c63b1" rel="stylesheet">
 
 
-  
-    
-<link rel="stylesheet" href="/css/personal-style.css">
-
-  
-
-  
-
-  
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
 
-<body>
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
-  <div class="post-header">
-   
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">yeshu blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
 
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#笔记"><span class="toc-text">笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Manifest-声明"><span class="toc-text">Manifest 声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MediaPlayer使用"><span class="toc-text">MediaPlayer使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Asynchronous-Preparation"><span class="toc-text">Asynchronous Preparation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Managing-State"><span class="toc-text">Managing State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Releasing-the-MediaPlayer"><span class="toc-text">Releasing the MediaPlayer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-a-Service-with-MediaPlayer"><span class="toc-text">Using a Service with MediaPlayer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-asynchronously"><span class="toc-text">Running asynchronously</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handling-asynchronnous-errors"><span class="toc-text">Handling asynchronnous errors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Using-wake-locks"><span class="toc-text">Using wake locks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Running-as-foreground-service"><span class="toc-text">Running as foreground service</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handling-audio-focus"><span class="toc-text">Handling audio focus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Performing-cleanup"><span class="toc-text">Performing cleanup</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handling-the-AUDIO-BECOMING-NOISY-Intent"><span class="toc-text">Handling the AUDIO_BECOMING_NOISY Intent</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Retrieving-Media-from-a-Content-Resolver"><span class="toc-text">Retrieving Media from a Content Resolver</span></a></li></ol></li></ol>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-<div class="content content-post CENTER">
-   <article id="post-android-mediaplayerbi-ji" class="article article-type-post" itemprop="blogPost">
-  <header class="article-header">
-    <h1 class="post-title">Android MediaPlayer笔记</h1>
+          <div class="content post posts-expand">
+            
 
-    <div class="article-meta">
-      <span>
-        <i class="icon-calendar"></i>
-        <span>2015.10.16</span>
-      </span>
-
-      
-        <span class="article-author">
-          <i class="icon-user"></i>
-          <span>yeshu</span>
-        </span>
-      
-
-      
-
-
-      
-
-    </div>
-  </header>
-
-  <div class="article-content">
     
-      <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p>You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during a call.</p>
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2015/10/16/android-mediaplayerbi-ji/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yeshu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yeshu blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android MediaPlayer笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2015-10-16 12:51:38 / Modified: 12:54:30" itemprop="dateCreated datePublished" datetime="2015-10-16T12:51:38+08:00">2015-10-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p>You can play back the audio data only to the standard output device. Currently, that is the mobile device speaker or a Bluetooth headset. You cannot play sound files in the conversation audio during a call.</p>
 <h2 id="Manifest-声明"><a href="#Manifest-声明" class="headerlink" title="Manifest 声明"></a>Manifest 声明</h2><ul>
 <li><p>Internet Permission - If you are using MediaPlayer to stream network-based content, your application must request network access.<br><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;</code></p>
 </li>
@@ -187,153 +271,194 @@
 <h2 id="Handling-the-AUDIO-BECOMING-NOISY-Intent"><a href="#Handling-the-AUDIO-BECOMING-NOISY-Intent" class="headerlink" title="Handling the AUDIO_BECOMING_NOISY Intent"></a>Handling the AUDIO_BECOMING_NOISY Intent</h2><p>ACTION_AUDIO_BECOMING_NOISY</p>
 <h2 id="Retrieving-Media-from-a-Content-Resolver"><a href="#Retrieving-Media-from-a-Content-Resolver" class="headerlink" title="Retrieving Media from a Content Resolver"></a>Retrieving Media from a Content Resolver</h2><p>参考：<a href="http://developer.android.com/guide/topics/media/mediaplayer.html" target="_blank" rel="noopener">http://developer.android.com/guide/topics/media/mediaplayer.html</a><br>一篇英文，看了两个小时…</p>
 
+    </div>
+
     
-  </div>
-</article>
+    
+    
 
-</div>
+      <footer class="post-footer">
 
-
-
-
-
-  <a id="backTop" class="back-top">
-    <i class="icon-angle-up"></i>
-  </a>
+        
 
 
-
-
-  <div class="modal" id="modal">
-  <span id="cover" class="cover hide"></span>
-  <div id="modal-dialog" class="modal-dialog hide-dialog">
-    <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2015/10/09/android-preventing-double-click-on-a-button/" rel="prev" title="Android预防用户多次点击Button造成错误">
+      <i class="fa fa-chevron-left"></i> Android预防用户多次点击Button造成错误
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2015/10/27/android-drawable-resources/" rel="next" title="Android Drawable Resources">
+      Android Drawable Resources <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-    <hr>
-    <div class="modal-body">
-      <ul class="list-toolbox">
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/archives/"
-              target="_self"
-              >
-              博客
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/category/"
-              target="_self"
-              >
-              分类
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/tag/"
-              target="_self"
-              >
-              标签
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/link/"
-              target="_self"
-              >
-              友链
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/about/"
-              target="_self"
-              >
-              关于
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/atom.xml"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/search/"
-              target="_self"
-              >
-              搜索
-            </a>
-          </li>
-        
-      </ul>
-
-    </div>
-  </div>
-</div>
-
-
-
+      </footer>
+    
+  </article>
   
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-
-
-
-  </div>
-
+  
   
 
-  <script type="text/javascript">
-  function loadScript(url, callback) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript';
 
-    if (script.readyState) { //IE
-      script.onreadystatechange = function() {
-        if (script.readyState == 'loaded' ||
-          script.readyState == 'complete') {
-          script.onreadystatechange = null;
-          callback();
-        }
-      };
-    } else { //Others
-      script.onload = function() {
-        callback();
-      };
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-
-    script.src = url;
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }
-
-  window.onload = function() {
-    loadScript('/js/bundle.js?235683', function() {
-      // load success
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
   }
 </script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记"><span class="nav-number">1.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Manifest-声明"><span class="nav-number">1.1.</span> <span class="nav-text">Manifest 声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MediaPlayer使用"><span class="nav-number">1.2.</span> <span class="nav-text">MediaPlayer使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Asynchronous-Preparation"><span class="nav-number">1.2.1.</span> <span class="nav-text">Asynchronous Preparation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Managing-State"><span class="nav-number">1.2.2.</span> <span class="nav-text">Managing State</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Releasing-the-MediaPlayer"><span class="nav-number">1.2.3.</span> <span class="nav-text">Releasing the MediaPlayer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-a-Service-with-MediaPlayer"><span class="nav-number">1.3.</span> <span class="nav-text">Using a Service with MediaPlayer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Running-asynchronously"><span class="nav-number">1.3.1.</span> <span class="nav-text">Running asynchronously</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handling-asynchronnous-errors"><span class="nav-number">1.3.2.</span> <span class="nav-text">Handling asynchronnous errors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-wake-locks"><span class="nav-number">1.3.3.</span> <span class="nav-text">Using wake locks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Running-as-foreground-service"><span class="nav-number">1.3.4.</span> <span class="nav-text">Running as foreground service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handling-audio-focus"><span class="nav-number">1.3.5.</span> <span class="nav-text">Handling audio focus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Performing-cleanup"><span class="nav-number">1.3.6.</span> <span class="nav-text">Performing cleanup</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handling-the-AUDIO-BECOMING-NOISY-Intent"><span class="nav-number">1.4.</span> <span class="nav-text">Handling the AUDIO_BECOMING_NOISY Intent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Retrieving-Media-from-a-Content-Resolver"><span class="nav-number">1.5.</span> <span class="nav-text">Retrieving Media from a Content Resolver</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yeshu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">123</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yeshu-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yeshu-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yeshu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
 </html>
