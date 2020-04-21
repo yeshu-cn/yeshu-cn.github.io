@@ -102,14 +102,14 @@
 <p>##基本使用<br><strong>Android 3.0(API Level 11)后开始使用ActionBar</strong></p>
 <p><strong>Android 3.0以上版本使用ActionBar</strong></p>
 <ul>
-<li>manifest文件中最小sdk版本设置为11：<uses-sdk android:minSdkVersion="11"></li>
+<li>manifest文件中最小sdk版本设置为11：<uses-sdk android:minsdkversion="11"></uses-sdk></li>
 <li>使用Theme.Holo（或者它子类）主题</li>
 </ul>
 <p><strong>兼容Android 2.1及以后版本使用Android</strong></p>
 <ul>
 <li>使用v7 appcompat Library</li>
 <li>Activity继承ActionBarActivity</li>
-<li>主题使用AppCompate.Light(或它的子类)：<activity android:theme="@style/Theme.AppCompat.Light"></li>
+<li>主题使用AppCompate.Light(或它的子类)：<activity android:theme="@style/Theme.AppCompat.Light"></activity></li>
 </ul>
 <p><strong>ActionBar上添加Buttons</strong><br>只支持Android3.0 及以上版本</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">res/menu/main_activity_actions.xml</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span> &gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Search, should appear as action button --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@+id/action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:title</span>=<span class="string">"@string/action_search"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:showAsAction</span>=<span class="string">"ifRoom"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Settings, should always be in the overflow --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:id</span>=<span class="string">"@+id/action_settings"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:title</span>=<span class="string">"@string/action_settings"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:showAsAction</span>=<span class="string">"never"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
