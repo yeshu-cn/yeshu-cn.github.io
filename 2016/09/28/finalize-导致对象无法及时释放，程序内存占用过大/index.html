@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>finalize 导致对象无法及时释放，程序内存占用过大 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。 分析思路  先用Dump Java heap查看哪个类占用的空间最大 再用Allocation Tracking 分析，查看哪段代码申请的  遇到的问题  Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上 Memory monitory曲线图中的Al">
 <meta property="og:type" content="article">
 <meta property="og:title" content="finalize 导致对象无法及时释放，程序内存占用过大">
-<meta property="og:url" content="http://yeshu.work/2016/09/28/finalize-导致对象无法及时释放，程序内存占用过大/index.html">
+<meta property="og:url" content="http://yeshu.work/2016/09/28/finalize-%E5%AF%BC%E8%87%B4%E5%AF%B9%E8%B1%A1%E6%97%A0%E6%B3%95%E5%8F%8A%E6%97%B6%E9%87%8A%E6%94%BE%EF%BC%8C%E7%A8%8B%E5%BA%8F%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E8%BF%87%E5%A4%A7/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。 分析思路  先用Dump Java heap查看哪个类占用的空间最大 再用Allocation Tracking 分析，查看哪段代码申请的  遇到的问题  Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上 Memory monitory曲线图中的Al">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.127Z">
+<meta property="article:published_time" content="2016-09-28T09:37:45.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.127Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="finalize 导致对象无法及时释放，程序内存占用过大">
-<meta name="twitter:description" content="感觉程序的内存占用太大了，不合理，想分析，优化一下其运行时内存的占用情况。 分析思路  先用Dump Java heap查看哪个类占用的空间最大 再用Allocation Tracking 分析，查看哪段代码申请的  遇到的问题  Allocation Tracking工具中的数据没看懂…，里面的对象总和大小和自己memory info统计出来的对不上 Memory monitory曲线图中的Al">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 

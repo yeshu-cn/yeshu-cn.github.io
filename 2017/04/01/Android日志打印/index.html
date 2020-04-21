@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android日志打印 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="Android日志打印Release版本中不应该打印日志或者包含日志代码  打印了日志信息会有信息泄漏的危险 包含了日志代码也可以通过反编译的手段将日志信息打印出来。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android日志打印">
-<meta property="og:url" content="http://yeshu.work/2017/04/01/Android日志打印/index.html">
+<meta property="og:url" content="http://yeshu.work/2017/04/01/Android%E6%97%A5%E5%BF%97%E6%89%93%E5%8D%B0/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="Android日志打印Release版本中不应该打印日志或者包含日志代码  打印了日志信息会有信息泄漏的危险 包含了日志代码也可以通过反编译的手段将日志信息打印出来。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.119Z">
+<meta property="article:published_time" content="2017-04-01T09:19:49.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.119Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android日志打印">
-<meta name="twitter:description" content="Android日志打印Release版本中不应该打印日志或者包含日志代码  打印了日志信息会有信息泄漏的危险 包含了日志代码也可以通过反编译的手段将日志信息打印出来。">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -108,9 +109,11 @@
 <li>包含了日志代码也可以通过反编译的手段将日志信息打印出来。</li>
 </ol>
 <a id="more"></a>
+
 <p>参考：<a href="http://weishu.me/2015/10/19/how-to-log-safely-in-android/" target="_blank" rel="noopener">如何安全的打印日志</a></p>
 <p>利用混淆配置，去掉日志打印的代码</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-assumenosideeffects class android.util.Log &#123;</span><br><span class="line">          public static boolean isLoggable(java.lang.String, int);</span><br><span class="line">          public static int v(...);</span><br><span class="line">          public static int i(...);</span><br><span class="line">          public static int w(...);</span><br><span class="line">          public static int d(...);</span><br><span class="line">          public static int e(...);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
 <p>参考：<a href="http://blog.csdn.net/jiese1990/article/details/21752159" target="_blank" rel="noopener">android关闭日志</a></p>
 <p>把日志打印当作追踪bug的行为是不对的，Release版本应该就不存在bug。这个是在开发测试阶段就应该保证的，不应该抱着以防万一的想法。</p>
 

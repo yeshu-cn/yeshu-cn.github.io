@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>C语言数组退化为指针 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="数组在除了3种情况外, 其他时候都要”退化”成指向首元素的指针  比如对 char s[10] = “china”;  这3中例外情况是:    sizeof(s)  &amp;s; 用来初始化s的”china”;  除了上述3种情况外,s都会退化成&amp;amp;s[0], 这就是数组变量的操作方式 参考：http://bbs.chinaunix.net/thread-1031622-1-1.html">
+  <meta name="description" content="数组在除了3种情况外, 其他时候都要”退化”成指向首元素的指针  比如对 char s[10] &#x3D; “china”;  这3中例外情况是:    sizeof(s)  &amp;s; 用来初始化s的”china”;  除了上述3种情况外,s都会退化成&amp;s[0], 这就是数组变量的操作方式 参考：http:&#x2F;&#x2F;bbs.chinaunix.net&#x2F;thread-1031622-1-1.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言数组退化为指针">
 <meta property="og:url" content="http://yeshu.work/2015/09/13/cy/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="数组在除了3种情况外, 其他时候都要”退化”成指向首元素的指针  比如对 char s[10] = “china”;  这3中例外情况是:    sizeof(s)  &amp;s; 用来初始化s的”china”;  除了上述3种情况外,s都会退化成&amp;amp;s[0], 这就是数组变量的操作方式 参考：http://bbs.chinaunix.net/thread-1031622-1-1.html">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2015-09-12T23:44:40.000Z">
+<meta property="og:description" content="数组在除了3种情况外, 其他时候都要”退化”成指向首元素的指针  比如对 char s[10] &#x3D; “china”;  这3中例外情况是:    sizeof(s)  &amp;s; 用来初始化s的”china”;  除了上述3种情况外,s都会退化成&amp;s[0], 这就是数组变量的操作方式 参考：http:&#x2F;&#x2F;bbs.chinaunix.net&#x2F;thread-1031622-1-1.html">
+<meta property="article:published_time" content="2015-09-12T23:37:22.000Z">
+<meta property="article:modified_time" content="2015-09-12T23:44:40.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C语言数组退化为指针">
-<meta name="twitter:description" content="数组在除了3种情况外, 其他时候都要”退化”成指向首元素的指针  比如对 char s[10] = “china”;  这3中例外情况是:    sizeof(s)  &amp;s; 用来初始化s的”china”;  除了上述3种情况外,s都会退化成&amp;amp;s[0], 这就是数组变量的操作方式 参考：http://bbs.chinaunix.net/thread-1031622-1-1.html">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 

@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android 单元测试实践 | yeshu blog</title>
@@ -12,24 +12,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="android test,">
+    <meta name="keywords" content="android test," />
   
 
   <meta name="description" content="Android 单元测试为什么以前没有写单元测试呢，有两个原因：  没有使用过，没有亲身体验到单元测试的好处。体验过了就知道，虽然麻烦但值的去认真写 以前的代码架构和代码文件组织婚论，其中Repository,Service,Utils,Manager到处调用，没有明确的层次调用关系，造成不能系统的对一个层面的api进行单元测试，掌握测试范围。  为什么写单元测试 高效，方便的测试代码，不用运行整">
-<meta name="keywords" content="android test">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 单元测试实践">
-<meta property="og:url" content="http://yeshu.work/2020/04/20/Android-单元测试实践/index.html">
+<meta property="og:url" content="http://yeshu.work/2020/04/20/Android-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%AE%9E%E8%B7%B5/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="Android 单元测试为什么以前没有写单元测试呢，有两个原因：  没有使用过，没有亲身体验到单元测试的好处。体验过了就知道，虽然麻烦但值的去认真写 以前的代码架构和代码文件组织婚论，其中Repository,Service,Utils,Manager到处调用，没有明确的层次调用关系，造成不能系统的对一个层面的api进行单元测试，掌握测试范围。  为什么写单元测试 高效，方便的测试代码，不用运行整">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="http://yeshu.work/2020/04/20/Android-单元测试实践/media/15859009095825/15859011412084.jpg">
-<meta property="og:image" content="http://yeshu.work/2020/04/20/Android-单元测试实践/media/15859009095825/15859019011130.jpg">
-<meta property="og:updated_time" content="2020-04-20T05:53:09.770Z">
+<meta property="og:image" content="http://yeshu.work/2020/04/20/Android-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%AE%9E%E8%B7%B5/media/15859009095825/15859011412084.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/04/20/Android-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%AE%9E%E8%B7%B5/media/15859009095825/15859019011130.jpg">
+<meta property="article:published_time" content="2020-04-20T05:49:22.000Z">
+<meta property="article:modified_time" content="2020-04-20T05:53:09.770Z">
+<meta property="article:author" content="yeshu">
+<meta property="article:tag" content="android test">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 单元测试实践">
-<meta name="twitter:description" content="Android 单元测试为什么以前没有写单元测试呢，有两个原因：  没有使用过，没有亲身体验到单元测试的好处。体验过了就知道，虽然麻烦但值的去认真写 以前的代码架构和代码文件组织婚论，其中Repository,Service,Utils,Manager到处调用，没有明确的层次调用关系，造成不能系统的对一个层面的api进行单元测试，掌握测试范围。  为什么写单元测试 高效，方便的测试代码，不用运行整">
-<meta name="twitter:image" content="http://yeshu.work/2020/04/20/Android-单元测试实践/media/15859009095825/15859011412084.jpg">
+<meta name="twitter:image" content="http://yeshu.work/2020/04/20/Android-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%AE%9E%E8%B7%B5/media/15859009095825/15859011412084.jpg">
 
   
 
@@ -41,7 +40,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -58,8 +59,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -131,14 +132,17 @@
 </ol>
 <p><img src="media/15859009095825/15859011412084.jpg" alt="-w375"></p>
 <p>如果想代码进行local unit tests,但是代码依赖了 android api, 可以使用Mockito来模拟API。</p>
-<h2 id="单元测试的粒度划分"><a href="#单元测试的粒度划分" class="headerlink" title="单元测试的粒度划分"></a>单元测试的粒度划分</h2><p><img src="media/15859009095825/15859019011130.jpg" alt></p>
+<h2 id="单元测试的粒度划分"><a href="#单元测试的粒度划分" class="headerlink" title="单元测试的粒度划分"></a>单元测试的粒度划分</h2><p><img src="media/15859009095825/15859019011130.jpg" alt=""></p>
 <h2 id="Android项目测试相关的目录结构"><a href="#Android项目测试相关的目录结构" class="headerlink" title="Android项目测试相关的目录结构"></a>Android项目测试相关的目录结构</h2><ul>
 <li>app/src/main/java-项目源代码</li>
 <li>app/src/test/java-local unit test的测试代码</li>
 <li>app/src/androidTest/java-Instrumented unit test的测试代码</li>
 </ul>
-<p>依赖<br>使用<code>testImpementation</code>单独给<code>local unit test</code>添加依赖<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">testImplementation &apos;junit:junit:4.13&apos;</span><br><span class="line">testImplementation &quot;org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3&quot;</span><br></pre></td></tr></table></figure></p>
-<p>使用<code>androidTestImplementation</code>单独给<code>Instrumented unit test</code>添加依赖<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">androidTestImplementation &apos;androidx.test.ext:junit:1.1.1&apos;</span><br><span class="line">androidTestImplementation &apos;androidx.test.espresso:espresso-core:3.2.0&apos;</span><br><span class="line">androidTestImplementation &quot;org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3&quot;</span><br></pre></td></tr></table></figure></p>
+<p>依赖<br>使用<code>testImpementation</code>单独给<code>local unit test</code>添加依赖</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">testImplementation &#39;junit:junit:4.13&#39;</span><br><span class="line">testImplementation &quot;org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3&quot;</span><br></pre></td></tr></table></figure>
+<p>使用<code>androidTestImplementation</code>单独给<code>Instrumented unit test</code>添加依赖</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">androidTestImplementation &#39;androidx.test.ext:junit:1.1.1&#39;</span><br><span class="line">androidTestImplementation &#39;androidx.test.espresso:espresso-core:3.2.0&#39;</span><br><span class="line">androidTestImplementation &quot;org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3&quot;</span><br></pre></td></tr></table></figure>
+
 <h2 id="单元测试的场景（实践）"><a href="#单元测试的场景（实践）" class="headerlink" title="单元测试的场景（实践）"></a>单元测试的场景（实践）</h2><p>添加单元测试的层面可以有</p>
 <ul>
 <li>WebApi：服务器接口的实现，方面的在单元测试中进行调试和验证。(unit test)</li>
@@ -147,10 +151,14 @@
 <li>Repository: 针对领域model的增删改查接口（double test）</li>
 <li>UseCase: domain层暴露给外界的接口(double test)</li>
 </ul>
-<p>double test: 就是需要伪造依赖的测试,例如<br><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RepositoryImpl</span></span>(</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> dao: Dao,</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> webApi: WebApi</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>double test: 就是需要伪造依赖的测试,例如</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RepositoryImpl</span></span>(</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> dao: Dao,</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> webApi: WebApi</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>我们就需要伪造FakeDaoImpl,FakeWebApiImpl两个假的实现。</p>
-<h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><p>Google Truth比junit的assert更好用<br>添加依赖<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">  testImplementation &quot;com.google.truth:truth:1.0.1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>使用<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import static com.google.common.truth.Truth.assertThat;</span><br><span class="line">import static com.google.common.truth.Truth.assertWithMessage;</span><br><span class="line"></span><br><span class="line">// for assertions on Java 8 types (Streams and java.util.Optional)</span><br><span class="line">import static com.google.common.truth.Truth8.assertThat;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">assertThat(notificationText).contains(&quot;testuser@google.com&quot;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><p>Google Truth比junit的assert更好用<br>添加依赖</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">  mavenCentral()</span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">  testImplementation &quot;com.google.truth:truth:1.0.1&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import static com.google.common.truth.Truth.assertThat;</span><br><span class="line">import static com.google.common.truth.Truth.assertWithMessage;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; for assertions on Java 8 types (Streams and java.util.Optional)</span><br><span class="line">import static com.google.common.truth.Truth8.assertThat;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">assertThat(notificationText).contains(&quot;testuser@google.com&quot;);</span><br></pre></td></tr></table></figure>
+
 <h2 id="实例技巧"><a href="#实例技巧" class="headerlink" title="实例技巧"></a>实例技巧</h2><ul>
 <li><a href="https://stackoverflow.com/questions/39519347/share-test-classes-between-test-and-androidtest" target="_blank" rel="noopener">androidTest和test公用测试代码</a></li>
 <li><a href="http://robolectric.org/" target="_blank" rel="noopener">unit test中想使用android api，可以使用robolectric</a></li>

@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Fragment 使用注意事项 | yeshu blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="使用newInstance()方法来获取实例，使用setArguments来传递参数，避免在横竖屏切换的时候Fragment自动调用自己的无参构造函数，导致数据丢失。  commitAllowingStateLoss()状态丢失问题   状态丢失是指onSaveInstance()的时候没有把fragment的状态保存进去，所以必须在调用onSaveInstance()之间加载fragment。">
@@ -21,11 +21,10 @@
 <meta property="og:url" content="http://yeshu.work/2016/04/19/fragment-shi-yong-zhu-yi-shi-xiang/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="使用newInstance()方法来获取实例，使用setArguments来传递参数，避免在横竖屏切换的时候Fragment自动调用自己的无参构造函数，导致数据丢失。  commitAllowingStateLoss()状态丢失问题   状态丢失是指onSaveInstance()的时候没有把fragment的状态保存进去，所以必须在调用onSaveInstance()之间加载fragment。">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-04-18T19:55:37.000Z">
+<meta property="article:published_time" content="2016-04-18T19:50:01.000Z">
+<meta property="article:modified_time" content="2016-04-18T19:55:37.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fragment 使用注意事项">
-<meta name="twitter:description" content="使用newInstance()方法来获取实例，使用setArguments来传递参数，避免在横竖屏切换的时候Fragment自动调用自己的无参构造函数，导致数据丢失。  commitAllowingStateLoss()状态丢失问题   状态丢失是指onSaveInstance()的时候没有把fragment的状态保存进去，所以必须在调用onSaveInstance()之间加载fragment。">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 

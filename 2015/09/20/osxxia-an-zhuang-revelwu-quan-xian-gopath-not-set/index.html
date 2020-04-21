@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>osx下安装revel无权限，$GOPATH not set | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="##osx下安装revel无权限，$GOPATH not set  执行go get github.com/revel/revel错误，提示无权限 根据提示执行sudo go get github.com/revel/revel错误，提示没有$GOPATH not set 然而已经在~/.bash_profile中设置了$GOPATH  localhost:golang yeshu$ go get">
+  <meta name="description" content="##osx下安装revel无权限，$GOPATH not set  执行go get github.com&#x2F;revel&#x2F;revel错误，提示无权限 根据提示执行sudo go get github.com&#x2F;revel&#x2F;revel错误，提示没有$GOPATH not set 然而已经在~&#x2F;.bash_profile中设置了$GOPATH  localhost:golang yeshu$ go get">
 <meta property="og:type" content="article">
 <meta property="og:title" content="osx下安装revel无权限，$GOPATH not set">
 <meta property="og:url" content="http://yeshu.work/2015/09/20/osxxia-an-zhuang-revelwu-quan-xian-gopath-not-set/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="##osx下安装revel无权限，$GOPATH not set  执行go get github.com/revel/revel错误，提示无权限 根据提示执行sudo go get github.com/revel/revel错误，提示没有$GOPATH not set 然而已经在~/.bash_profile中设置了$GOPATH  localhost:golang yeshu$ go get">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2015-09-20T06:52:24.000Z">
+<meta property="og:description" content="##osx下安装revel无权限，$GOPATH not set  执行go get github.com&#x2F;revel&#x2F;revel错误，提示无权限 根据提示执行sudo go get github.com&#x2F;revel&#x2F;revel错误，提示没有$GOPATH not set 然而已经在~&#x2F;.bash_profile中设置了$GOPATH  localhost:golang yeshu$ go get">
+<meta property="article:published_time" content="2015-09-20T06:51:13.000Z">
+<meta property="article:modified_time" content="2015-09-20T06:52:24.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="osx下安装revel无权限，$GOPATH not set">
-<meta name="twitter:description" content="##osx下安装revel无权限，$GOPATH not set  执行go get github.com/revel/revel错误，提示无权限 根据提示执行sudo go get github.com/revel/revel错误，提示没有$GOPATH not set 然而已经在~/.bash_profile中设置了$GOPATH  localhost:golang yeshu$ go get">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -103,7 +104,8 @@
 <li>根据提示执行<code>sudo go get github.com/revel/revel</code>错误，提示没有$GOPATH not set</li>
 <li>然而已经在<code>~/.bash_profile</code>中设置了$GOPATH</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:golang yeshu$ go get github.com/revel/revel</span><br><span class="line"># cd .; git clone https://github.com/revel/revel /Users/yeshu/code/golang/src/github.com/revel/revel</span><br><span class="line">Agreeing to the Xcode/iOS license requires admin privileges, please re-run as root via sudo.</span><br><span class="line">package github.com/revel/revel: exit status 69</span><br><span class="line"></span><br><span class="line">localhost:golang yeshu$ sudo go get github.com/revel/revel</span><br><span class="line">Password:</span><br><span class="line">package github.com/revel/revel: cannot download, $GOPATH not set. For more details see: go help gopath</span><br><span class="line"></span><br><span class="line">localhost:golang yeshu$ echo $GOPATH</span><br><span class="line">/Users/yeshu/code/golang</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">localhost:golang yeshu$ go get github.com&#x2F;revel&#x2F;revel</span><br><span class="line"># cd .; git clone https:&#x2F;&#x2F;github.com&#x2F;revel&#x2F;revel &#x2F;Users&#x2F;yeshu&#x2F;code&#x2F;golang&#x2F;src&#x2F;github.com&#x2F;revel&#x2F;revel</span><br><span class="line">Agreeing to the Xcode&#x2F;iOS license requires admin privileges, please re-run as root via sudo.</span><br><span class="line">package github.com&#x2F;revel&#x2F;revel: exit status 69</span><br><span class="line"></span><br><span class="line">localhost:golang yeshu$ sudo go get github.com&#x2F;revel&#x2F;revel</span><br><span class="line">Password:</span><br><span class="line">package github.com&#x2F;revel&#x2F;revel: cannot download, $GOPATH not set. For more details see: go help gopath</span><br><span class="line"></span><br><span class="line">localhost:golang yeshu$ echo $GOPATH</span><br><span class="line">&#x2F;Users&#x2F;yeshu&#x2F;code&#x2F;golang</span><br></pre></td></tr></table></figure>
+
 <p>还是老外的回答最好</p>
 <ol>
 <li>第一个无权限错误原因：You don’t have write access to your GOPATH.  Typically you would set GOPATH=~/gocode or something</li>

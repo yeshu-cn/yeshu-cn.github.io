@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android MVP架构笔记 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： //布局文件命名addtask_ac">
+  <meta name="description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： &#x2F;&#x2F;布局文件命名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android MVP架构笔记">
 <meta property="og:url" content="http://yeshu.work/2016/04/18/android-mvpjia-gou-bi-ji/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： //布局文件命名addtask_ac">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-04-18T04:02:29.000Z">
+<meta property="og:description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： &#x2F;&#x2F;布局文件命名">
+<meta property="article:published_time" content="2016-04-18T00:28:25.000Z">
+<meta property="article:modified_time" content="2016-04-18T04:02:29.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android MVP架构笔记">
-<meta name="twitter:description" content="Basic Model-View-Presenter architecture. Android 官方架构Demo TO-DO-MVP项目按页面模块划分页面模块  addedittask tasks statistics taskdetai  data 和 utils  data utils  两个基类：BaseView，BasePresenter 命名方式： //布局文件命名addtask_ac">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -102,7 +103,7 @@
 
   <div class="article-content">
     
-      <p>Basic Model-View-Presenter architecture. <a href="ttps://github.com/googlesamples/android-architecture/tree/todo-mvp" target="_blank" rel="noopener">Android 官方架构Demo</a></p>
+      <p>Basic Model-View-Presenter architecture. <a href="ttps://github.com/googlesamples/android-architecture/tree/todo-mvp">Android 官方架构Demo</a></p>
 <h4 id="TO-DO-MVP项目按页面模块划分"><a href="#TO-DO-MVP项目按页面模块划分" class="headerlink" title="TO-DO-MVP项目按页面模块划分"></a>TO-DO-MVP项目按页面模块划分</h4><p>页面模块</p>
 <ul>
 <li>addedittask</li>
@@ -117,7 +118,8 @@
 </ul>
 <p>两个基类：BaseView，BasePresenter</p>
 <p>命名方式：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//布局文件命名</span><br><span class="line">addtask_act.xml</span><br><span class="line">addtask_frag.xml</span><br><span class="line">task_item.xml</span><br><span class="line"></span><br><span class="line">//资源文件命名</span><br><span class="line">ic_xxx.png</span><br><span class="line"></span><br><span class="line">&lt;color name=&quot;colorPrimary&quot;&gt;#455A64&lt;/color&gt;</span><br><span class="line">&lt;color name=&quot;colorPrimaryDark&quot;&gt;#263238&lt;/color&gt;</span><br><span class="line">&lt;color name=&quot;colorAccent&quot;&gt;#D50000&lt;/color&gt;  </span><br><span class="line"></span><br><span class="line">//xml中id命名</span><br><span class="line">android:id=&quot;@+id/noTasksIcon&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;布局文件命名</span><br><span class="line">addtask_act.xml</span><br><span class="line">addtask_frag.xml</span><br><span class="line">task_item.xml</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;资源文件命名</span><br><span class="line">ic_xxx.png</span><br><span class="line"></span><br><span class="line">&lt;color name&#x3D;&quot;colorPrimary&quot;&gt;#455A64&lt;&#x2F;color&gt;</span><br><span class="line">&lt;color name&#x3D;&quot;colorPrimaryDark&quot;&gt;#263238&lt;&#x2F;color&gt;</span><br><span class="line">&lt;color name&#x3D;&quot;colorAccent&quot;&gt;#D50000&lt;&#x2F;color&gt;  </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;xml中id命名</span><br><span class="line">android:id&#x3D;&quot;@+id&#x2F;noTasksIcon&quot;</span><br></pre></td></tr></table></figure>
+
 <h4 id="Model-and-Repository"><a href="#Model-and-Repository" class="headerlink" title="Model and Repository"></a>Model and Repository</h4><ul>
 <li>Task</li>
 <li>TasksRepository:by using the remote data source only if the local database doesn’t exist or is empty.</li>

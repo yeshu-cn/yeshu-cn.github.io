@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android memory analysis | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="查看Android设备上单个进程的可用内存$ adb shell cat /system/build.propdalvik.vm.heapgrowthlimit=128mdalvik.vm.heapmaxfree=8mdalvik.vm.heapminfree=512kdalvik.vm.heapsize=256mdalvik.vm.heapstartsize=8mdalvik.vm.heapta">
+  <meta name="description" content="查看Android设备上单个进程的可用内存$ adb shell cat &#x2F;system&#x2F;build.propdalvik.vm.heapgrowthlimit&#x3D;128mdalvik.vm.heapmaxfree&#x3D;8mdalvik.vm.heapminfree&#x3D;512kdalvik.vm.heapsize&#x3D;256mdalvik.vm.heapstartsize&#x3D;8mdalvik.vm.heapta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android memory analysis">
 <meta property="og:url" content="http://yeshu.work/2016/09/21/Android-memory-analysis/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="查看Android设备上单个进程的可用内存$ adb shell cat /system/build.propdalvik.vm.heapgrowthlimit=128mdalvik.vm.heapmaxfree=8mdalvik.vm.heapminfree=512kdalvik.vm.heapsize=256mdalvik.vm.heapstartsize=8mdalvik.vm.heapta">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.117Z">
+<meta property="og:description" content="查看Android设备上单个进程的可用内存$ adb shell cat &#x2F;system&#x2F;build.propdalvik.vm.heapgrowthlimit&#x3D;128mdalvik.vm.heapmaxfree&#x3D;8mdalvik.vm.heapminfree&#x3D;512kdalvik.vm.heapsize&#x3D;256mdalvik.vm.heapstartsize&#x3D;8mdalvik.vm.heapta">
+<meta property="article:published_time" content="2016-09-21T09:34:28.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.117Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android memory analysis">
-<meta name="twitter:description" content="查看Android设备上单个进程的可用内存$ adb shell cat /system/build.propdalvik.vm.heapgrowthlimit=128mdalvik.vm.heapmaxfree=8mdalvik.vm.heapminfree=512kdalvik.vm.heapsize=256mdalvik.vm.heapstartsize=8mdalvik.vm.heapta">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -103,7 +104,10 @@
   <div class="article-content">
     
       <h5 id="查看Android设备上单个进程的可用内存"><a href="#查看Android设备上单个进程的可用内存" class="headerlink" title="查看Android设备上单个进程的可用内存"></a>查看Android设备上单个进程的可用内存</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell cat /system/build.prop</span><br><span class="line"></span><br><span class="line">dalvik.vm.heapgrowthlimit=128m</span><br><span class="line">dalvik.vm.heapmaxfree=8m</span><br><span class="line">dalvik.vm.heapminfree=512k</span><br><span class="line">dalvik.vm.heapsize=256m</span><br><span class="line">dalvik.vm.heapstartsize=8m</span><br><span class="line">dalvik.vm.heaptargetutilization=0.75</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ adb shell getprop | grep dalvik.vm.heapgrowthlimit </span><br><span class="line">[dalvik.vm.heapgrowthlimit]: [128m]</span><br></pre></td></tr></table></figure>
+
+
 <p><code>dalvik.vm.heapsize</code>表示单个进程可用最大内存<br><code>dalvik.vm.heapgrowthlimit</code>表示程序运行过程中实际只能使用的内存</p>
 <ul>
 <li><p>dalvik.vm.heapstartsize</p>
@@ -116,7 +120,8 @@
 <p>受控情况下的极限堆（仅仅针对dalvik堆，不包括native堆）大小，dvm heap是可增长的，但是正常情况下dvm heap的大小是不会超过dalvik.vm.heapgrowthlimit的值（非正常情况下面会详细说明）。这个值控制那些受控应用的极限堆大小，如果受控的应用dvm heap size超过该值，则将引发oom（out of memory）。</p>
 </blockquote>
 </li>
-<li>dalvik.vm.heapsize<blockquote>
+<li><p>dalvik.vm.heapsize</p>
+<blockquote>
 <p>不受控情况下的极限堆大小，这个就是堆的最大值。不管它是不是受控的。这个值会影响非受控应用的dalvik heap size。一旦dalvik heap size超过这个值，直接引发oom。</p>
 </blockquote>
 </li>
@@ -138,16 +143,15 @@ Memory user over time
 Graphics State
 Memory 查看内存使用情况，发起gc
 CPU
-Network
-</code></pre></li>
+Network</code></pre></li>
 </ol>
 <p><a href="https://developer.android.com/studio/profile/am-memory.html?utm_medium=android-studio" target="_blank" rel="noopener">Memory Monitor</a></p>
 <h5 id="内存泄漏，内存优化分析"><a href="#内存泄漏，内存优化分析" class="headerlink" title="内存泄漏，内存优化分析"></a>内存泄漏，内存优化分析</h5><p>两个思路</p>
 <ul>
-<li>通过<code>mat</code>分析占用大内存的可疑对象，为什么没有释放</li>
+<li><p>通过<code>mat</code>分析占用大内存的可疑对象，为什么没有释放</p>
+</li>
 <li><p>通过<code>Android studio</code>的 <code>memory montior</code>的<code>Reference Tree</code>分析哪些类拥有引用是可疑的，比较他们的生命周期</p>
-<pre><code>Android studio Memory Monitory －&gt; Dump java heap -&gt; Analyzer Task -&gt; Detect Leaked Activities / Find Duplicate Strings
-</code></pre></li>
+<pre><code>Android studio Memory Monitory －&gt; Dump java heap -&gt; Analyzer Task -&gt; Detect Leaked Activities / Find Duplicate Strings</code></pre></li>
 </ul>
 <p><a href="https://developer.android.com/studio/profile/am-hprof.html" target="_blank" rel="noopener">Android studio中分析 Dump java heap</a></p>
 <p>这两天发现了4个oom问题</p>

@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>PopupWindow | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="PopupWindow生成PopupWindow final View contentView = LayoutInflater.from(context).inflate(R.layout.guide_view, null);contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);mPopup">
+  <meta name="description" content="PopupWindow生成PopupWindow final View contentView &#x3D; LayoutInflater.from(context).inflate(R.layout.guide_view, null);contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);mPopup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PopupWindow">
 <meta property="og:url" content="http://yeshu.work/2017/04/27/PopupWindow/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="PopupWindow生成PopupWindow final View contentView = LayoutInflater.from(context).inflate(R.layout.guide_view, null);contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);mPopup">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.125Z">
+<meta property="og:description" content="PopupWindow生成PopupWindow final View contentView &#x3D; LayoutInflater.from(context).inflate(R.layout.guide_view, null);contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);mPopup">
+<meta property="article:published_time" content="2017-04-27T07:19:58.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.125Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PopupWindow">
-<meta name="twitter:description" content="PopupWindow生成PopupWindow final View contentView = LayoutInflater.from(context).inflate(R.layout.guide_view, null);contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);mPopup">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -104,37 +105,42 @@
     
       <h1 id="PopupWindow"><a href="#PopupWindow" class="headerlink" title="PopupWindow"></a>PopupWindow</h1><p>生成<code>PopupWindow</code></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">final</span> View contentView = LayoutInflater.from(context).inflate(R.layout.guide_view, <span class="keyword">null</span>);</span><br><span class="line">contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);</span><br><span class="line">mPopupWindow = <span class="keyword">new</span> PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, contentView.getMeasuredHeight());</span><br></pre></td></tr></table></figure>
+
 <p>设置属性</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mPopupWindow.setBackgroundDrawable(<span class="keyword">new</span> ColorDrawable()); <span class="comment">//设置背景</span></span><br><span class="line">mPopupWindow.setOutsideTouchable(<span class="keyword">true</span>); <span class="comment">//设置可以接收外部action_outside事件</span></span><br><span class="line">mPopupWindow.setFocusable(<span class="keyword">true</span>);    <span class="comment">//设置PopuoWindow处理所有事件，否则会将事件传递給后面的View</span></span><br></pre></td></tr></table></figure>
+
 <p>显示</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//显示在制定View下方，当下方空间不够时会显示到上方</span></span><br><span class="line">mPopupWindow.showAsDropDown(View view);</span><br><span class="line"><span class="comment">//显示在制定的坐标位置</span></span><br><span class="line">mPopuoWindow.showAtLocation();</span><br></pre></td></tr></table></figure>
+
 <h3 id="点击返回键和touch-outside隐藏popupwindow"><a href="#点击返回键和touch-outside隐藏popupwindow" class="headerlink" title="点击返回键和touch outside隐藏popupwindow"></a>点击返回键和touch outside隐藏popupwindow</h3><p>popupWindow默认显示出来后，点击返回和touch outside不会隐藏，popupWindow对返回键和outside events的默认处理就是隐藏界面，只是默认的popupWindow接收不到outside touch events 和 key events</p>
 <h4 id="让它可以接收到outside-touch-events-实现touch-outside隐藏"><a href="#让它可以接收到outside-touch-events-实现touch-outside隐藏" class="headerlink" title="让它可以接收到outside touch events, 实现touch outside隐藏"></a>让它可以接收到outside touch events, 实现touch outside隐藏</h4><p>android 6.0以下需要设置背景</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mPopupWindow.setBackgroundDrawable(<span class="keyword">new</span> ColorDrawable());</span><br><span class="line">mPopupWindow.setOutsideTouchable(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
 <p>android 6.0只需要</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mPopupWindow.setOutsideTouchable(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
 <p>但是上面只是实现了touch outside隐藏，因为现在popupwindow focusable为false,接收不到key events, 所以返回键无效,并且现在的touch events底层的window也能接收到点击事件</p>
 <h4 id="让它可以接收到key-events-实现点击返回键隐藏"><a href="#让它可以接收到key-events-实现点击返回键隐藏" class="headerlink" title="让它可以接收到key events, 实现点击返回键隐藏"></a>让它可以接收到key events, 实现点击返回键隐藏</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mPopupWindow.setFocusable(<span class="keyword">true</span>);<span class="comment">//当前的window接收并处理所有的key events</span></span><br></pre></td></tr></table></figure>
+
 <h4 id="完整的实现"><a href="#完整的实现" class="headerlink" title="完整的实现"></a>完整的实现</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mPopupWindow.setBackgroundDrawable(<span class="keyword">new</span> ColorDrawable());</span><br><span class="line">mPopupWindow.setOutsideTouchable(<span class="keyword">true</span>);</span><br><span class="line">mPopupWindow.setFocusable(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="WindowManager-LayoutParams"><a href="#WindowManager-LayoutParams" class="headerlink" title="WindowManager.LayoutParams"></a>WindowManager.LayoutParams</h2><ul>
 <li><p>FLAG_NOT_FOCUSABLE (focusable时，能收到按键事件，并且touch events只交给当前window处理，不往底层传递)</p>
-<pre><code>this window won&apos;t ever get key input focus, so the user can not send key or other button events to it. Those will instead go to whatever focusable window is behind it. This flag will also enable FLAG_NOT_TOUCH_MODAL whether or not that is explicitly set.
-</code></pre></li>
+<pre><code>this window won&apos;t ever get key input focus, so the user can not send key or other button events to it. Those will instead go to whatever focusable window is behind it. This flag will also enable FLAG_NOT_TOUCH_MODAL whether or not that is explicitly set.</code></pre></li>
 </ul>
 <ul>
 <li><p>FLAG_NOT_TOUCH_MODAL（not touch modal时，outside touch events会发送给自己消费，不往底层传递(focusable时就会自动变成这个状态)）</p>
-<pre><code>even when this window is focusable (its FLAG_NOT_FOCUSABLE is not set), allow any pointer events outside of the window to be sent to the windows behind it. Otherwise it will consume all pointer events itself, regardless of whether they are inside of the window.
-</code></pre></li>
+<pre><code>even when this window is focusable (its FLAG_NOT_FOCUSABLE is not set), allow any pointer events outside of the window to be sent to the windows behind it. Otherwise it will consume all pointer events itself, regardless of whether they are inside of the window.</code></pre></li>
 </ul>
 <ul>
 <li><p>FLAG_NOT_TOUCHABLE （能否接收到touch events）</p>
-<pre><code>Window flag: this window can never receive touch events.
-</code></pre></li>
+<pre><code>Window flag: this window can never receive touch events.</code></pre></li>
 </ul>
 <ul>
 <li><p>FLAG_WATCH_OUTSIDE_TOUCH (not touch modal 时，能否接收到outside touch events)</p>
-<pre><code>if you have set FLAG_NOT_TOUCH_MODAL, you can set this flag to receive a single special MotionEvent with the action MotionEvent.ACTION_OUTSIDE for touches that occur outside of your window. Note that you will not receive the full down/move/up gesture, only the location of the first down as an ACTION_OUTSIDE.
-</code></pre></li>
+<pre><code>if you have set FLAG_NOT_TOUCH_MODAL, you can set this flag to receive a single special MotionEvent with the action MotionEvent.ACTION_OUTSIDE for touches that occur outside of your window. Note that you will not receive the full down/move/up gesture, only the location of the first down as an ACTION_OUTSIDE.</code></pre></li>
 </ul>
 
     

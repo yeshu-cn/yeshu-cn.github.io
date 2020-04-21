@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>DialogFragment使用笔记 | yeshu blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="DialogFragment默认边框有黑色阴影  去掉黑色阴影   @Overridepublic void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCreate(savedInstanceState);    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);&amp;">
@@ -21,11 +21,10 @@
 <meta property="og:url" content="http://yeshu.work/2016/05/17/dialogfragmentshi-yong-bi-ji/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="DialogFragment默认边框有黑色阴影  去掉黑色阴影   @Overridepublic void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCreate(savedInstanceState);    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);&amp;">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-05-16T19:08:25.000Z">
+<meta property="article:published_time" content="2016-05-16T19:07:41.000Z">
+<meta property="article:modified_time" content="2016-05-16T19:08:25.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DialogFragment使用笔记">
-<meta name="twitter:description" content="DialogFragment默认边框有黑色阴影  去掉黑色阴影   @Overridepublic void onCreate(Bundle savedInstanceState) &amp;#123;    super.onCreate(savedInstanceState);    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);&amp;">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -104,11 +105,15 @@
 </li>
 </ol>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">    setStyle(STYLE_NORMAL, R.style.Theme_Common_Dialog_Alert);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Theme.Common.Dialog.Alert"</span> <span class="attr">parent</span>=<span class="string">"android:Theme.Panel"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">    	<span class="comment">&lt;!-- 让Dialog背景为灰色，默认false是背景高亮 --&gt;</span>	</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:backgroundDimEnabled"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"Theme.Common.Dialog.Alert"</span> <span class="attr">parent</span>=<span class="string">"android:Theme.Panel"</span>&gt;</span></span><br><span class="line"><span class="xml">    	<span class="comment">&lt;!-- 让Dialog背景为灰色，默认false是背景高亮 --&gt;</span>	</span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:backgroundDimEnabled"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <ol start="3">
 <li>设置Dialog固定宽高,在xml中设置是无效的</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onResume();</span><br><span class="line">    <span class="keyword">if</span> (getShowsDialog()) &#123;</span><br><span class="line">        <span class="comment">//Dialog显示时，设置Dialog的固定宽度。</span></span><br><span class="line">        getDialog().getWindow().setLayout(getActivity().getResources().getDimensionPixelSize(R.dimen.dialog_min_width), LinearLayout.LayoutParams.WRAP_CONTENT);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 <ol start="4">
 <li>设置Dialog无标题，点击外部是否消失</li>
 </ol>

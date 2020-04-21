@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Ghost 利用Code Injection实现代码高亮 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="在Code Injdection中的Blog Header中直接粘贴如下代码： &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css&quot;&amp;gt;  &amp;lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs">
+  <meta name="description" content="在Code Injdection中的Blog Header中直接粘贴如下代码： &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;highlight.js&#x2F;8.9.1&#x2F;styles&#x2F;github.min.css&quot;&gt;  &lt;script src&#x3D;&quot;&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ghost 利用Code Injection实现代码高亮">
 <meta property="og:url" content="http://yeshu.work/2016/04/18/ghost-li-yong-code-injectionshi-xian-dai-ma-gao-liang/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="在Code Injdection中的Blog Header中直接粘贴如下代码： &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css&quot;&amp;gt;  &amp;lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-04-18T03:23:55.000Z">
+<meta property="og:description" content="在Code Injdection中的Blog Header中直接粘贴如下代码： &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs&#x2F;highlight.js&#x2F;8.9.1&#x2F;styles&#x2F;github.min.css&quot;&gt;  &lt;script src&#x3D;&quot;&#x2F;&#x2F;cdnjs.cloudflare.com&#x2F;ajax&#x2F;libs">
+<meta property="article:published_time" content="2016-04-18T03:20:01.000Z">
+<meta property="article:modified_time" content="2016-04-18T03:23:55.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ghost 利用Code Injection实现代码高亮">
-<meta name="twitter:description" content="在Code Injdection中的Blog Header中直接粘贴如下代码： &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css&quot;&amp;gt;  &amp;lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -98,7 +99,8 @@
   <div class="article-content">
     
       <p>在Code Injdection中的Blog Header中直接粘贴如下代码：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined">hljs.initHighlightingOnLoad();</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined">  </span></span><br><span class="line"><span class="undefined">  pre &#123;</span></span><br><span class="line"><span class="undefined">    word-wrap: normal;</span></span><br><span class="line"><span class="undefined">    -moz-hyphens: none;</span></span><br><span class="line"><span class="undefined">    -ms-hyphens: none;</span></span><br><span class="line"><span class="undefined">    -webkit-hyphens: none;</span></span><br><span class="line"><span class="undefined">    hyphens: none;</span></span><br><span class="line"><span class="undefined">    font-size: 0.7em;</span></span><br><span class="line"><span class="undefined">    line-height: 1.3em;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined">    pre code, pre tt &#123;</span></span><br><span class="line"><span class="undefined">    white-space: pre;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>hljs.initHighlightingOnLoad();<span class="tag">&lt;/<span class="name">script</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span>  </span><br><span class="line">  pre &#123;</span><br><span class="line">    word-wrap: normal;</span><br><span class="line">    -moz-hyphens: none;</span><br><span class="line">    -ms-hyphens: none;</span><br><span class="line">    -webkit-hyphens: none;</span><br><span class="line">    hyphens: none;</span><br><span class="line"><span class="css">    <span class="selector-tag">font-size</span>: 0<span class="selector-class">.7em</span>;</span></span><br><span class="line"><span class="css">    <span class="selector-tag">line-height</span>: 1<span class="selector-class">.3em</span>;</span></span><br><span class="line">  &#125;</span><br><span class="line">    pre code, pre tt &#123;</span><br><span class="line">    white-space: pre;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>其中style不知道什么意思，测试了一下去掉它也可以。</p>
 <p>参考：<a href="http://blog.overstuffedgorilla.com/syntax-highlighting-on-ghost/" target="_blank" rel="noopener">http://blog.overstuffedgorilla.com/syntax-highlighting-on-ghost/</a></p>
 

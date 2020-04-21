@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>LiveData笔记 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="LiveData原来LiveData只要调用setValue就会回调onChange(),不关心数据值是否真的发生变化了。不过会关心observer的state from:https://developer.android.com/topic/libraries/architecture/livedata  LiveData是一个可被监听其中数据变化的Observer LiveData is li">
+  <meta name="description" content="LiveData原来LiveData只要调用setValue就会回调onChange(),不关心数据值是否真的发生变化了。不过会关心observer的state from:https:&#x2F;&#x2F;developer.android.com&#x2F;topic&#x2F;libraries&#x2F;architecture&#x2F;livedata  LiveData是一个可被监听其中数据变化的Observer LiveData is li">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LiveData笔记">
-<meta property="og:url" content="http://yeshu.work/2018/06/01/LiveData笔记/index.html">
+<meta property="og:url" content="http://yeshu.work/2018/06/01/LiveData%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="LiveData原来LiveData只要调用setValue就会回调onChange(),不关心数据值是否真的发生变化了。不过会关心observer的state from:https://developer.android.com/topic/libraries/architecture/livedata  LiveData是一个可被监听其中数据变化的Observer LiveData is li">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.124Z">
+<meta property="og:description" content="LiveData原来LiveData只要调用setValue就会回调onChange(),不关心数据值是否真的发生变化了。不过会关心observer的state from:https:&#x2F;&#x2F;developer.android.com&#x2F;topic&#x2F;libraries&#x2F;architecture&#x2F;livedata  LiveData是一个可被监听其中数据变化的Observer LiveData is li">
+<meta property="article:published_time" content="2018-06-01T07:39:38.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.124Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LiveData笔记">
-<meta name="twitter:description" content="LiveData原来LiveData只要调用setValue就会回调onChange(),不关心数据值是否真的发生变化了。不过会关心observer的state from:https://developer.android.com/topic/libraries/architecture/livedata  LiveData是一个可被监听其中数据变化的Observer LiveData is li">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -126,6 +127,7 @@
 <li>通过LiveData.observer()方法注册监听</li>
 </ul>
 <h3 id="创建LiveData对象"><a href="#创建LiveData对象" class="headerlink" title="创建LiveData对象"></a>创建LiveData对象</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create a LiveData with a String</span></span><br><span class="line"><span class="keyword">private</span> MutableLiveData&lt;String&gt; mCurrentName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MutableLiveData&lt;String&gt; <span class="title">getCurrentName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mCurrentName == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mCurrentName = <span class="keyword">new</span> MutableLiveData&lt;String&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mCurrentName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Rest of the ViewModel...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>LiveData放在ViewModel中，不放在Activity,Frgment中的原因</p>
 <ul>
 <li>避免和activities,fragments产生依赖，ui只需要负责展示数据，而不必关心数据状态</li>
@@ -137,12 +139,15 @@
 <li>Observer的状态由inactive变化成了activie state时,仅仅只在第一次的时候。后面状态变化不会再触发了</li>
 <li>如果LiveData中没有设置数据，不会触发回调</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> NameViewModel mModel;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Other code to setup the activity...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Get the ViewModel.</span></span><br><span class="line">        mModel = ViewModelProviders.of(<span class="keyword">this</span>).get(NameViewModel.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Create the observer which updates the UI.</span></span><br><span class="line">        <span class="keyword">final</span> Observer&lt;String&gt; nameObserver = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable <span class="keyword">final</span> String newName)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// Update the UI, in this case, a TextView.</span></span><br><span class="line">                mNameTextView.setText(newName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.</span></span><br><span class="line">        mModel.getCurrentName().observe(<span class="keyword">this</span>, nameObserver);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> NameViewModel mModel;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Other code to setup the activity...</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Get the ViewModel.</span></span><br><span class="line">        mModel = ViewModelProviders.of(<span class="keyword">this</span>).get(NameViewModel<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Create the observer which updates the UI.</span></span><br><span class="line">        <span class="keyword">final</span> Observer&lt;String&gt; nameObserver = <span class="keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onChanged</span><span class="params">(@Nullable <span class="keyword">final</span> String newName)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// Update the UI, in this case, a TextView.</span></span><br><span class="line">                mNameTextView.setText(newName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.</span></span><br><span class="line">        mModel.getCurrentName().observe(<span class="keyword">this</span>, nameObserver);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="Update-LiveData-objects"><a href="#Update-LiveData-objects" class="headerlink" title="Update LiveData objects"></a>Update LiveData objects</h3><ul>
 <li>MutableLiveData使用setValue(T),postValue(T)方法更新数据</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mButton.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">        String anotherName = <span class="string">"John Doe"</span>;</span><br><span class="line">        mModel.getCurrentName().setValue(anotherName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <h3 id="Use-LiveData-with-Room"><a href="#Use-LiveData-with-Room" class="headerlink" title="Use LiveData with Room"></a>Use LiveData with Room</h3><h2 id="Extend-LiveData"><a href="#Extend-LiveData" class="headerlink" title="Extend LiveData"></a>Extend LiveData</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StockLiveData</span> <span class="keyword">extends</span> <span class="title">LiveData</span>&lt;<span class="title">BigDecimal</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> StockManager mStockManager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SimplePriceListener mListener = <span class="keyword">new</span> SimplePriceListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPriceChanged</span><span class="params">(BigDecimal price)</span> </span>&#123;</span><br><span class="line">            setValue(price);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StockLiveData</span><span class="params">(String symbol)</span> </span>&#123;</span><br><span class="line">        mStockManager = <span class="keyword">new</span> StockManager(symbol);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mStockManager.requestPriceUpdates(mListener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onInactive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mStockManager.removeUpdates(mListener);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>LiveData监听回调关系</p>
 <ul>
 <li>If the <code>Lifecycle</code> object is not in an activity state. then the observer isn’t called even if the value changes.</li>
@@ -150,11 +155,15 @@
 </ul>
 <p>在多个Activity,Fragment,Service之间共享LiveData数据</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StockLiveData</span> <span class="keyword">extends</span> <span class="title">LiveData</span>&lt;<span class="title">BigDecimal</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> StockLiveData sInstance;</span><br><span class="line">    <span class="keyword">private</span> StockManager mStockManager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> SimplePriceListener mListener = <span class="keyword">new</span> SimplePriceListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPriceChanged</span><span class="params">(BigDecimal price)</span> </span>&#123;</span><br><span class="line">            setValue(price);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@MainThread</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> StockLiveData <span class="title">get</span><span class="params">(String symbol)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sInstance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            sInstance = <span class="keyword">new</span> StockLiveData(symbol);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">StockLiveData</span><span class="params">(String symbol)</span> </span>&#123;</span><br><span class="line">        mStockManager = <span class="keyword">new</span> StockManager(symbol);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mStockManager.requestPriceUpdates(mListener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onInactive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mStockManager.removeUpdates(mListener);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>use is as follow</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityCreated</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        StockLiveData.get(getActivity()).observe(<span class="keyword">this</span>, price -&gt; &#123;</span><br><span class="line">            <span class="comment">// Update the UI.</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="Transform-LiveData"><a href="#Transform-LiveData" class="headerlink" title="Transform LiveData"></a>Transform LiveData</h2><p>将LiveData中的数据转换为observer中想要的数据类型</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">LiveData&lt;User&gt; userLiveData = ...;</span><br><span class="line">LiveData&lt;String&gt; userName = Transformations.map(userLiveData, user -&gt; &#123;</span><br><span class="line">    user.name + <span class="string">" "</span> + user.lastName</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> LiveData&lt;User&gt; <span class="title">getUser</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">  ...;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LiveData&lt;String&gt; userId = ...;</span><br><span class="line">LiveData&lt;User&gt; user = Transformations.switchMap(userId, id -&gt; getUser(id) );</span><br></pre></td></tr></table></figure>
+
 <h2 id="Merge-multiple-LiveData-sources"><a href="#Merge-multiple-LiveData-sources" class="headerlink" title="Merge multiple LiveData sources"></a>Merge multiple LiveData sources</h2><p>使用<code>MediatorLiveData</code>聚合多个LiveData</p>
 
     

@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>ExoPlayer1-使用 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="ExoPlayer1-使用https://google.github.io/ExoPlayer/guide-v1.html 三个重要的概念：TrackRenderer,SampleSource,DataSource TrackRenderer TrackRenderer负责播放指定类型的媒体如视频，音频或文字。 MediaCodecVideoTrackRenderer 是负责播放视频的实现 Med">
+  <meta name="description" content="ExoPlayer1-使用https:&#x2F;&#x2F;google.github.io&#x2F;ExoPlayer&#x2F;guide-v1.html 三个重要的概念：TrackRenderer,SampleSource,DataSource TrackRenderer TrackRenderer负责播放指定类型的媒体如视频，音频或文字。 MediaCodecVideoTrackRenderer 是负责播放视频的实现 Med">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ExoPlayer1-使用">
-<meta property="og:url" content="http://yeshu.work/2017/11/17/ExoPlayer1-使用/index.html">
+<meta property="og:url" content="http://yeshu.work/2017/11/17/ExoPlayer1-%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="ExoPlayer1-使用https://google.github.io/ExoPlayer/guide-v1.html 三个重要的概念：TrackRenderer,SampleSource,DataSource TrackRenderer TrackRenderer负责播放指定类型的媒体如视频，音频或文字。 MediaCodecVideoTrackRenderer 是负责播放视频的实现 Med">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.121Z">
+<meta property="og:description" content="ExoPlayer1-使用https:&#x2F;&#x2F;google.github.io&#x2F;ExoPlayer&#x2F;guide-v1.html 三个重要的概念：TrackRenderer,SampleSource,DataSource TrackRenderer TrackRenderer负责播放指定类型的媒体如视频，音频或文字。 MediaCodecVideoTrackRenderer 是负责播放视频的实现 Med">
+<meta property="article:published_time" content="2017-11-17T09:58:12.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.121Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ExoPlayer1-使用">
-<meta name="twitter:description" content="ExoPlayer1-使用https://google.github.io/ExoPlayer/guide-v1.html 三个重要的概念：TrackRenderer,SampleSource,DataSource TrackRenderer TrackRenderer负责播放指定类型的媒体如视频，音频或文字。 MediaCodecVideoTrackRenderer 是负责播放视频的实现 Med">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -112,7 +113,8 @@
 </ul>
 <p><code>MediaCodecVidoTrackRenderer</code>和<code>MediaCodecAudioTrackRenderer</code>都是利用Android的<code>MediaCodec</code>类实现解码数据（支持的格式：<a href="https://developer.android.com/guide/appendix/media-formats.html）" target="_blank" rel="noopener">https://developer.android.com/guide/appendix/media-formats.html）</a></p>
 <p>ExoPlayer使用一般流程</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 1. Instantiate the player.</span><br><span class="line">player = ExoPlayer.Factory.newInstance(RENDERER_COUNT);</span><br><span class="line">// 2. Construct renderers.</span><br><span class="line">MediaCodecVideoTrackRenderer videoRenderer = ...</span><br><span class="line">MediaCodecAudioTrackRenderer audioRenderer = ...</span><br><span class="line">// 3. Inject the renderers through prepare.</span><br><span class="line">player.prepare(videoRenderer, audioRenderer);</span><br><span class="line">// 4. Pass the surface to the video renderer.</span><br><span class="line">player.sendMessage(videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);</span><br><span class="line">// 5. Start playback.</span><br><span class="line">player.setPlayWhenReady(true);</span><br><span class="line">...</span><br><span class="line">player.release(); // Don’t forget to release when done!</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 1. Instantiate the player.</span><br><span class="line">player &#x3D; ExoPlayer.Factory.newInstance(RENDERER_COUNT);</span><br><span class="line">&#x2F;&#x2F; 2. Construct renderers.</span><br><span class="line">MediaCodecVideoTrackRenderer videoRenderer &#x3D; ...</span><br><span class="line">MediaCodecAudioTrackRenderer audioRenderer &#x3D; ...</span><br><span class="line">&#x2F;&#x2F; 3. Inject the renderers through prepare.</span><br><span class="line">player.prepare(videoRenderer, audioRenderer);</span><br><span class="line">&#x2F;&#x2F; 4. Pass the surface to the video renderer.</span><br><span class="line">player.sendMessage(videoRenderer, MediaCodecVideoTrackRenderer.MSG_SET_SURFACE, surface);</span><br><span class="line">&#x2F;&#x2F; 5. Start playback.</span><br><span class="line">player.setPlayWhenReady(true);</span><br><span class="line">...</span><br><span class="line">player.release(); &#x2F;&#x2F; Don’t forget to release when done!</span><br></pre></td></tr></table></figure>
+
 <h2 id="SampleSource"><a href="#SampleSource" class="headerlink" title="SampleSource"></a>SampleSource</h2><p><code>TrackRender</code>的构造函数需要传入一个<code>SampleSource</code>实例，<code>SampleSource</code>负责提供媒体的数据信息和格式。ExoPlayer library中提供了几种不同格式数据的<code>SampleSource</code>实现: </p>
 <ul>
 <li><code>ExtractorSampleSource</code>- For formats such as FMP4,MP4,M4A,MKV,WebM,MP3,AAC,MPEG-TS,MPEG-PS,OGG,FLV and WAV</li>
@@ -127,6 +129,7 @@
 </ul>
 <h2 id="传统媒体的播放流程-（Traditional-media-playbacks）"><a href="#传统媒体的播放流程-（Traditional-media-playbacks）" class="headerlink" title="传统媒体的播放流程 （Traditional media playbacks）"></a>传统媒体的播放流程 （Traditional media playbacks）</h2><p> 传统媒体就是指：FMP4, MP4, M4A, MKV, WebM, MP3, AAC, MPEG-TS, MPEG-PS, OGG, FLV and WAV. </p>
  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Allocator allocator = <span class="keyword">new</span> DefaultAllocator(BUFFER_SEGMENT_SIZE);</span><br><span class="line">DataSource dataSource = <span class="keyword">new</span> DefaultUriDataSource(context, <span class="keyword">null</span>, userAgent);</span><br><span class="line">ExtractorSampleSource sampleSource = <span class="keyword">new</span> ExtractorSampleSource(</span><br><span class="line">    	uri, dataSource, allocator, BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE);</span><br><span class="line">MediaCodecVideoTrackRenderer videoRenderer = <span class="keyword">new</span> MediaCodecVideoTrackRenderer(</span><br><span class="line">    	context, sampleSource, MediaCodecSelector.DEFAULT, MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT);</span><br><span class="line">MediaCodecAudioTrackRenderer audioRenderer = <span class="keyword">new</span> MediaCodecAudioTrackRenderer(</span><br><span class="line">    	sampleSource, MediaCodecSelector.DEFAULT);</span><br></pre></td></tr></table></figure>
+
 <h2 id="自适应媒体播放-（Adaptive-media-playbacks）"><a href="#自适应媒体播放-（Adaptive-media-playbacks）" class="headerlink" title="自适应媒体播放 （Adaptive media playbacks）"></a>自适应媒体播放 （Adaptive media playbacks）</h2><p>就是直播视频，选择视频清晰度的技术</p>
 <blockquote>
 <p>自适应流媒体技术，就是能够智能感知你的下载速度，然后动态调节视频的编码速率，为你提供最高质量、最平滑的视频演播的技术。 <a href="https://zhidao.baidu.com/question/2117519251785432747.html" target="_blank" rel="noopener">detail</a></p>
@@ -149,12 +152,14 @@
 <li><code>LoadControl</code>负责处理缓冲策略</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">LoadControl loadControl = <span class="keyword">new</span> DefaultLoadControl(<span class="keyword">new</span> DefaultAllocator(BUFFER_SEGMENT_SIZE));</span><br><span class="line">DefaultBandwidthMeter bandwidthMeter = <span class="keyword">new</span> DefaultBandwidthMeter();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Build the video renderer.</span></span><br><span class="line">DataSource videoDataSource = <span class="keyword">new</span> DefaultUriDataSource(context, bandwidthMeter, userAgent);</span><br><span class="line">ChunkSource videoChunkSource = <span class="keyword">new</span> DashChunkSource(manifestFetcher,</span><br><span class="line">    DefaultDashTrackSelector.newVideoInstance(context, <span class="keyword">true</span>, <span class="keyword">false</span>), videoDataSource,</span><br><span class="line">    <span class="keyword">new</span> AdaptiveEvaluator(bandwidthMeter), LIVE_EDGE_LATENCY_MS, elapsedRealtimeOffset, <span class="keyword">null</span>, <span class="keyword">null</span>,</span><br><span class="line">    DemoPlayer.TYPE_VIDEO);</span><br><span class="line">ChunkSampleSource videoSampleSource = <span class="keyword">new</span> ChunkSampleSource(videoChunkSource, loadControl,</span><br><span class="line">    VIDEO_BUFFER_SEGMENTS * BUFFER_SEGMENT_SIZE);</span><br><span class="line">MediaCodecVideoTrackRenderer videoRenderer = <span class="keyword">new</span> MediaCodecVideoTrackRenderer(context,</span><br><span class="line">    videoSampleSource, MediaCodecSelector.DEFAULT,</span><br><span class="line">    MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Build the audio renderer.</span></span><br><span class="line">DataSource audioDataSource = <span class="keyword">new</span> DefaultUriDataSource(context, bandwidthMeter, userAgent);</span><br><span class="line">ChunkSource audioChunkSource = <span class="keyword">new</span> DashChunkSource(manifestFetcher,</span><br><span class="line">    DefaultDashTrackSelector.newAudioInstance(), audioDataSource, <span class="keyword">null</span>, LIVE_EDGE_LATENCY_MS,</span><br><span class="line">    elapsedRealtimeOffset, <span class="keyword">null</span>, <span class="keyword">null</span>, DemoPlayer.TYPE_AUDIO);</span><br><span class="line">ChunkSampleSource audioSampleSource = <span class="keyword">new</span> ChunkSampleSource(audioChunkSource,</span><br><span class="line">    loadControl, AUDIO_BUFFER_SEGMENTS * BUFFER_SEGMENT_SIZE);</span><br><span class="line">MediaCodecAudioTrackRenderer audioRenderer = <span class="keyword">new</span> MediaCodecAudioTrackRenderer(</span><br><span class="line">    audioSampleSource, MediaCodecSelector.DEFAULT);</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>In this code, <code>manifestFetcher</code> is an object responsible for loading the DASH manifest that defines the media. The <code>videoAdaptationSetIndex</code> and <code>audioAdaptationSetIndex</code> variables index components of the initially loaded manifest that correspond to video and audio respectively.</p>
 </blockquote>
 <h3 id="HLS"><a href="#HLS" class="headerlink" title="HLS"></a>HLS</h3><p>HLS播放需要使用到<code>HlsSampleSource</code>,<code>HlsChunkSource</code></p>
 <p>example:</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">LoadControl loadControl = <span class="keyword">new</span> DefaultLoadControl(<span class="keyword">new</span> DefaultAllocator(BUFFER_SEGMENT_SIZE));</span><br><span class="line">DefaultBandwidthMeter bandwidthMeter = <span class="keyword">new</span> DefaultBandwidthMeter();</span><br><span class="line">PtsTimestampAdjusterProvider timestampAdjusterProvider = <span class="keyword">new</span> PtsTimestampAdjusterProvider();</span><br><span class="line">DataSource dataSource = <span class="keyword">new</span> DefaultUriDataSource(context, bandwidthMeter, userAgent);</span><br><span class="line">HlsChunkSource chunkSource = <span class="keyword">new</span> HlsChunkSource(<span class="keyword">true</span> <span class="comment">/* isMaster */</span>, dataSource, url, manifest,</span><br><span class="line">    DefaultHlsTrackSelector.newDefaultInstance(context), bandwidthMeter, timestampAdjusterProvider,</span><br><span class="line">    HlsChunkSource.ADAPTIVE_MODE_SPLICE);</span><br><span class="line">HlsSampleSource sampleSource = <span class="keyword">new</span> HlsSampleSource(chunkSource, loadControl,</span><br><span class="line">    MAIN_BUFFER_SEGMENTS * BUFFER_SEGMENT_SIZE);</span><br><span class="line">MediaCodecVideoTrackRenderer videoRenderer = <span class="keyword">new</span> MediaCodecVideoTrackRenderer(context, sampleSource,</span><br><span class="line">    MediaCodecSelector.DEFAULT, MediaCodec.VIDEO_SCALING_MODE_SCALE_TO_FIT);</span><br><span class="line">MediaCodecAudioTrackRenderer audioRenderer = <span class="keyword">new</span> MediaCodecAudioTrackRenderer(sampleSource,</span><br><span class="line">    MediaCodecSelector.DEFAULT);</span><br></pre></td></tr></table></figure>
+
 <h2 id="notes"><a href="#notes" class="headerlink" title="notes"></a>notes</h2><p>好像只有自适应媒体的播放才有<code>loadControl</code>控制缓冲策略，传统媒体都是直接播放</p>
 <p><a href="https://www.zhihu.com/collection/200537456" target="_blank" rel="noopener">视频播放的相关协议</a></p>
 

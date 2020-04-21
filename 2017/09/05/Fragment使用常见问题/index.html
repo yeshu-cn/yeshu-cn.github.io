@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Fragment使用中的常见异常 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="正确使用Fragment如果系统重建Fragment会调用不带参数都构造函数，所以想要恢复保存参数需要使用setArguments方法设置参数Bundle。在Fragment重建时Bundle会自动保存下来。 public static MyFragment newInstance() &amp;#123;    Bundle args = new Bundle();        MyFragment">
+  <meta name="description" content="正确使用Fragment如果系统重建Fragment会调用不带参数都构造函数，所以想要恢复保存参数需要使用setArguments方法设置参数Bundle。在Fragment重建时Bundle会自动保存下来。 public static MyFragment newInstance() &amp;#123;    Bundle args &#x3D; new Bundle();        MyFrag">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fragment使用中的常见异常">
-<meta property="og:url" content="http://yeshu.work/2017/09/05/Fragment使用常见问题/index.html">
+<meta property="og:url" content="http://yeshu.work/2017/09/05/Fragment%E4%BD%BF%E7%94%A8%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="正确使用Fragment如果系统重建Fragment会调用不带参数都构造函数，所以想要恢复保存参数需要使用setArguments方法设置参数Bundle。在Fragment重建时Bundle会自动保存下来。 public static MyFragment newInstance() &amp;#123;    Bundle args = new Bundle();        MyFragment">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.122Z">
+<meta property="og:description" content="正确使用Fragment如果系统重建Fragment会调用不带参数都构造函数，所以想要恢复保存参数需要使用setArguments方法设置参数Bundle。在Fragment重建时Bundle会自动保存下来。 public static MyFragment newInstance() &amp;#123;    Bundle args &#x3D; new Bundle();        MyFrag">
+<meta property="article:published_time" content="2017-09-05T03:21:00.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.122Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Fragment使用中的常见异常">
-<meta name="twitter:description" content="正确使用Fragment如果系统重建Fragment会调用不带参数都构造函数，所以想要恢复保存参数需要使用setArguments方法设置参数Bundle。在Fragment重建时Bundle会自动保存下来。 public static MyFragment newInstance() &amp;#123;    Bundle args = new Bundle();        MyFragment">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -103,8 +104,11 @@
   <div class="article-content">
     
       <h2 id="正确使用Fragment"><a href="#正确使用Fragment" class="headerlink" title="正确使用Fragment"></a>正确使用Fragment</h2><p>如果系统重建Fragment会调用不带参数都构造函数，所以想要恢复保存参数需要使用<code>setArguments</code>方法设置参数<code>Bundle</code>。在Fragment重建时<code>Bundle</code>会自动保存下来。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static MyFragment newInstance() &#123;</span><br><span class="line">    Bundle args = new Bundle();</span><br><span class="line">    </span><br><span class="line">    MyFragment fragment = new MyFragment();</span><br><span class="line">    fragment.setArguments(args);</span><br><span class="line">    return fragment;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void onCreate() &#123;</span><br><span class="line">	Bundle args = getArguments();</span><br><span class="line">	//...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public static MyFragment newInstance() &#123;</span><br><span class="line">    Bundle args &#x3D; new Bundle();</span><br><span class="line">    </span><br><span class="line">    MyFragment fragment &#x3D; new MyFragment();</span><br><span class="line">    fragment.setArguments(args);</span><br><span class="line">    return fragment;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void onCreate() &#123;</span><br><span class="line">	Bundle args &#x3D; getArguments();</span><br><span class="line">	&#x2F;&#x2F;...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> inflater.inflate(R.layout.fragement, container, <span class="keyword">false</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 <p><code>inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot)</code>参数说明：</p>
 <ol>
 <li>root不为null, attachToRoot为true时，将生成的View添加到root中</li>
@@ -123,12 +127,16 @@
 <li>Fragment重复使用，再次attatch</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java.lang.IllegalStateException: No activity</span><br><span class="line">	at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:1060)</span><br><span class="line">	at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:1055)</span><br><span class="line">	at android.app.FragmentManagerImpl.dispatchActivityCreated(FragmentManager.java:1864)</span><br><span class="line">	at android.app.Fragment.performActivityCreated(Fragment.java:1714)</span><br><span class="line">	at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:919)</span><br><span class="line">	at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:1073)</span><br><span class="line">	at android.app.BackStackRecord.run(BackStackRecord.java:698)</span><br><span class="line">	at android.app.FragmentManagerImpl.execPendingActions(FragmentManager.java:1458)</span><br><span class="line">	at android.app.FragmentManagerImpl$1.run(FragmentManager.java:443)</span><br><span class="line">	at android.os.Handler.handleCallback(Handler.java:808)</span><br><span class="line">	at android.os.Handler.dispatchMessage(Handler.java:103)</span><br><span class="line">	at android.os.Looper.loop(Looper.java:193)</span><br><span class="line">	at android.app.ActivityThread.main(ActivityThread.java:5332)</span><br><span class="line">	at java.lang.reflect.Method.invokeNative(Native Method)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:515)</span><br><span class="line">	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:829)</span><br><span class="line">	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:645)</span><br><span class="line">	at dalvik.system.NativeStart.main(Native Method)</span><br></pre></td></tr></table></figure>
+
 <p>Fragment destory时会将mChildFragmentManager.mHost重置为null</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">performDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mChildFragmentManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mChildFragmentManager.dispatchDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    moveToState(Fragment.INITIALIZING, <span class="keyword">false</span>);</span><br><span class="line">    mHost = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>导致Fragment再次attach时 mChildFragmentManager.mHost = null</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dispatchActivityCreated</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mStateSaved = <span class="keyword">false</span>;</span><br><span class="line">    moveToState(Fragment.ACTIVITY_CREATED, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">moveToState</span><span class="params">(<span class="keyword">int</span> newState, <span class="keyword">int</span> transit, <span class="keyword">int</span> transitStyle, <span class="keyword">boolean</span> always)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mHost == <span class="keyword">null</span> &amp;&amp; newState != Fragment.INITIALIZING) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"No activity"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   	<span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Fragment attach时mChildFragmentManager != null</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">public</span> FragmentManager <span class="title">getChildFragmentManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mChildFragmentManager == <span class="keyword">null</span>) &#123;</span><br><span class="line">        instantiateChildFragmentManager();</span><br><span class="line">			<span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mChildFragmentManager;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">instantiateChildFragmentManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mChildFragmentManager = <span class="keyword">new</span> FragmentManagerImpl();</span><br><span class="line">    mChildFragmentManager.attachController(mHost, <span class="keyword">new</span> FragmentContainer() &#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;, <span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>解决方法就是在Fragment desotry时，将其FragmentManager也设置为null</p>
 <p>参考资料：</p>
 <ul>
@@ -137,37 +145,37 @@
 </ul>
 <h2 id="Fragment-detach后使用mHost报错"><a href="#Fragment-detach后使用mHost报错" class="headerlink" title="Fragment detach后使用mHost报错"></a>Fragment detach后使用mHost报错</h2><p>只能在attached Activity之前调用，所以，在实例化对象后立刻调用</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setArguments</span><span class="params">(Bundle args)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (mIndex &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Fragment already active"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	mArguments = args;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>Fragment detache了后调用getResources()会报错</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">public</span> Resources <span class="title">getResources</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mHost == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Fragment "</span> + <span class="keyword">this</span> + <span class="string">" not attached to Activity"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mHost.getContext().getResources();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="Fragment-重影问题"><a href="#Fragment-重影问题" class="headerlink" title="Fragment 重影问题"></a>Fragment 重影问题</h2><p><strong>问题原因</strong></p>
 <p>Activity因为内存不足悲销毁重建时，其中Fragment也会被销毁重建。如果此时Activity onCreate中addFragment多次，就会造成重影问题</p>
 <p><strong>模拟系统销毁Activity的方法</strong></p>
 <p>手机的 “设置” - “开发者选项” - 打开”不保留活动”</p>
 <h2 id="BackStackRecored-不能commit多次"><a href="#BackStackRecored-不能commit多次" class="headerlink" title="BackStackRecored 不能commit多次"></a>BackStackRecored 不能commit多次</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">commitInternal</span><span class="params">(<span class="keyword">boolean</span> allowStateLoss)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mCommitted) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"commit already called"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (FragmentManagerImpl.DEBUG) &#123;</span><br><span class="line">        Log.v(TAG, <span class="string">"Commit: "</span> + <span class="keyword">this</span>);</span><br><span class="line">        LogWriter logw = <span class="keyword">new</span> LogWriter(Log.VERBOSE, TAG);</span><br><span class="line">        PrintWriter pw = <span class="keyword">new</span> FastPrintWriter(logw, <span class="keyword">false</span>, <span class="number">1024</span>);</span><br><span class="line">        dump(<span class="string">"  "</span>, <span class="keyword">null</span>, pw, <span class="keyword">null</span>);</span><br><span class="line">        pw.flush();</span><br><span class="line">    &#125;</span><br><span class="line">    mCommitted = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (mAddToBackStack) &#123;</span><br><span class="line">        mIndex = mManager.allocBackStackIndex(<span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mIndex = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mManager.enqueueAction(<span class="keyword">this</span>, allowStateLoss);</span><br><span class="line">    <span class="keyword">return</span> mIndex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="Fragment重复使用错误"><a href="#Fragment重复使用错误" class="headerlink" title="Fragment重复使用错误"></a>Fragment重复使用错误</h2><ol>
 <li>Fragment不能同时加到两个不同的containerView中</li>
 <li>Fragment不能同时add两个不同的tag</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAddOp</span><span class="params">(<span class="keyword">int</span> containerViewId, Fragment fragment, String tag, <span class="keyword">int</span> opcmd)</span> </span>&#123;</span><br><span class="line">    fragment.mFragmentManager = mManager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (tag != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fragment.mTag != <span class="keyword">null</span> &amp;&amp; !tag.equals(fragment.mTag)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Can't change tag of fragment "</span></span><br><span class="line">                    + fragment + <span class="string">": was "</span> + fragment.mTag</span><br><span class="line">                    + <span class="string">" now "</span> + tag);</span><br><span class="line">        &#125;</span><br><span class="line">        fragment.mTag = tag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (containerViewId != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fragment.mFragmentId != <span class="number">0</span> &amp;&amp; fragment.mFragmentId != containerViewId) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Can't change container ID of fragment "</span></span><br><span class="line">                    + fragment + <span class="string">": was "</span> + fragment.mFragmentId</span><br><span class="line">                    + <span class="string">" now "</span> + containerViewId);</span><br><span class="line">        &#125;</span><br><span class="line">        fragment.mContainerId = fragment.mFragmentId = containerViewId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Op op = <span class="keyword">new</span> Op();</span><br><span class="line">    op.cmd = opcmd;</span><br><span class="line">    op.fragment = fragment;</span><br><span class="line">    addOp(op);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="源码阅读"><a href="#源码阅读" class="headerlink" title="源码阅读"></a>源码阅读</h2><p><strong>主要成员</strong></p>
 <ul>
 <li><p>Activity</p>
 <pre><code>final Handler mHandler = new Handler();
 //即FragmentManager
-   final FragmentController mFragments = FragmentController.createController(new HostCallbacks());
-</code></pre></li>
+   final FragmentController mFragments = FragmentController.createController(new HostCallbacks());</code></pre></li>
 <li><p>Fragment</p>
-<pre><code>里面有个ChildFragmentManager
-</code></pre></li>
+<pre><code>里面有个ChildFragmentManager</code></pre></li>
 <li><p>FragmentManager</p>
-<pre><code>具体实现类是FragmentManagerImpl，有个moveToState()方法，用于切换状态，回调Fragment中的相关声明周期
-</code></pre></li>
+<pre><code>具体实现类是FragmentManagerImpl，有个moveToState()方法，用于切换状态，回调Fragment中的相关声明周期</code></pre></li>
 </ul>
 <ul>
 <li><p>BackStackRecord</p>
 <pre><code>就是FragmentTransaction，里面包含一个用于保存add,replace,commit等操作的双向链表，是一个runable。
-commit是通过mFragmentManager中的mHandler来执行这个BackStackRecord runnable.
-</code></pre></li>
+commit是通过mFragmentManager中的mHandler来执行这个BackStackRecord runnable.</code></pre></li>
 </ul>
 <p><strong>参考资料</strong>  </p>
 <ul>

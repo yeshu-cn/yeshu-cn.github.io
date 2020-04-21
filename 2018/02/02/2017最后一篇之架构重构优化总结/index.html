@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>2017最后一篇之架构重构优化总结 | yeshu blog</title>
@@ -12,21 +12,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="架构组成单元 Model：业务模型 ModelRepository：业务模型的持久化 ModelService：模块提供的业务服务 UseCase：由ModelService和Repository组合形成的用户需要的功能 UI：界面  新老架构示意图 新架构的优点 层次结构更加清晰 各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则） 模块职责更加明确，可读性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2017最后一篇之架构重构优化总结">
-<meta property="og:url" content="http://yeshu.work/2018/02/02/2017最后一篇之架构重构优化总结/index.html">
+<meta property="og:url" content="http://yeshu.work/2018/02/02/2017%E6%9C%80%E5%90%8E%E4%B8%80%E7%AF%87%E4%B9%8B%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="架构组成单元 Model：业务模型 ModelRepository：业务模型的持久化 ModelService：模块提供的业务服务 UseCase：由ModelService和Repository组合形成的用户需要的功能 UI：界面  新老架构示意图 新架构的优点 层次结构更加清晰 各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则） 模块职责更加明确，可读性">
-<meta property="og:locale" content="default">
 <meta property="og:image" content="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.114Z">
+<meta property="article:published_time" content="2018-02-02T09:44:52.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.114Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2017最后一篇之架构重构优化总结">
-<meta name="twitter:description" content="架构组成单元 Model：业务模型 ModelRepository：业务模型的持久化 ModelService：模块提供的业务服务 UseCase：由ModelService和Repository组合形成的用户需要的功能 UI：界面  新老架构示意图 新架构的优点 层次结构更加清晰 各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则） 模块职责更加明确，可读性">
 <meta name="twitter:image" content="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png">
 
   
@@ -39,7 +38,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -56,8 +57,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -111,7 +112,7 @@
 <li>UseCase：由ModelService和Repository组合形成的用户需要的功能</li>
 <li>UI：界面</li>
 </ul>
-<h2 id="新老架构示意图"><a href="#新老架构示意图" class="headerlink" title="新老架构示意图"></a>新老架构示意图</h2><p><img src="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png" alt></p>
+<h2 id="新老架构示意图"><a href="#新老架构示意图" class="headerlink" title="新老架构示意图"></a>新老架构示意图</h2><p><img src="http://7xjube.com1.z0.glb.clouddn.com/%E6%9E%B6%E6%9E%84%E9%87%8D%E6%9E%84.png" alt=""></p>
 <h2 id="新架构的优点"><a href="#新架构的优点" class="headerlink" title="新架构的优点"></a>新架构的优点</h2><ul>
 <li>层次结构更加清晰</li>
 <li>各个层次之间间通过接口实现解偶，可以更加方便针对不同层代码进行单元测试（实现依赖导致原则）</li>

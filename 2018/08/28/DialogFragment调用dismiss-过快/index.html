@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>DialogFragment调用dismiss()过快 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="DialogFragment的创建显示过程和dismiss()调用是一个异步操作 所以dimiss()必须在Dialog完全显示后才能调用，否则会出现异常，如： MyDialog dialog = MyDialog.newInstance();dialog.show(getSupportFragmentManager(), &amp;quot;&amp;quot;);dialog.dismissAllowingS">
+  <meta name="description" content="DialogFragment的创建显示过程和dismiss()调用是一个异步操作 所以dimiss()必须在Dialog完全显示后才能调用，否则会出现异常，如： MyDialog dialog &#x3D; MyDialog.newInstance();dialog.show(getSupportFragmentManager(), &quot;&quot;);dialog.dismissAllo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DialogFragment调用dismiss()过快">
-<meta property="og:url" content="http://yeshu.work/2018/08/28/DialogFragment调用dismiss-过快/index.html">
+<meta property="og:url" content="http://yeshu.work/2018/08/28/DialogFragment%E8%B0%83%E7%94%A8dismiss-%E8%BF%87%E5%BF%AB/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="DialogFragment的创建显示过程和dismiss()调用是一个异步操作 所以dimiss()必须在Dialog完全显示后才能调用，否则会出现异常，如： MyDialog dialog = MyDialog.newInstance();dialog.show(getSupportFragmentManager(), &amp;quot;&amp;quot;);dialog.dismissAllowingS">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.121Z">
+<meta property="og:description" content="DialogFragment的创建显示过程和dismiss()调用是一个异步操作 所以dimiss()必须在Dialog完全显示后才能调用，否则会出现异常，如： MyDialog dialog &#x3D; MyDialog.newInstance();dialog.show(getSupportFragmentManager(), &quot;&quot;);dialog.dismissAllo">
+<meta property="article:published_time" content="2018-08-28T03:22:27.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.121Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DialogFragment调用dismiss()过快">
-<meta name="twitter:description" content="DialogFragment的创建显示过程和dismiss()调用是一个异步操作 所以dimiss()必须在Dialog完全显示后才能调用，否则会出现异常，如： MyDialog dialog = MyDialog.newInstance();dialog.show(getSupportFragmentManager(), &amp;quot;&amp;quot;);dialog.dismissAllowingS">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -99,7 +100,8 @@
     
       <p>DialogFragment的创建显示过程和dismiss()调用是一个异步操作</p>
 <p>所以dimiss()必须在Dialog完全显示后才能调用，否则会出现异常，如：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MyDialog dialog = MyDialog.newInstance();</span><br><span class="line">dialog.show(getSupportFragmentManager(), &quot;&quot;);</span><br><span class="line">dialog.dismissAllowingStateLoss();</span><br><span class="line"></span><br><span class="line">log:</span><br><span class="line">-----&gt;dismissAllowingStateLoss  </span><br><span class="line">-----&gt;onActivityCreated</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MyDialog dialog &#x3D; MyDialog.newInstance();</span><br><span class="line">dialog.show(getSupportFragmentManager(), &quot;&quot;);</span><br><span class="line">dialog.dismissAllowingStateLoss();</span><br><span class="line"></span><br><span class="line">log:</span><br><span class="line">-----&gt;dismissAllowingStateLoss  </span><br><span class="line">-----&gt;onActivityCreated</span><br></pre></td></tr></table></figure>
+
 <p>onActivityCreated在dismissAllowingStateLoss后执行会造成两种可能</p>
 <ul>
 <li>Dialog创建成功，一直显示，不会隐藏</li>

@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android 优化网络请求 | yeshu blog</title>
@@ -12,22 +12,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="Android 优化网络请求https://developer.android.com/training/efficient-downloads/efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
+  <meta name="description" content="Android 优化网络请求https:&#x2F;&#x2F;developer.android.com&#x2F;training&#x2F;efficient-downloads&#x2F;efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 优化网络请求">
-<meta property="og:url" content="http://yeshu.work/2017/11/21/Android-优化网络请求/index.html">
+<meta property="og:url" content="http://yeshu.work/2017/11/21/Android-%E4%BC%98%E5%8C%96%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="Android 优化网络请求https://developer.android.com/training/efficient-downloads/efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="Android 优化网络请求https:&#x2F;&#x2F;developer.android.com&#x2F;training&#x2F;efficient-downloads&#x2F;efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
 <meta property="og:image" content="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png">
 <meta property="og:image" content="https://developer.android.com/images/efficient-downloads/graphs.png">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.118Z">
+<meta property="article:published_time" content="2017-11-21T09:20:45.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.118Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 优化网络请求">
-<meta name="twitter:description" content="Android 优化网络请求https://developer.android.com/training/efficient-downloads/efficient-network-access.html 这篇文章介绍无线模块消耗电量的原因，并给出优化方案：  预先获取数据 聚合网络请求  Understand The Radio State MachineRadio下文就叫无线模块 处于运行状态">
 <meta name="twitter:image" content="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png">
 
   
@@ -40,7 +39,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -57,8 +58,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -121,7 +122,7 @@
 </ol>
 <p>low power 和 standby 状态会处于低功耗，但是会造成延迟网络请求。因为low power状态转换为full power状态需要1.5秒的时间，standy 状态转换为 full power 状态需要2秒的时间。</p>
 <p>为了减少状态切换造成的网络请求延时，无线模块会延迟向低功耗状态的转换</p>
-<p><img src="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png" alt></p>
+<p><img src="https://developer.android.com/images/efficient-downloads/mobile_radio_state_machine.png" alt=""></p>
 <p>不同的设备（2G,3G,LTE,etc.）的延时时间不同</p>
 <h2 id="Understand-how-apps-can-impact-the-radio-state-machine"><a href="#Understand-how-apps-can-impact-the-radio-state-machine" class="headerlink" title="Understand how apps can impact the radio state machine"></a>Understand how apps can impact the radio state machine</h2><p>根据上图</p>
 <ul>
@@ -129,7 +130,7 @@
 <li>聚合网络请求，一次请求3秒数据。此时无线模块仅仅只会有20秒处于耗电状态</li>
 </ul>
 <p>上面例子中：同样时间内，请求同样时长数据，聚合网络请求会大大的减少耗电量</p>
-<p><img src="https://developer.android.com/images/efficient-downloads/graphs.png" alt></p>
+<p><img src="https://developer.android.com/images/efficient-downloads/graphs.png" alt=""></p>
 <h2 id="Prefetch-Data-预取数据"><a href="#Prefetch-Data-预取数据" class="headerlink" title="Prefetch Data (预取数据)"></a>Prefetch Data (预取数据)</h2><h3 id="how"><a href="#how" class="headerlink" title="how"></a>how</h3><ul>
 <li>聚合多个网络请求为一个单独的网络请求</li>
 <li>不能过度使用预取数据的策略，因为如果用户用不到数据，会造成流量等的浪费</li>

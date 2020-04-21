@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android 内存不足，配置变化时处理机制 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="A configuration change An activity restart A process restart     Dialog reset reset reset   Activity, View, Fragment save/restore save/restore save/restore   Fragment with setRetainInstance(true)">
+  <meta name="description" content="A configuration change An activity restart A process restart    Dialog reset reset reset   Activity, View, Fragment save&#x2F;restore save&#x2F;restore save&#x2F;restore   Fragment with setRetainInstance(true) n">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 内存不足，配置变化时处理机制">
-<meta property="og:url" content="http://yeshu.work/2016/09/14/Android-内存不足，配置变化时处理机制/index.html">
+<meta property="og:url" content="http://yeshu.work/2016/09/14/Android-%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%EF%BC%8C%E9%85%8D%E7%BD%AE%E5%8F%98%E5%8C%96%E6%97%B6%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="A configuration change An activity restart A process restart     Dialog reset reset reset   Activity, View, Fragment save/restore save/restore save/restore   Fragment with setRetainInstance(true)">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.118Z">
+<meta property="og:description" content="A configuration change An activity restart A process restart    Dialog reset reset reset   Activity, View, Fragment save&#x2F;restore save&#x2F;restore save&#x2F;restore   Fragment with setRetainInstance(true) n">
+<meta property="article:published_time" content="2016-09-14T09:23:21.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.118Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 内存不足，配置变化时处理机制">
-<meta name="twitter:description" content="A configuration change An activity restart A process restart     Dialog reset reset reset   Activity, View, Fragment save/restore save/restore save/restore   Fragment with setRetainInstance(true)">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -106,8 +107,7 @@
 <th>A process restart</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>Dialog</td>
 <td>reset</td>
 <td>reset</td>
@@ -131,11 +131,9 @@
 <td>no change</td>
 <td>reset</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>当设置变化时，例如横竖屏切换，Activity会被销毁并立即被重建，而View、Fragment、Dialog也自然如此，除了Fragment被设置为setRetainInstance(true)状态时不会被销毁重建，不影响静态变量和线程状态</p>
-<pre><code>Some device configurations can change during runtime (such as screen orientation, keyboard availability, and language). When such a change occurs, Android recreates the running activity (the system calls onDestroy(), then immediately calls onCreate()).
-</code></pre><p>当用户开启了“Don’t keep activities”选项或者内存不足时，Activity、Dialog、View、Fragment（包括设置为setRetainInstance(true)状态的）都会被销毁重建，不影响静态变量和线程状态</p>
+<pre><code>Some device configurations can change during runtime (such as screen orientation, keyboard availability, and language). When such a change occurs, Android recreates the running activity (the system calls onDestroy(), then immediately calls onCreate()).</code></pre><p>当用户开启了“Don’t keep activities”选项或者内存不足时，Activity、Dialog、View、Fragment（包括设置为setRetainInstance(true)状态的）都会被销毁重建，不影响静态变量和线程状态</p>
 <p>当系统内存不足，且程序不在前台运行时，当再次回到程序时，程序的进程有可能会被重启，这会导致静态变量和线程状态都会被重置</p>
 <p><a href="http://blog.waynell.com/2015/05/29/mvp-on-android/" target="_blank" rel="noopener">参考</a></p>
 

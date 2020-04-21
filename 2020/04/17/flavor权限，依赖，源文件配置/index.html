@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>flavor权限，依赖，源文件配置 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="flavor权限，依赖，源文件配置 为ProductFlavor设置依赖 为ProductFlavor设置权限 不同的ProductFlavor使用不同的源码文件  添加三种flavorandroid &amp;#123;    ...    productFlavors &amp;#123;        free &amp;#123;            applicationId &amp;quot;com.yeshu.">
+  <meta name="description" content="flavor权限，依赖，源文件配置 为ProductFlavor设置依赖 为ProductFlavor设置权限 不同的ProductFlavor使用不同的源码文件  添加三种flavorandroid &amp;#123;    ...    productFlavors &amp;#123;        free &amp;#123;            applicationId &quot;com.yeshu.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flavor权限，依赖，源文件配置">
-<meta property="og:url" content="http://yeshu.work/2020/04/17/flavor权限，依赖，源文件配置/index.html">
+<meta property="og:url" content="http://yeshu.work/2020/04/17/flavor%E6%9D%83%E9%99%90%EF%BC%8C%E4%BE%9D%E8%B5%96%EF%BC%8C%E6%BA%90%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="flavor权限，依赖，源文件配置 为ProductFlavor设置依赖 为ProductFlavor设置权限 不同的ProductFlavor使用不同的源码文件  添加三种flavorandroid &amp;#123;    ...    productFlavors &amp;#123;        free &amp;#123;            applicationId &amp;quot;com.yeshu.">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:18:42.108Z">
+<meta property="og:description" content="flavor权限，依赖，源文件配置 为ProductFlavor设置依赖 为ProductFlavor设置权限 不同的ProductFlavor使用不同的源码文件  添加三种flavorandroid &amp;#123;    ...    productFlavors &amp;#123;        free &amp;#123;            applicationId &quot;com.yeshu.">
+<meta property="article:published_time" content="2020-04-17T08:18:00.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:18:42.108Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="flavor权限，依赖，源文件配置">
-<meta name="twitter:description" content="flavor权限，依赖，源文件配置 为ProductFlavor设置依赖 为ProductFlavor设置权限 不同的ProductFlavor使用不同的源码文件  添加三种flavorandroid &amp;#123;    ...    productFlavors &amp;#123;        free &amp;#123;            applicationId &amp;quot;com.yeshu.">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -108,6 +109,7 @@
 <li>不同的ProductFlavor使用不同的源码文件</li>
 </ul>
 <h2 id="添加三种flavor"><a href="#添加三种flavor" class="headerlink" title="添加三种flavor"></a>添加三种flavor</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    productFlavors &#123;</span><br><span class="line">        free &#123;</span><br><span class="line">            applicationId &quot;com.yeshu.app.free&quot;</span><br><span class="line">            versionCode 1</span><br><span class="line">            versionName &quot;1.0.0&quot;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        premium &#123;</span><br><span class="line">            applicationId &quot;com.yeshu.app.premium&quot;</span><br><span class="line">            versionCode 1</span><br><span class="line">            versionName &quot;1.0.0&quot;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        enterprise &#123;</span><br><span class="line">            applicationId &quot;com.yeshu.app.enterprise&quot;</span><br><span class="line">            versionCode 1</span><br><span class="line">            versionName &quot;1.0.0&quot;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   ....</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="添加特定权限"><a href="#添加特定权限" class="headerlink" title="添加特定权限"></a>添加特定权限</h2><ul>
 <li>app/src/main/AndroidManifest.xml (默认的，包含公共的信息)</li>
 <li>app/src/free/AndroidManifest.xml （包含flavor特定的信息）</li>
@@ -115,15 +117,19 @@
 <li>app/src/enterprise/AndroidManifest.xml</li>
 </ul>
 <p>free，preminum,enterprise对应的AnroidMainfest.xml中分别添加自己需要permission。<br>最终程序打包时会将flavor中的AndroidMainfest.xml和默认的AndroidMainfest.xml合并</p>
-<h2 id="添加特定依赖"><a href="#添加特定依赖" class="headerlink" title="添加特定依赖"></a>添加特定依赖</h2><p>使用<code>flavorNameImplementation</code>指定只有特定的flavor才依赖<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 所有的都会包含</span><br><span class="line">Implementation &apos;com.android.support:support-v4:22.2.1&apos;</span><br><span class="line">// 只有free的才包含</span><br><span class="line">freeImplementation &apos;com.google.android.gms:play-services-ads:7.8.0&apos;</span><br><span class="line">// 只有premium的才包含</span><br><span class="line">premiumImplementation &apos;com.google.android.gms:play-services-ads:7.8.0&apos;</span><br></pre></td></tr></table></figure></p>
+<h2 id="添加特定依赖"><a href="#添加特定依赖" class="headerlink" title="添加特定依赖"></a>添加特定依赖</h2><p>使用<code>flavorNameImplementation</code>指定只有特定的flavor才依赖</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 所有的都会包含</span><br><span class="line">Implementation &#39;com.android.support:support-v4:22.2.1&#39;</span><br><span class="line">&#x2F;&#x2F; 只有free的才包含</span><br><span class="line">freeImplementation &#39;com.google.android.gms:play-services-ads:7.8.0&#39;</span><br><span class="line">&#x2F;&#x2F; 只有premium的才包含</span><br><span class="line">premiumImplementation &#39;com.google.android.gms:play-services-ads:7.8.0&#39;</span><br></pre></td></tr></table></figure>
+
 <h2 id="使用不同的源码文件"><a href="#使用不同的源码文件" class="headerlink" title="使用不同的源码文件"></a>使用不同的源码文件</h2><p>默认的文件目录结构如下</p>
 <ul>
 <li>/src/main/java/com/yeshu/app/main/**.java（公共的源文件）</li>
 <li>/src/free/java/com/yeshu/app/main/**.java（free专有源文件）</li>
 <li>/src/premium/java/com/yeshu/app/main/**.java （premium专有源文件）</li>
 </ul>
-<h2 id="gradle动态指定文件目录"><a href="#gradle动态指定文件目录" class="headerlink" title="gradle动态指定文件目录"></a>gradle动态指定文件目录</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sourceSets.all &#123; set -&gt;</span><br><span class="line">    </span><br><span class="line">    if (name == &quot;play&quot;) &#123;</span><br><span class="line">        // play flavor指定源码和资源目录</span><br><span class="line">        java.srcDirs += &quot;src/startUpAdPlay/java&quot;</span><br><span class="line">        res.srcDirs += &quot;src/startUpAdPlay/res&quot;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line"></span><br><span class="line">        // 指定其他flavor的源码和资源目录</span><br><span class="line">        java.srcDirs += &quot;src/startUpAd/java&quot;</span><br><span class="line">        res.srcDirs += &quot;src/startUpAd/res&quot;</span><br><span class="line">        manifest.srcFile &quot;src/startUpAd/AndroidManifest.xml&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="gradle动态添加依赖"><a href="#gradle动态添加依赖" class="headerlink" title="gradle动态添加依赖"></a>gradle动态添加依赖</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">applicationVariants.all &#123; variant -&gt;</span><br><span class="line">        if (!variant.flavorName.equalsIgnoreCase(&quot;play&quot;)) &#123;</span><br><span class="line">            // 非play flavor才添加某个依赖</span><br><span class="line">            dependencies &#123;</span><br><span class="line">                implementation &quot;xxxx&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="gradle动态指定文件目录"><a href="#gradle动态指定文件目录" class="headerlink" title="gradle动态指定文件目录"></a>gradle动态指定文件目录</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sourceSets.all &#123; set -&gt;</span><br><span class="line">    </span><br><span class="line">    if (name &#x3D;&#x3D; &quot;play&quot;) &#123;</span><br><span class="line">        &#x2F;&#x2F; play flavor指定源码和资源目录</span><br><span class="line">        java.srcDirs +&#x3D; &quot;src&#x2F;startUpAdPlay&#x2F;java&quot;</span><br><span class="line">        res.srcDirs +&#x3D; &quot;src&#x2F;startUpAdPlay&#x2F;res&quot;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 指定其他flavor的源码和资源目录</span><br><span class="line">        java.srcDirs +&#x3D; &quot;src&#x2F;startUpAd&#x2F;java&quot;</span><br><span class="line">        res.srcDirs +&#x3D; &quot;src&#x2F;startUpAd&#x2F;res&quot;</span><br><span class="line">        manifest.srcFile &quot;src&#x2F;startUpAd&#x2F;AndroidManifest.xml&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="gradle动态添加依赖"><a href="#gradle动态添加依赖" class="headerlink" title="gradle动态添加依赖"></a>gradle动态添加依赖</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">applicationVariants.all &#123; variant -&gt;</span><br><span class="line">        if (!variant.flavorName.equalsIgnoreCase(&quot;play&quot;)) &#123;</span><br><span class="line">            &#x2F;&#x2F; 非play flavor才添加某个依赖</span><br><span class="line">            dependencies &#123;</span><br><span class="line">                implementation &quot;xxxx&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
 <li><a href="https://futurestud.io/tutorials/android-how-to-implement-productflavor-dependent-dependencies-with-gradle" target="_blank" rel="noopener">implement flavor dependent dependencies</a></li>
 <li><a href="https://futurestud.io/tutorials/how-to-implement-product-flavor-dependent-permissions" target="_blank" rel="noopener">implement flavor dependent persissions</a></li>

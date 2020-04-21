@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android Uri中文路径被url编码 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="场景：选取相册中图片，图片路径中含有中文。此时获取图片Uri需要通过Uri.decode解码一下才能获取带有中文的路径。 @Overrideprotected void onActivityResult(int requestCode, int resultCode, Intent data) &amp;#123;       //data.getDataString()返回的string是经过url编码">
+  <meta name="description" content="场景：选取相册中图片，图片路径中含有中文。此时获取图片Uri需要通过Uri.decode解码一下才能获取带有中文的路径。 @Overrideprotected void onActivityResult(int requestCode, int resultCode, Intent data) &amp;#123;       &#x2F;&#x2F;data.getDataString()返回的stri">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android Uri中文路径被url编码">
 <meta property="og:url" content="http://yeshu.work/2016/04/08/android-urizhong-chuan-shu-zhong-wen-hui-bei-bian-ma-liao/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="场景：选取相册中图片，图片路径中含有中文。此时获取图片Uri需要通过Uri.decode解码一下才能获取带有中文的路径。 @Overrideprotected void onActivityResult(int requestCode, int resultCode, Intent data) &amp;#123;       //data.getDataString()返回的string是经过url编码">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-04-07T23:49:49.000Z">
+<meta property="og:description" content="场景：选取相册中图片，图片路径中含有中文。此时获取图片Uri需要通过Uri.decode解码一下才能获取带有中文的路径。 @Overrideprotected void onActivityResult(int requestCode, int resultCode, Intent data) &amp;#123;       &#x2F;&#x2F;data.getDataString()返回的stri">
+<meta property="article:published_time" content="2016-04-07T23:46:57.000Z">
+<meta property="article:modified_time" content="2016-04-07T23:49:49.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Uri中文路径被url编码">
-<meta name="twitter:description" content="场景：选取相册中图片，图片路径中含有中文。此时获取图片Uri需要通过Uri.decode解码一下才能获取带有中文的路径。 @Overrideprotected void onActivityResult(int requestCode, int resultCode, Intent data) &amp;#123;       //data.getDataString()返回的string是经过url编码">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -98,7 +99,8 @@
   <div class="article-content">
     
       <p>场景：<br>选取相册中图片，图片路径中含有中文。此时获取图片<code>Uri</code>需要通过<code>Uri.decode</code>解码一下才能获取带有中文的路径。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</span><br><span class="line">       //data.getDataString()返回的string是经过url编码的</span><br><span class="line">        String path = Uri.decode(data.getDataString());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Override</span><br><span class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</span><br><span class="line">       &#x2F;&#x2F;data.getDataString()返回的string是经过url编码的</span><br><span class="line">        String path &#x3D; Uri.decode(data.getDataString());</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>intent.getDataString()</code>返回的是经过url编码的字符串</p>
 
     

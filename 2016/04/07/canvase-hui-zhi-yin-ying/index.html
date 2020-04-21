@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Canvas 绘制阴影 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="使用Paint的setShadowLayer方法 //If radius is 0, then the shadow layer is removed.public void setShadowLayer(float radius, float dx, float dy, int shadowColor); 注意：该方法不支持硬件加速，所以使用前需要调用View.setLayerType(LAYE">
+  <meta name="description" content="使用Paint的setShadowLayer方法 &#x2F;&#x2F;If radius is 0, then the shadow layer is removed.public void setShadowLayer(float radius, float dx, float dy, int shadowColor);  注意：该方法不支持硬件加速，所以使用前需要调用View.setLay">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Canvas 绘制阴影">
 <meta property="og:url" content="http://yeshu.work/2016/04/07/canvase-hui-zhi-yin-ying/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="使用Paint的setShadowLayer方法 //If radius is 0, then the shadow layer is removed.public void setShadowLayer(float radius, float dx, float dy, int shadowColor); 注意：该方法不支持硬件加速，所以使用前需要调用View.setLayerType(LAYE">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-04-07T00:34:04.000Z">
+<meta property="og:description" content="使用Paint的setShadowLayer方法 &#x2F;&#x2F;If radius is 0, then the shadow layer is removed.public void setShadowLayer(float radius, float dx, float dy, int shadowColor);  注意：该方法不支持硬件加速，所以使用前需要调用View.setLay">
+<meta property="article:published_time" content="2016-04-07T00:30:43.000Z">
+<meta property="article:modified_time" content="2016-04-07T00:34:04.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Canvas 绘制阴影">
-<meta name="twitter:description" content="使用Paint的setShadowLayer方法 //If radius is 0, then the shadow layer is removed.public void setShadowLayer(float radius, float dx, float dy, int shadowColor); 注意：该方法不支持硬件加速，所以使用前需要调用View.setLayerType(LAYE">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -98,7 +99,8 @@
   <div class="article-content">
     
       <p>使用<code>Paint</code>的<code>setShadowLayer</code>方法</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//If radius is 0, then the shadow layer is removed.</span><br><span class="line">public void setShadowLayer(float radius, float dx, float dy, int shadowColor);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;If radius is 0, then the shadow layer is removed.</span><br><span class="line">public void setShadowLayer(float radius, float dx, float dy, int shadowColor);</span><br></pre></td></tr></table></figure>
+
 <p>注意：该方法不支持硬件加速，所以使用前需要调用<code>View.setLayerType(LAYER_TYPE_SOFTWARE, null);</code>才会有效果</p>
 
     

@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android permission | yeshu blog</title>
@@ -12,21 +12,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="Android 6.0权限变化和申请https://developer.android.com/training/permissions/requesting.html AdnroidManifest.xml中还是要依旧申明权限 系统权限分为两类：正常权限和危险权限  正常权限不会给用户带来隐私问题，安装的时候会默认赋予 危险权限会授予访问用户隐私数据，安装的时候会默认禁用掉  检查权限int p">
+  <meta name="description" content="Android 6.0权限变化和申请https:&#x2F;&#x2F;developer.android.com&#x2F;training&#x2F;permissions&#x2F;requesting.html AdnroidManifest.xml中还是要依旧申明权限 系统权限分为两类：正常权限和危险权限  正常权限不会给用户带来隐私问题，安装的时候会默认赋予 危险权限会授予访问用户隐私数据，安装的时候会默认禁用掉  检查权限int p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android permission">
 <meta property="og:url" content="http://yeshu.work/2017/11/23/Android-permission/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="Android 6.0权限变化和申请https://developer.android.com/training/permissions/requesting.html AdnroidManifest.xml中还是要依旧申明权限 系统权限分为两类：正常权限和危险权限  正常权限不会给用户带来隐私问题，安装的时候会默认赋予 危险权限会授予访问用户隐私数据，安装的时候会默认禁用掉  检查权限int p">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="Android 6.0权限变化和申请https:&#x2F;&#x2F;developer.android.com&#x2F;training&#x2F;permissions&#x2F;requesting.html AdnroidManifest.xml中还是要依旧申明权限 系统权限分为两类：正常权限和危险权限  正常权限不会给用户带来隐私问题，安装的时候会默认赋予 危险权限会授予访问用户隐私数据，安装的时候会默认禁用掉  检查权限int p">
 <meta property="og:image" content="https://developer.android.com/images/training/permissions/request_permission_dialog.png">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.117Z">
+<meta property="article:published_time" content="2017-11-23T10:03:47.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.117Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android permission">
-<meta name="twitter:description" content="Android 6.0权限变化和申请https://developer.android.com/training/permissions/requesting.html AdnroidManifest.xml中还是要依旧申明权限 系统权限分为两类：正常权限和危险权限  正常权限不会给用户带来隐私问题，安装的时候会默认赋予 危险权限会授予访问用户隐私数据，安装的时候会默认禁用掉  检查权限int p">
 <meta name="twitter:image" content="https://developer.android.com/images/training/permissions/request_permission_dialog.png">
 
   
@@ -39,7 +38,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -56,8 +57,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -112,10 +113,12 @@
 <li>危险权限会授予访问用户隐私数据，安装的时候会默认禁用掉</li>
 </ul>
 <h2 id="检查权限"><a href="#检查权限" class="headerlink" title="检查权限"></a>检查权限</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> permissionCheck = ContextCompat.checkSelfPermission(thisActivity,</span><br><span class="line">        Manifest.permission.WRITE_CALENDAR);</span><br></pre></td></tr></table></figure>
+
 <p>返回值<br><code>PackageManager.PERMISSION_GRANTED</code>, <code>PackageManager.PERMISSION_DENIED</code></p>
 <h2 id="请求权限"><a href="#请求权限" class="headerlink" title="请求权限"></a>请求权限</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ActivityCompat.requestPermissions(thisActivity,</span><br><span class="line">                <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;,</span><br><span class="line">                MY_PERMISSIONS_REQUEST_READ_CONTACTS);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode,</span></span></span><br><span class="line"><span class="function"><span class="params">        String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MY_PERMISSIONS_REQUEST_READ_CONTACTS: &#123;</span><br><span class="line">            <span class="comment">// If request is cancelled, the result arrays are empty.</span></span><br><span class="line">            <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// permission was granted, yay! Do the</span></span><br><span class="line">                <span class="comment">// contacts-related task you need to do.</span></span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// permission denied, boo! Disable the</span></span><br><span class="line">                <span class="comment">// functionality that depends on this permission.</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// other 'case' lines to check for other</span></span><br><span class="line">        <span class="comment">// permissions this app might request</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><code>requestPermission</code>会弹出一个系统的对话框，用户可以选择<code>拒绝</code>或者<code>允许</code>权限申请</p>
-<p><img src="https://developer.android.com/images/training/permissions/request_permission_dialog.png" alt></p>
+<p><img src="https://developer.android.com/images/training/permissions/request_permission_dialog.png" alt=""></p>
 <ul>
 <li>用户点击允许时，权限申请成功</li>
 <li>用户点击拒绝时，权限申请失败</li>
@@ -124,6 +127,7 @@
 </ul>
 <p>Fragment中使用<code>FragmentCompat.requestPermissions()</code>才会触发<code>onRequestPermmissionsResult()</code>回调</p>
 <h2 id="判断用户有没有点击过拒绝过授予权限"><a href="#判断用户有没有点击过拒绝过授予权限" class="headerlink" title="判断用户有没有点击过拒绝过授予权限"></a>判断用户有没有点击过拒绝过授予权限</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,</span><br><span class="line">            Manifest.permission.READ_CONTACTS)</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>用户没点击过拒绝，将返回false</li>
 <li>用户点击过拒绝，没有勾选不在提示，返回true</li>

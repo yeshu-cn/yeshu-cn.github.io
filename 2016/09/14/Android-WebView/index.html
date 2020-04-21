@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android WebView | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口/**    * Sets whether the WebView should save form data. The default is true.    */   public abstract  void setSaveFormData(boolean save); 禁用 webview.getSettings().">
+  <meta name="description" content="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口&#x2F;**    * Sets whether the WebView should save form data. The default is true.    *&#x2F;   public abstract  void setSaveFormData(boolean save);  禁用 webview.getSettings()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android WebView">
 <meta property="og:url" content="http://yeshu.work/2016/09/14/Android-WebView/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口/**    * Sets whether the WebView should save form data. The default is true.    */   public abstract  void setSaveFormData(boolean save); 禁用 webview.getSettings().">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.117Z">
+<meta property="og:description" content="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口&#x2F;**    * Sets whether the WebView should save form data. The default is true.    *&#x2F;   public abstract  void setSaveFormData(boolean save);  禁用 webview.getSettings()">
+<meta property="article:published_time" content="2016-09-14T08:13:12.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.117Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android WebView">
-<meta name="twitter:description" content="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口/**    * Sets whether the WebView should save form data. The default is true.    */   public abstract  void setSaveFormData(boolean save); 禁用 webview.getSettings().">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -103,10 +104,14 @@
   <div class="article-content">
     
       <h5 id="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口"><a href="#WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口" class="headerlink" title="WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口"></a>WebView默认会保存表单数据，输入表单时会弹出一个历史列表的下拉窗口</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Sets whether the WebView should save form data. The default is true.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span>  <span class="keyword">void</span> <span class="title">setSaveFormData</span><span class="params">(<span class="keyword">boolean</span> save)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>禁用</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">webview.getSettings().setSaveFormData(<span class="keyword">false</span>);</span><br><span class="line">webview.clearFormData();</span><br></pre></td></tr></table></figure>
+
 <p><a href="http://stackoverflow.com/questions/7404798/disabling-autosuggestion-on-webview" target="_blank" rel="noopener">disabling autosuggestion on webview</a></p>
 <h5 id="webView默认禁用javascript-造成加载html页面交互异常"><a href="#webView默认禁用javascript-造成加载html页面交互异常" class="headerlink" title="webView默认禁用javascript,造成加载html页面交互异常"></a>webView默认禁用javascript,造成加载html页面交互异常</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Tells the WebView to enable JavaScript execution.</span></span><br><span class="line"><span class="comment">    * &lt;b&gt;The default is false.&lt;/b&gt;</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> flag true if the WebView should execute JavaScript</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setJavaScriptEnabled</span><span class="params">(<span class="keyword">boolean</span> flag)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
 <p>启用javascript</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mWebView = (WebView) findViewById(R.id.webview);</span><br><span class="line">WebSettings webSettings = mWebView.getSettings();</span><br><span class="line">webSettings.setJavaScriptEnabled(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
 

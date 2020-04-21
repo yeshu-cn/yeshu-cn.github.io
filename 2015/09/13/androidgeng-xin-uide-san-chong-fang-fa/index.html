@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android更新UI的几种方法 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="handler发送消息给主线程更新ui Activity的runOnUiThread()方法。  /** * Runs the specified action on the UI thread. If the current thread is the UI * thread, then the action is executed immediately. If the current th">
+  <meta name="description" content="handler发送消息给主线程更新ui Activity的runOnUiThread()方法。  &#x2F;** * Runs the specified action on the UI thread. If the current thread is the UI * thread, then the action is executed immediately. If the current th">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android更新UI的几种方法">
 <meta property="og:url" content="http://yeshu.work/2015/09/13/androidgeng-xin-uide-san-chong-fang-fa/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="handler发送消息给主线程更新ui Activity的runOnUiThread()方法。  /** * Runs the specified action on the UI thread. If the current thread is the UI * thread, then the action is executed immediately. If the current th">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2015-09-13T02:12:58.000Z">
+<meta property="og:description" content="handler发送消息给主线程更新ui Activity的runOnUiThread()方法。  &#x2F;** * Runs the specified action on the UI thread. If the current thread is the UI * thread, then the action is executed immediately. If the current th">
+<meta property="article:published_time" content="2015-09-13T01:37:03.000Z">
+<meta property="article:modified_time" content="2015-09-13T02:12:58.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android更新UI的几种方法">
-<meta name="twitter:description" content="handler发送消息给主线程更新ui Activity的runOnUiThread()方法。  /** * Runs the specified action on the UI thread. If the current thread is the UI * thread, then the action is executed immediately. If the current th">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -102,10 +103,12 @@
 <li>Activity的<code>runOnUiThread()</code>方法。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Runs the specified action on the UI thread. If the current thread is the UI</span></span><br><span class="line"><span class="comment"> * thread, then the action is executed immediately. If the current thread is</span></span><br><span class="line"><span class="comment"> * not the UI thread, the action is posted to the event queue of the UI thread.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> action the action to run on the UI thread</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runOnUiThread</span><span class="params">(Runnable action)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.currentThread() != mUiThread) &#123;</span><br><span class="line">        mHandler.post(action);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        action.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li><code>View.post(Runnable r)</code>方法。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">boolean</span> android.view.View .post(Runnable action)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Causes the Runnable to be added to the message queue. The runnable will be //run on the user interface thread.</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>BroadcastReceiver运行在主线程，可以更新UI。同样其中不能进行耗时操作</li>
 </ul>

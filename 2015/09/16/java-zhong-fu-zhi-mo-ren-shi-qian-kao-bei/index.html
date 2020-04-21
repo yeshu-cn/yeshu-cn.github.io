@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>java 中初始化是浅拷贝 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="Student s1 = xx;Student s2 = s1; s2和s1其实指向同一空间 Person p(q); //此时拷贝构造函数被用来创建实例pPerson p = q; //此时拷贝构造函数被用来在定义实例p时初始化p c语言中这叫初始化 拷贝构造函数分：浅拷贝，深拷贝默认拷贝构造函数：默认拷贝构造函数执行的也是浅拷贝">
+  <meta name="description" content="Student s1 &#x3D; xx;Student s2 &#x3D; s1; s2和s1其实指向同一空间 Person p(q); &#x2F;&#x2F;此时拷贝构造函数被用来创建实例pPerson p &#x3D; q; &#x2F;&#x2F;此时拷贝构造函数被用来在定义实例p时初始化p c语言中这叫初始化 拷贝构造函数分：浅拷贝，深拷贝默认拷贝构造函数：默认拷贝构造函数执行的也是浅拷贝">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java 中初始化是浅拷贝">
 <meta property="og:url" content="http://yeshu.work/2015/09/16/java-zhong-fu-zhi-mo-ren-shi-qian-kao-bei/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="Student s1 = xx;Student s2 = s1; s2和s1其实指向同一空间 Person p(q); //此时拷贝构造函数被用来创建实例pPerson p = q; //此时拷贝构造函数被用来在定义实例p时初始化p c语言中这叫初始化 拷贝构造函数分：浅拷贝，深拷贝默认拷贝构造函数：默认拷贝构造函数执行的也是浅拷贝">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-01-31T23:21:59.000Z">
+<meta property="og:description" content="Student s1 &#x3D; xx;Student s2 &#x3D; s1; s2和s1其实指向同一空间 Person p(q); &#x2F;&#x2F;此时拷贝构造函数被用来创建实例pPerson p &#x3D; q; &#x2F;&#x2F;此时拷贝构造函数被用来在定义实例p时初始化p c语言中这叫初始化 拷贝构造函数分：浅拷贝，深拷贝默认拷贝构造函数：默认拷贝构造函数执行的也是浅拷贝">
+<meta property="article:published_time" content="2015-09-15T20:12:21.000Z">
+<meta property="article:modified_time" content="2016-01-31T23:21:59.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java 中初始化是浅拷贝">
-<meta name="twitter:description" content="Student s1 = xx;Student s2 = s1; s2和s1其实指向同一空间 Person p(q); //此时拷贝构造函数被用来创建实例pPerson p = q; //此时拷贝构造函数被用来在定义实例p时初始化p c语言中这叫初始化 拷贝构造函数分：浅拷贝，深拷贝默认拷贝构造函数：默认拷贝构造函数执行的也是浅拷贝">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -99,7 +100,7 @@
     
       <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Student s1 = xx;</span><br><span class="line">Student s2 = s1;</span><br></pre></td></tr></table></figure>
 <p>s2和s1其实指向同一空间</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Person p(q); //此时拷贝构造函数被用来创建实例p</span><br><span class="line">Person p = q; //此时拷贝构造函数被用来在定义实例p时初始化p</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Person p(q); &#x2F;&#x2F;此时拷贝构造函数被用来创建实例p</span><br><span class="line">Person p &#x3D; q; &#x2F;&#x2F;此时拷贝构造函数被用来在定义实例p时初始化p</span><br></pre></td></tr></table></figure>
 <p>c语言中这叫初始化</p>
 <p>拷贝构造函数分：浅拷贝，深拷贝<br>默认拷贝构造函数：默认拷贝构造函数执行的也是浅拷贝</p>
 

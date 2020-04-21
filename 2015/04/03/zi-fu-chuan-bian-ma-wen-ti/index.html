@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>获取输入流，获取byte[],构造字符串时需要指定编码格式 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="这里获取byte时需要指定编码格式 byte[] bytes = &amp;quot;志同道合&amp;quot;.getBytes(&amp;quot;utf-8&amp;quot;)    根据byte构造字符串时需要指定编码格式 String str = new String(bytes, &amp;quot;utf-8&amp;quot;);  打开网页获取网页内容时，需要指定编码格式。不然容易造成中文乱码     BufferedRe">
+  <meta name="description" content="这里获取byte时需要指定编码格式 byte[] bytes &#x3D; &quot;志同道合&quot;.getBytes(&quot;utf-8&quot;)    根据byte构造字符串时需要指定编码格式 String str &#x3D; new String(bytes, &quot;utf-8&quot;);  打开网页获取网页内容时，需要指定编码格式。不然容易造成中文乱码     BufferedRe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="获取输入流，获取byte[],构造字符串时需要指定编码格式">
 <meta property="og:url" content="http://yeshu.work/2015/04/03/zi-fu-chuan-bian-ma-wen-ti/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="这里获取byte时需要指定编码格式 byte[] bytes = &amp;quot;志同道合&amp;quot;.getBytes(&amp;quot;utf-8&amp;quot;)    根据byte构造字符串时需要指定编码格式 String str = new String(bytes, &amp;quot;utf-8&amp;quot;);  打开网页获取网页内容时，需要指定编码格式。不然容易造成中文乱码     BufferedRe">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2015-04-02T18:25:36.000Z">
+<meta property="og:description" content="这里获取byte时需要指定编码格式 byte[] bytes &#x3D; &quot;志同道合&quot;.getBytes(&quot;utf-8&quot;)    根据byte构造字符串时需要指定编码格式 String str &#x3D; new String(bytes, &quot;utf-8&quot;);  打开网页获取网页内容时，需要指定编码格式。不然容易造成中文乱码     BufferedRe">
+<meta property="article:published_time" content="2015-04-02T18:14:56.000Z">
+<meta property="article:modified_time" content="2015-04-02T18:25:36.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="获取输入流，获取byte[],构造字符串时需要指定编码格式">
-<meta name="twitter:description" content="这里获取byte时需要指定编码格式 byte[] bytes = &amp;quot;志同道合&amp;quot;.getBytes(&amp;quot;utf-8&amp;quot;)    根据byte构造字符串时需要指定编码格式 String str = new String(bytes, &amp;quot;utf-8&amp;quot;);  打开网页获取网页内容时，需要指定编码格式。不然容易造成中文乱码     BufferedRe">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -104,8 +105,7 @@ byte[] bytes = &quot;志同道合&quot;.getBytes(&quot;utf-8&quot;)
 String str = new String(bytes, &quot;utf-8&quot;);
 
 打开网页获取网页内容时，需要指定编码格式。不然容易造成中文乱码    
-BufferedReader in = new BufferedReader(new InputStreadReader(connection.getInputStream(), &quot;utf-8&quot;));    
-</code></pre><p>如果不指定编码格式，程序会采用系统默认的编码格式。这样如果在linux和windows之间交互就容易造成编码错误问题。</p>
+BufferedReader in = new BufferedReader(new InputStreadReader(connection.getInputStream(), &quot;utf-8&quot;));    </code></pre><p>如果不指定编码格式，程序会采用系统默认的编码格式。这样如果在linux和windows之间交互就容易造成编码错误问题。</p>
 
     
   </div>

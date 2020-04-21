@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>依赖倒置 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&amp;gt; 高层模块（调用底层模块实现用户场景功能） 依赖倒">
+  <meta name="description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&gt; 高层模块（调用底层模块实现用户场景功能）依赖倒置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="依赖倒置">
-<meta property="og:url" content="http://yeshu.work/2018/06/04/依赖倒置/index.html">
+<meta property="og:url" content="http://yeshu.work/2018/06/04/%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&amp;gt; 高层模块（调用底层模块实现用户场景功能） 依赖倒">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.132Z">
+<meta property="og:description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&gt; 高层模块（调用底层模块实现用户场景功能）依赖倒置">
+<meta property="article:published_time" content="2018-06-04T13:04:19.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.132Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依赖倒置">
-<meta name="twitter:description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&amp;gt; 高层模块（调用底层模块实现用户场景功能） 依赖倒">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -107,11 +108,9 @@
 <p>Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现</p>
 <p><strong>Why</strong></p>
 <p>传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。</p>
-<pre><code>底层模块（具体实现）--&gt; 高层模块（调用底层模块实现用户场景功能）
-</code></pre><p>依赖倒置后：只要抽象/接口不变，高层模块就不用变化。修改实现代码也可通过新增代码文件来实现，而不需要修改原有代码。</p>
+<pre><code>底层模块（具体实现）--&gt; 高层模块（调用底层模块实现用户场景功能）</code></pre><p>依赖倒置后：只要抽象/接口不变，高层模块就不用变化。修改实现代码也可通过新增代码文件来实现，而不需要修改原有代码。</p>
 <pre><code>抽象/接口 --&gt; 底层模块（实现接口的具体功能）
-抽象/接口 --&gt; 高层模块（调用接口实现用户场景功能）
-</code></pre><p><strong>How</strong></p>
+抽象/接口 --&gt; 高层模块（调用接口实现用户场景功能）</code></pre><p><strong>How</strong></p>
 <p>三个模块</p>
 <ul>
 <li>IService</li>
@@ -131,8 +130,7 @@
 <p>一般程序流程</p>
 <pre><code>UI层功能1-&gt; new ServiceImpl(param1, param2, param3)
 UI层功能2-&gt; new ServiceImpl(param1, param2, param3)
-UI层功能3-&gt; new ServiceImpl(param1, param2, param3)
-</code></pre><p>以上设计需要UI层里面<code>new ServiceImpl()</code>,从而导致依赖了底层的具体实现，会有如下缺点：</p>
+UI层功能3-&gt; new ServiceImpl(param1, param2, param3)</code></pre><p>以上设计需要UI层里面<code>new ServiceImpl()</code>,从而导致依赖了底层的具体实现，会有如下缺点：</p>
 <ol>
 <li>依赖了底层的具体实现，违反了依赖倒置原则</li>
 <li>需要多次new一个ServiceImpl对象，浪费资源</li>
@@ -154,6 +152,7 @@ UI层功能3-&gt; new ServiceImpl(param1, param2, param3)
 <li>ServiceLocator.getServcie();</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ServiceManager ourInstance = <span class="keyword">new</span> ServiceManager();</span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;String, BaseService&gt; mServiceHashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ServiceManager <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ourInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ServiceManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerService</span><span class="params">(String serviceName, BaseService service)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == serviceName || <span class="keyword">null</span> == service) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mServiceHashMap.put(serviceName, service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BaseService <span class="title">getService</span><span class="params">(String serviceName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mServiceHashMap.get(serviceName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h4 id="疑问？"><a href="#疑问？" class="headerlink" title="疑问？"></a>疑问？</h4><p>ServieImpl的<code>new</code>是在ServiceLocator中呢，还是其他地方？还是都可以</p>
 <h3 id="依赖注入和Service-Locator对比"><a href="#依赖注入和Service-Locator对比" class="headerlink" title="依赖注入和Service Locator对比"></a>依赖注入和Service Locator对比</h3><ol>
 <li>Service Locator允许你在一个类 中“解决”依赖问题</li>

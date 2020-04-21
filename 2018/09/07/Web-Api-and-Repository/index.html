@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Web Api and Repository | yeshu blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="Web Api和Repository处理之前一直疑惑LocalModelRepository,RemoteModelRepository,api接口代码怎么写，他们应该属于框架里的哪个角色？ 服务端Api有两层 应用无关的细粒度接口 应用相关的粗粒度接口  提供给客户端的应该是应用相关的粗粒度接口 接口的代码写成WebApiService,由Usecase调用 框架流程ViewModel是指and">
@@ -21,11 +21,10 @@
 <meta property="og:url" content="http://yeshu.work/2018/09/07/Web-Api-and-Repository/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="Web Api和Repository处理之前一直疑惑LocalModelRepository,RemoteModelRepository,api接口代码怎么写，他们应该属于框架里的哪个角色？ 服务端Api有两层 应用无关的细粒度接口 应用相关的粗粒度接口  提供给客户端的应该是应用相关的粗粒度接口 接口的代码写成WebApiService,由Usecase调用 框架流程ViewModel是指and">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.126Z">
+<meta property="article:published_time" content="2018-09-07T11:04:09.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.126Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Web Api and Repository">
-<meta name="twitter:description" content="Web Api和Repository处理之前一直疑惑LocalModelRepository,RemoteModelRepository,api接口代码怎么写，他们应该属于框架里的哪个角色？ 服务端Api有两层 应用无关的细粒度接口 应用相关的粗粒度接口  提供给客户端的应该是应用相关的粗粒度接口 接口的代码写成WebApiService,由Usecase调用 框架流程ViewModel是指and">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -119,7 +120,8 @@
 <li>数据的来源有时在功能需求上是要明确表现出来的，所以不能盲目的屏蔽数据的来源，封装城一个Repository，提供一个接口。</li>
 <li>WebApi是应用相关的接口，直接就相当于Usecase了。不能把他当作远程仓库的接口</li>
 </ul>
-<h2 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">domain</span><br><span class="line">	- model					//domain model 业务模型</span><br><span class="line">	- repository 			//interface:本地数据的增删改查</span><br><span class="line">	- service 	</span><br><span class="line">		- apiService 		//interface:服务端提供的网络接口</span><br><span class="line">		- elseService 		//interface:细粒度的业务功能单元 </span><br><span class="line">	- usecase				//粗粒度的应用层的业务功能，由service,repository,model组装而成</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">	- model					//持久层model</span><br><span class="line">	- repository        	//impl:repository的具体实现</span><br><span class="line"></span><br><span class="line">device</span><br><span class="line">	- service				//impl:service的具体实现</span><br><span class="line"></span><br><span class="line">app</span><br><span class="line">	- ui 					//ui 实现</span><br></pre></td></tr></table></figure>
+<h2 id="Package"><a href="#Package" class="headerlink" title="Package"></a>Package</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">domain</span><br><span class="line">	- model					&#x2F;&#x2F;domain model 业务模型</span><br><span class="line">	- repository 			&#x2F;&#x2F;interface:本地数据的增删改查</span><br><span class="line">	- service 	</span><br><span class="line">		- apiService 		&#x2F;&#x2F;interface:服务端提供的网络接口</span><br><span class="line">		- elseService 		&#x2F;&#x2F;interface:细粒度的业务功能单元 </span><br><span class="line">	- usecase				&#x2F;&#x2F;粗粒度的应用层的业务功能，由service,repository,model组装而成</span><br><span class="line"></span><br><span class="line">data</span><br><span class="line">	- model					&#x2F;&#x2F;持久层model</span><br><span class="line">	- repository        	&#x2F;&#x2F;impl:repository的具体实现</span><br><span class="line"></span><br><span class="line">device</span><br><span class="line">	- service				&#x2F;&#x2F;impl:service的具体实现</span><br><span class="line"></span><br><span class="line">app</span><br><span class="line">	- ui 					&#x2F;&#x2F;ui 实现</span><br></pre></td></tr></table></figure>
+
 <h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a href="https://blog.csdn.net/yu870646595/article/details/51900478" target="_blank" rel="noopener">https://blog.csdn.net/yu870646595/article/details/51900478</a></p>
 
     

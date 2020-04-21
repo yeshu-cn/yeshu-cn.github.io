@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>mysql 常用命令 | yeshu blog</title>
@@ -12,20 +12,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
-  <meta name="description" content="Mysql常用命令配置环境变量，使用mysql命令Mac下安装mysql需要配置环境变量，否则无法使用mysql命令  vim ~/.bash_profile 编辑环境变量，添加mysql命令路径  export PATH=$&amp;#123;PATH&amp;#125;:/usr/local/mysql/bin  source ～/.bash_profile 使配置文件立刻生效  常用命令 连接数据库">
+  <meta name="description" content="Mysql常用命令配置环境变量，使用mysql命令Mac下安装mysql需要配置环境变量，否则无法使用mysql命令  vim ~&#x2F;.bash_profile 编辑环境变量，添加mysql命令路径  export PATH&#x3D;$&amp;#123;PATH&amp;#125;:&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin   source ～&#x2F;.bash_profile">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql 常用命令">
-<meta property="og:url" content="http://yeshu.work/2017/11/16/mysql-常用命令/index.html">
+<meta property="og:url" content="http://yeshu.work/2017/11/16/mysql-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="Mysql常用命令配置环境变量，使用mysql命令Mac下安装mysql需要配置环境变量，否则无法使用mysql命令  vim ~/.bash_profile 编辑环境变量，添加mysql命令路径  export PATH=$&amp;#123;PATH&amp;#125;:/usr/local/mysql/bin  source ～/.bash_profile 使配置文件立刻生效  常用命令 连接数据库">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-04-17T08:12:21.129Z">
+<meta property="og:description" content="Mysql常用命令配置环境变量，使用mysql命令Mac下安装mysql需要配置环境变量，否则无法使用mysql命令  vim ~&#x2F;.bash_profile 编辑环境变量，添加mysql命令路径  export PATH&#x3D;$&amp;#123;PATH&amp;#125;:&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin   source ～&#x2F;.bash_profile">
+<meta property="article:published_time" content="2017-11-16T09:38:05.000Z">
+<meta property="article:modified_time" content="2020-04-17T08:12:21.129Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql 常用命令">
-<meta name="twitter:description" content="Mysql常用命令配置环境变量，使用mysql命令Mac下安装mysql需要配置环境变量，否则无法使用mysql命令  vim ~/.bash_profile 编辑环境变量，添加mysql命令路径  export PATH=$&amp;#123;PATH&amp;#125;:/usr/local/mysql/bin  source ～/.bash_profile 使配置文件立刻生效  常用命令 连接数据库">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -106,7 +107,8 @@
 <ol>
 <li><code>vim ~/.bash_profile</code> 编辑环境变量，添加mysql命令路径</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export PATH=$&#123;PATH&#125;:/usr/local/mysql/bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export PATH&#x3D;$&#123;PATH&#125;:&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br></pre></td></tr></table></figure>
+
 <ol start="2">
 <li><code>source ～/.bash_profile</code> 使配置文件立刻生效</li>
 </ol>
@@ -114,29 +116,21 @@
 <li><p>连接数据库   </p>
 <pre><code>格式： mysql -h主机地址 -u用户名 －p用户密码 (中间不需要空格)
 mysql -u username -p　　
-mysql -h110.110.110.110 -uroot -pabcd123
-</code></pre></li>
+mysql -h110.110.110.110 -uroot -pabcd123</code></pre></li>
 <li><p>退出数据连接</p>
-<pre><code>exit    
-</code></pre></li>
+<pre><code>exit    </code></pre></li>
 <li><p>查看数据库</p>
-<pre><code>show databases;
-</code></pre></li>
+<pre><code>show databases;</code></pre></li>
 <li><p>创建数据库  </p>
-<pre><code>create database dbname;            
-</code></pre></li>
+<pre><code>create database dbname;            </code></pre></li>
 <li><p>删除数据库  </p>
-<pre><code>drop database dbname;
-</code></pre></li>
+<pre><code>drop database dbname;</code></pre></li>
 <li><p>打开数据库  </p>
-<pre><code>use dbname;
-</code></pre></li>
+<pre><code>use dbname;</code></pre></li>
 <li><p>查看当前使用的数据库  </p>
-<pre><code>select database():
-</code></pre></li>
+<pre><code>select database():</code></pre></li>
 <li><p>查看数据库中表信息</p>
-<pre><code>show tables();
-</code></pre></li>
+<pre><code>show tables();</code></pre></li>
 </ul>
 
     

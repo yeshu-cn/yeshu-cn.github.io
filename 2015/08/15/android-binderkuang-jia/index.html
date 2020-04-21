@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android Binder框架 | yeshu blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="Binder框架用途：实现Android中进程间通信，Apk调用系统服务时就是使用binder框架。 #####框架组成部分Service(例如音乐服务)Binder Driver（驱动程序，类似内核中一块共享的内存空间）Client（Apk程序） 执行流程    Client调用Binder Driver,Binder Driver使Client线程挂起等待 Binder Driver调用Ser">
@@ -21,11 +21,10 @@
 <meta property="og:url" content="http://yeshu.work/2015/08/15/android-binderkuang-jia/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="Binder框架用途：实现Android中进程间通信，Apk调用系统服务时就是使用binder框架。 #####框架组成部分Service(例如音乐服务)Binder Driver（驱动程序，类似内核中一块共享的内存空间）Client（Apk程序） 执行流程    Client调用Binder Driver,Binder Driver使Client线程挂起等待 Binder Driver调用Ser">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2015-09-06T13:01:04.000Z">
+<meta property="article:published_time" content="2015-08-15T07:12:20.000Z">
+<meta property="article:modified_time" content="2015-09-06T13:01:04.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Binder框架">
-<meta name="twitter:description" content="Binder框架用途：实现Android中进程间通信，Apk调用系统服务时就是使用binder框架。 #####框架组成部分Service(例如音乐服务)Binder Driver（驱动程序，类似内核中一块共享的内存空间）Client（Apk程序） 执行流程    Client调用Binder Driver,Binder Driver使Client线程挂起等待 Binder Driver调用Ser">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -106,9 +107,10 @@
 <li>Binder Driver将Service中执行的结果返回给Client线程，并继续执行Client线程</li>
 </ol>
 <p>实际存在两个Binder对象，不同的是Binder驱动中的对象不会额外产生一个线程。</p>
-<p>服务端和Binder驱动中都需要重写onTransact()方法<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> RemoteException</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTransact(code, data, reply, flags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>######Service<br>Service其实就是一个Binder对象实例，但该实例一旦创建时就会启动一个线程等待接收Binder驱动发送过来的消息，收到消息后执行Binder类中的onTransact()方法。</p>
-<p>######Binder Driver<br>任意一个Service创建时，都会在Binder驱动中创建一个Binder类型的mRemote对象</p>
+<p>服务端和Binder驱动中都需要重写onTransact()方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, Parcel data, Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> RemoteException</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTransact(code, data, reply, flags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>######Service<br>Service其实就是一个Binder对象实例，但该实例一旦创建时就会启动一个线程等待接收Binder驱动发送过来的消息，收到消息后执行Binder类中的onTransact()方法。<br>######Binder Driver<br>任意一个Service创建时，都会在Binder驱动中创建一个Binder类型的mRemote对象</p>
 <ol>
 <li>向服务端线程发送调用消息</li>
 <li>挂起当前线程，等待服务端执行完毕后的通知</li>

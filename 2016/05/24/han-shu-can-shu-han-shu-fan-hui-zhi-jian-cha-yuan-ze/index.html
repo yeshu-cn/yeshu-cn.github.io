@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>函数参数，函数返回值检查原则 | yeshu blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="函数参数检查原则：只有public方法才进行参数检查。private方法参数不需要检查，因为一般如果参数不合法还去调用私有方法，说明自身内部代码逻辑有问题。 函数返回值检查原则：该返回值可能会造成该函数内代码崩溃一定要进行检查  函数说明时使用注解,明确说明不接受Null void openTaskDetails(@NonNull Task requestedTask); void comple">
@@ -21,11 +21,10 @@
 <meta property="og:url" content="http://yeshu.work/2016/05/24/han-shu-can-shu-han-shu-fan-hui-zhi-jian-cha-yuan-ze/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="函数参数检查原则：只有public方法才进行参数检查。private方法参数不需要检查，因为一般如果参数不合法还去调用私有方法，说明自身内部代码逻辑有问题。 函数返回值检查原则：该返回值可能会造成该函数内代码崩溃一定要进行检查  函数说明时使用注解,明确说明不接受Null void openTaskDetails(@NonNull Task requestedTask); void comple">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2016-05-24T01:27:39.000Z">
+<meta property="article:published_time" content="2016-05-24T01:21:30.000Z">
+<meta property="article:modified_time" content="2016-05-24T01:27:39.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="函数参数，函数返回值检查原则">
-<meta name="twitter:description" content="函数参数检查原则：只有public方法才进行参数检查。private方法参数不需要检查，因为一般如果参数不合法还去调用私有方法，说明自身内部代码逻辑有问题。 函数返回值检查原则：该返回值可能会造成该函数内代码崩溃一定要进行检查  函数说明时使用注解,明确说明不接受Null void openTaskDetails(@NonNull Task requestedTask); void comple">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -103,6 +104,7 @@
 </ol>
 <p>函数说明时使用注解,明确说明不接受<code>Null</code></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">openTaskDetails</span><span class="params">(@NonNull Task requestedTask)</span></span>;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">completeTask</span><span class="params">(@NonNull Task completedTask)</span></span>;</span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">void</span> <span class="title">activateTask</span><span class="params">(@NonNull Task activeTask)</span></span>;</span><br></pre></td></tr></table></figure>
+
 <p>函数实现中参数检查</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">openTaskDetails</span><span class="params">(@NonNull Task requestedTask)</span> </span>&#123;</span><br><span class="line">      checkNotNull(requestedTask, <span class="string">"requestedTask cannot be null!"</span>);</span><br><span class="line">      mTasksView.showTaskDetailsUi(requestedTask.getId());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">checkNotNull</span><span class="params">(T reference)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (reference == <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> reference;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">T <span class="title">checkNotNull</span><span class="params">(T reference, @Nullable Object errorMessage)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (reference == <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(String.valueOf(errorMessage));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> reference;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
     

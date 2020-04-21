@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="utf-8">
   
   <title>Android Drawable Resources | yeshu blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="yeshu android">
+    <meta name="keywords" content="yeshu android" />
   
 
   <meta name="description" content="Drawable ResourcesA drawable resource is a general concept for a graphic that can be drawn to the screen. There are several different types of drawables:  Bitmap File   Nine-Patch File   Layer List">
@@ -21,11 +21,10 @@
 <meta property="og:url" content="http://yeshu.work/2015/10/27/android-drawable-resources/index.html">
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="Drawable ResourcesA drawable resource is a general concept for a graphic that can be drawn to the screen. There are several different types of drawables:  Bitmap File   Nine-Patch File   Layer List">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2015-10-27T05:10:21.000Z">
+<meta property="article:published_time" content="2015-10-27T05:05:09.000Z">
+<meta property="article:modified_time" content="2015-10-27T05:10:21.000Z">
+<meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Drawable Resources">
-<meta name="twitter:description" content="Drawable ResourcesA drawable resource is a general concept for a graphic that can be drawn to the screen. There are several different types of drawables:  Bitmap File   Nine-Patch File   Layer List">
 
   
 
@@ -37,7 +36,9 @@
 
 
   
-    <link rel="stylesheet" href="/css/personal-style.css">
+    
+<link rel="stylesheet" href="/css/personal-style.css">
+
   
 
   
@@ -54,8 +55,8 @@
   </script>
 
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
 <body>
 
 
@@ -117,12 +118,16 @@
 </ul>
 <h2 id="Layer-List"><a href="#Layer-List" class="headerlink" title="Layer List"></a>Layer List</h2><p>A <code>LayerDrawable</code> is a drawable object that manages an array of other drawables. Each drawable in the list is drawn in the order of the list—the last drawable in the list is drawn on top.</p>
 <p>Each drawable is represented by an <code>&lt;item&gt;</code> element inside a single <code>&lt;layer-list&gt;</code> element.</p>
-<p><code>&lt;layer-list&gt;</code> This must be the root element. Contains one or more ｀<item>｀ elements.</item></p>
-<p>命名空间：<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">xmlns:android="http://schemas.android.com/apk/res/android"</span><br></pre></td></tr></table></figure></p>
-<p><code>&lt;item&gt;</code>Must be a child of a <selector> element. Accepts child ｀<bitmap>｀ elements.</bitmap></selector></p>
+<p><code>&lt;layer-list&gt;</code> This must be the root element. Contains one or more ｀<item>｀ elements.</p>
+<p>命名空间：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">xmlns:android="http://schemas.android.com/apk/res/android"</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;item&gt;</code>Must be a child of a <selector> element. Accepts child ｀<bitmap>｀ elements.</p>
 <p>example</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"#ff0000"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:left</span>=<span class="string">"2dp"</span> <span class="attr">android:right</span>=<span class="string">"2dp"</span> <span class="attr">android:top</span>=<span class="string">"2dp"</span> <span class="attr">android:bottom</span>=<span class="string">"2dp"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">shape</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">solid</span> <span class="attr">android:color</span>=<span class="string">"#ffffff"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bitmap</span> <span class="attr">android:src</span>=<span class="string">"@drawable/android_red"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:top</span>=<span class="string">"10dp"</span> <span class="attr">android:left</span>=<span class="string">"10dp"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bitmap</span> <span class="attr">android:src</span>=<span class="string">"@drawable/android_green"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:top</span>=<span class="string">"20dp"</span> <span class="attr">android:left</span>=<span class="string">"20dp"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">bitmap</span> <span class="attr">android:src</span>=<span class="string">"@drawable/android_blue"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="State-List"><a href="#State-List" class="headerlink" title="State List"></a>State List</h2><p>最常用的selector</p>
 <h2 id="Level-List"><a href="#Level-List" class="headerlink" title="Level List"></a>Level List</h2><p>Android 电量图标显示用到的技术</p>
 <h2 id="Transition-Drawable"><a href="#Transition-Drawable" class="headerlink" title="Transition Drawable"></a>Transition Drawable</h2><h2 id="Inset-Drawable"><a href="#Inset-Drawable" class="headerlink" title="Inset Drawable"></a>Inset Drawable</h2><h2 id="Clip-Drawable"><a href="#Clip-Drawable" class="headerlink" title="Clip Drawable"></a>Clip Drawable</h2><h2 id="Scale-Drawable"><a href="#Scale-Drawable" class="headerlink" title="Scale Drawable"></a>Scale Drawable</h2><h2 id="Shape-Drawabel"><a href="#Shape-Drawabel" class="headerlink" title="Shape Drawabel"></a>Shape Drawabel</h2><p><code>android:shape=[&quot;rectangle&quot; | &quot;oval&quot; | &quot;line&quot; | &quot;ring&quot;]</code>　缺省值是rectangle</p>
