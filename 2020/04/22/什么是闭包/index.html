@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="#SVN使用笔记简要记录下自己使用过的一些命令 trunk:开发主目录branch：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去tags:经过测试无bug，发布版本时的代码 ##Mac上创建Svn服务创建svn仓库 svnadmin create ~&#x2F;svn&#x2F;myproject创建三个默认的空目录 cd ~&#x2F;svn&#x2F;myproject mkdir trunk mkdir b">
+  <meta name="description" content="定义  闭包就是能够读取其他函数内部变量的函数。例如在javascript中，只有函数内部的子函数才能读取局部变量，所以闭包可以理解成“定义在一个函数内部的函数“。  两个概念  自变量 自由变量  javascript的闭包 function Add(y) &amp;#123;    return function(x) &amp;#123;        return x + y    &amp;#125;&amp;#125">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SVN使用笔记">
-<meta property="og:url" content="http://yeshu.work/2015/06/04/svnshi-yong-bi-ji/index.html">
+<meta property="og:title" content="什么是闭包">
+<meta property="og:url" content="http://yeshu.work/2020/04/22/%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AD%E5%8C%85/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="#SVN使用笔记简要记录下自己使用过的一些命令 trunk:开发主目录branch：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去tags:经过测试无bug，发布版本时的代码 ##Mac上创建Svn服务创建svn仓库 svnadmin create ~&#x2F;svn&#x2F;myproject创建三个默认的空目录 cd ~&#x2F;svn&#x2F;myproject mkdir trunk mkdir b">
-<meta property="article:published_time" content="2015-06-03T23:26:04.000Z">
-<meta property="article:modified_time" content="2015-06-03T23:27:30.000Z">
+<meta property="og:description" content="定义  闭包就是能够读取其他函数内部变量的函数。例如在javascript中，只有函数内部的子函数才能读取局部变量，所以闭包可以理解成“定义在一个函数内部的函数“。  两个概念  自变量 自由变量  javascript的闭包 function Add(y) &amp;#123;    return function(x) &amp;#123;        return x + y    &amp;#125;&amp;#125">
+<meta property="article:published_time" content="2020-04-22T02:40:36.000Z">
+<meta property="article:modified_time" content="2020-04-22T02:41:44.650Z">
 <meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yeshu.work/2015/06/04/svnshi-yong-bi-ji/">
+<link rel="canonical" href="http://yeshu.work/2020/04/22/%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AD%E5%8C%85/">
 
 
 <script id="page-configurations">
@@ -44,7 +44,7 @@
   };
 </script>
 
-  <title>SVN使用笔记 | yeshu blog</title>
+  <title>什么是闭包 | yeshu blog</title>
   
 
 
@@ -149,7 +149,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2015/06/04/svnshi-yong-bi-ji/">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/04/22/%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AD%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -162,7 +162,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          SVN使用笔记
+          什么是闭包
         </h1>
 
         <div class="post-meta">
@@ -173,7 +173,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2015-06-04 07:26:04 / Modified: 07:27:30" itemprop="dateCreated datePublished" datetime="2015-06-04T07:26:04+08:00">2015-06-04</time>
+              <time title="Created: 2020-04-22 10:40:36 / Modified: 10:41:44" itemprop="dateCreated datePublished" datetime="2020-04-22T10:40:36+08:00">2020-04-22</time>
             </span>
 
           
@@ -187,21 +187,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>#SVN使用笔记<br>简要记录下自己使用过的一些命令</p>
-<p><strong>trunk</strong>:开发主目录<br><strong>branch</strong>：发布版本时，用于修复bug。修复完毕后需要将代码合并到trunk中去<br><strong>tags</strong>:经过测试无bug，发布版本时的代码</p>
-<p>##Mac上创建Svn服务<br>创建svn仓库</p>
-<pre><code>svnadmin create ~/svn/myproject</code></pre><p>创建三个默认的空目录</p>
-<pre><code>cd ~/svn/myproject
-mkdir trunk
-mkdir branch
-mkdir tags</code></pre><p>配置svn用户信息</p>
-<pre><code>cd conf/
-编辑目录下svnserve.conf passwd authz文件</code></pre><p>启动服务：</p>
-<pre><code>svnserve -d -r ~/svn/myproject</code></pre><p>##Svn命令管理项目</p>
-<p>导入项目</p>
-<pre><code>svn import -m &quot;new project&quot; cscrobot svn://192.168.2.2/myproject/trunk/cscrobot
-注意：这里cscrobot是一个子项目个根目录，svn只会导入cscrobot目录中的文件，所以需要在后面路径中加上/cscrobot，svn才会帮你创建一个cscrobot目录</code></pre><p>创建tags</p>
-<pre><code>svn copy svn://192.168.2.2/myproject/trunk svn://192.168.2.2/myproject/tags/release-1.3 -m &quot;1.3 released&quot;</code></pre><p>##资料<br>解释trunk,branch,tags三个目录的使用场景：<br><a href="http://www.chinasb.org/archives/2011/04/1709.shtml" target="_blank" rel="noopener">http://www.chinasb.org/archives/2011/04/1709.shtml</a><br>创建和删除 branch, tags:<br><a href="http://blog.csdn.net/yangzhongxuan/article/details/7519948" target="_blank" rel="noopener">http://blog.csdn.net/yangzhongxuan/article/details/7519948</a></p>
+        <p>定义</p>
+<blockquote>
+<p>闭包就是能够读取其他函数内部变量的函数。例如在javascript中，只有函数内部的子函数才能读取局部变量，所以闭包可以理解成“定义在一个函数内部的函数“。</p>
+</blockquote>
+<p>两个概念</p>
+<ul>
+<li>自变量</li>
+<li>自由变量</li>
+</ul>
+<p>javascript的闭包</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Add</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中x是自变量，y是自由变量</p>
+<p>java中的闭包</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindViewHolder</span><span class="params">(View view, find <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    view.setOnClickListener(<span class="keyword">new</span> OnClickListener &#123;</span><br><span class="line">        <span class="comment">// 这里使用了外部的position自由变量，就是闭包</span></span><br><span class="line">        Item item = list.get(position)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="java为什么匿名内部类的参数引用时final？"><a href="#java为什么匿名内部类的参数引用时final？" class="headerlink" title="java为什么匿名内部类的参数引用时final？"></a>java为什么匿名内部类的参数引用时final？</h2><p>内部类可以通过外部类的引用拿到外部类自由变量的值，但是没法通过引用获取函数参数，函数成员等这些自由变量。<br>所以Java编译器把这些<strong>自由变量</strong>的值偷偷拷贝了一份放在了内部类中。<br>所以为了保持两个成员的值一致，Java就用final规定这个值不能改变。</p>
+<p>这是java特有的，其他的语言不会这样，其他的语言会依然对象的传递引用进入内部类</p>
+<p>这些变量的生命周期：</p>
+<blockquote>
+<p>因为每个内部类的实例都隐藏了一个指向外部类实例的引用。java只是没有显式地写出来而已。内部类访问外部类成员都是透过这个引用。之所以能有这个引用，是因为两者都是实例，都有自己的内存空间。而匿名内部类的外围环境函数只是一个函数，执行完之后，也就是匿名内部类诞生（初始化）完成的那一刻，它的生存周期就结束了。函数内部的局部变量（包括函数的参数）也就跟着被销毁了。所以产生出来的内部类根本无法像保留外部类的引用那样保留外围环境函数的引用。所以只能退而求其次，只保留一份局部变量的拷贝值。</p>
+</blockquote>
+<blockquote>
+<p>一个函数的成员变量在函数执行完之后必须销毁，是因为执行函数的内存开销是在栈上。每执行一个函数，都会在栈上压一个新的栈帧，函数的局部变量，包括参数都存在这个栈帧的局部变量表里。函数执行完之后，根据栈的LIFO顺序，当前栈帧就被从栈上弹出销毁。内存上就没有这个函数的痕迹了。</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p>闭包（计算机科学）是什么？<br><a href="https://www.zhihu.com/question/24084277/answer/110176733" target="_blank" rel="noopener">https://www.zhihu.com/question/24084277/answer/110176733</a></p>
+</li>
+<li><p><a href="https://www.zhihu.com/question/21395848" target="_blank" rel="noopener">https://www.zhihu.com/question/21395848</a></p>
+</li>
+</ul>
 
     </div>
 
@@ -217,13 +233,10 @@ mkdir tags</code></pre><p>配置svn用户信息</p>
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2015/06/03/actionbarshi-yong-zong-jie/" rel="prev" title="ActionBar使用总结">
-      <i class="fa fa-chevron-left"></i> ActionBar使用总结
+    <a href="/2020/04/21/ViewPager%E4%B8%ADfragment%E6%BB%91%E5%8A%A8%E4%BA%8B%E4%BB%B6%E6%97%A0%E6%95%88%E5%88%86%E6%9E%90/" rel="prev" title="ViewPager中fragment滑动事件无效分析">
+      <i class="fa fa-chevron-left"></i> ViewPager中fragment滑动事件无效分析
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2015/06/22/zero-to-one-yue-du-bi-ji/" rel="next" title="《ZERO to ONE》阅读笔记">
-      《ZERO to ONE》阅读笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -282,6 +295,7 @@ mkdir tags</code></pre><p>配置svn用户信息</p>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java为什么匿名内部类的参数引用时final？"><span class="nav-number">1.</span> <span class="nav-text">java为什么匿名内部类的参数引用时final？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
