@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Android上为什么使用Coroutines 方便的管理长时间运行的任务 提供main-safe的方法，主线程可以安全调用的方法、  Coroutines使用&#x2F;&#x2F; Dispatchers.Mainsuspend fun fetchDocs() &amp;#123;    &#x2F;&#x2F; Dispatchers.Main    val result &#x3D; get(&quot;developer.android.com&quot;)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coroutines使用">
+<meta property="og:url" content="http://yeshu.work/2020/04/30/Coroutines%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Android上为什么使用Coroutines 方便的管理长时间运行的任务 提供main-safe的方法，主线程可以安全调用的方法、  Coroutines使用&#x2F;&#x2F; Dispatchers.Mainsuspend fun fetchDocs() &amp;#123;    &#x2F;&#x2F; Dispatchers.Main    val result &#x3D; get(&quot;developer.android.com&quot;)">
+<meta property="article:published_time" content="2020-04-30T09:04:35.000Z">
+<meta property="article:modified_time" content="2020-04-30T09:21:01.639Z">
+<meta property="article:author" content="yeshu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yeshu.work/2020/04/30/Coroutines%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>Coroutines使用 | yeshu blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">yeshu blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/04/30/Coroutines%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yeshu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yeshu blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Coroutines使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-30 17:04:35 / Modified: 17:21:01" itemprop="dateCreated datePublished" datetime="2020-04-30T17:04:35+08:00">2020-04-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Android上为什么使用Coroutines"><a href="#Android上为什么使用Coroutines" class="headerlink" title="Android上为什么使用Coroutines"></a>Android上为什么使用Coroutines</h2><ul>
+<li>方便的管理长时间运行的任务</li>
+<li>提供<code>main-safe</code>的方法，主线程可以安全调用的方法、</li>
+</ul>
+<h2 id="Coroutines使用"><a href="#Coroutines使用" class="headerlink" title="Coroutines使用"></a>Coroutines使用</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Dispatchers.Main</span></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchDocs</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Dispatchers.Main</span></span><br><span class="line">    <span class="keyword">val</span> result = <span class="keyword">get</span>(<span class="string">"developer.android.com"</span>)</span><br><span class="line">    <span class="comment">// Dispatchers.Main</span></span><br><span class="line">    show(result)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Dispatchers.Main</span></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">get</span><span class="params">(url: <span class="type">String</span>)</span></span> =</span><br><span class="line">    <span class="comment">// Dispatchers.Main</span></span><br><span class="line">    withContext(Dispatchers.IO) &#123;</span><br><span class="line">        <span class="comment">// Dispatchers.IO</span></span><br><span class="line">        <span class="comment">/* perform blocking network IO here */</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Dispatchers.Main</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Well written suspend functions are always safe to call from the main thread (or main-safe).</p>
+</blockquote>
+<p>使用<code>withContext</code>来实现<code>main-safe</code>的方法，<code>withContext</code>有性能优势，即使多次调用也可以避免线程的切换开销</p>
+<p>三个调度器</p>
+<ul>
+<li>Dispatchers.IO （执行网络或IO操作）</li>
+<li>Dispatchers.Default (适合执行占用大量CPU资源的工作，例如排序、解析JSON等)</li>
+<li>Dispatchers.Main (主线程)</li>
+</ul>
+<h3 id="scope的来源"><a href="#scope的来源" class="headerlink" title="scope的来源"></a>scope的来源</h3><p>suspend方法必须在scope中启动，可以是GlobalScope, viewModelScope或者实现CoroutineScope接口。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyActivity</span> : <span class="type">AppCompatActivity</span></span>(), CoroutineScope <span class="keyword">by</span> MainScope() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// cancel is extension on CoroutineScope</span></span><br><span class="line">        cancel() </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Note how coroutine builders are scoped: if activity is destroyed or any of the launched coroutines</span></span><br><span class="line"><span class="comment">     * in this method throws an exception, then all nested coroutines are cancelled.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">showSomeData</span><span class="params">()</span></span> = launch &#123; <span class="comment">// &lt;- extension on current activity, launched in the main thread</span></span><br><span class="line">           <span class="comment">// ... here we can use suspending functions or coroutine builders with other dispatchers</span></span><br><span class="line">           draw(<span class="keyword">data</span>) <span class="comment">// draw in the main thread</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="structured-concurrency管理协程"><a href="#structured-concurrency管理协程" class="headerlink" title="structured concurrency管理协程"></a>structured concurrency管理协程</h3><blockquote>
+<p>A leaked coroutine can waste memory, CPU, disk, or even launch a network request that’s not needed.</p>
+</blockquote>
+<p>没有妥善管理好生命周期的协程，可能会造成资源的浪费。所以Kotlin提供了<code>structured concurreny</code>来管理协程的运行和生命周期。</p>
+<p>通过<code>structured concurrency</code>提供如下能力：</p>
+<ul>
+<li>When a <strong>scope cancels</strong>, all of its <strong>coroutines cancel</strong>.</li>
+<li>When a <strong>suspend fun returns</strong>, all of its <strong>work is done</strong>.</li>
+<li>When a <strong>coroutine errors</strong>, its <strong>caller or scope is notified</strong>.</li>
+</ul>
+<p><code>coroutines</code>必须运行在<code>CoroutineScope</code>中，<code>CoroutineScope</code>就是用来追踪管理所有的<code>coroutines</code>。</p>
+<blockquote>
+<p>A CoroutineScope keeps track of all your coroutines, and it can cancel all of the coroutines started in it.</p>
+</blockquote>
+<h3 id="CoroutineScope启动coroutines的两种方式"><a href="#CoroutineScope启动coroutines的两种方式" class="headerlink" title="CoroutineScope启动coroutines的两种方式"></a>CoroutineScope启动coroutines的两种方式</h3><ul>
+<li><code>launch</code>:只负责启动，不会返回任何结果</li>
+<li><code>async</code>:启动并返回一个结果，调用<code>await</code>获取返回值</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line">scope.launch &#123;</span><br><span class="line">    <span class="comment">// This block starts a new coroutine </span></span><br><span class="line">    <span class="comment">// "in" the scope.</span></span><br><span class="line">    <span class="comment">// </span></span><br><span class="line">    <span class="comment">// It can call suspend functions</span></span><br><span class="line">   fetchDocs()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：<code>launch</code>启动的协程会跑出异常，<code>async</code>则不会，因为它设计的初衷时通过<code>await</code>方法取得结果或异常。</p>
+<h3 id="并发处理"><a href="#并发处理" class="headerlink" title="并发处理"></a>并发处理</h3><p><code>suspend functions</code>中使用<code>coroutineScope</code>或者<code>supervisorScope</code>来同时启动多个协程。</p>
+<p><code>coroutineScope</code>可以保证当<code>suspend</code>方法返回时，它里面的所有协程都已经执行完毕。</p>
+<blockquote>
+<p>Structured concurrency guarantees that when a suspend function returns, all of its work is done.</p>
+</blockquote>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchTwoDocs</span><span class="params">()</span></span> &#123;</span><br><span class="line">    coroutineScope &#123;</span><br><span class="line">        launch &#123; fetchDoc(<span class="number">1</span>) &#125;</span><br><span class="line">        async &#123; fetchDoc(<span class="number">2</span>) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>coroutinesScope</code>：当其中一个协程失败时，会取消它所启动的所有协程</li>
+<li><code>supervisorScope</code>：当其中一个协程失败时，不会影响它所启动的其他协程</li>
+</ul>
+<h3 id="异常错误处理"><a href="#异常错误处理" class="headerlink" title="异常错误处理"></a>异常错误处理</h3><p>通过<code>try/catch</code>不错错误异常</p>
+<p>通过async启动协程可能会丢失异常</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> unrelatedScope = MainScope()</span><br><span class="line"><span class="comment">// example of a lost error</span></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">lostError</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// async without structured concurrency</span></span><br><span class="line">    unrelatedScope.async &#123;</span><br><span class="line">        <span class="keyword">throw</span> InAsyncNoOneCanHearYou(<span class="string">"except"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>async</code>设计初衷是假设您会通过<code>await</code>来获取结果或异常，但是如果你没有调用它，就会造成异常丢失。</p>
+<blockquote>
+<p>Structured concurrency guarantees that when a coroutine errors, its caller or scope is notified.</p>
+</blockquote>
+<p>但是通过<code>structured concurrency</code>可以确保怎么也不会丢失异常</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">foundError</span><span class="params">()</span></span> &#123;</span><br><span class="line">    coroutineScope &#123;</span><br><span class="line">        async &#123; </span><br><span class="line">            <span class="keyword">throw</span> StructuredConcurrencyWill(<span class="string">"throw"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ViewModel中启动coroutines"><a href="#ViewModel中启动coroutines" class="headerlink" title="ViewModel中启动coroutines"></a>ViewModel中启动coroutines</h3><blockquote>
+<p>Structured concurrency guarantees when a scope cancels, all of its coroutines cancel.</p>
+</blockquote>
+<p>取消<code>scope</code>会取消它里面的所有协程。</p>
+<p>使用<code>viewModelScope</code>需要倒入依赖<code>lifecycle-viewmodel-ktx:2.1.0-alpha04</code>。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyViewModel(): ViewModel() &#123;</span><br><span class="line">    fun userNeedsDocs() &#123;</span><br><span class="line">        &#x2F;&#x2F; Start a new coroutine in a ViewModel</span><br><span class="line">        viewModelScope.launch &#123;</span><br><span class="line">            fetchDocs()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>viewModelScope</code>会在生命周期结束时(onCleared()调用时)自动取消里面的所有协程，所以即使如下代码也是安全的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">fun runForever() &#123;</span><br><span class="line">    &#x2F;&#x2F; start a new coroutine in the ViewModel</span><br><span class="line">    viewModelScope.launch &#123;</span><br><span class="line">        &#x2F;&#x2F; cancelled when the ViewModel is cleared</span><br><span class="line">        while(true) &#123;</span><br><span class="line">            delay(1_000)</span><br><span class="line">            &#x2F;&#x2F; do something every second</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Room中使用Coroutines"><a href="#Room中使用Coroutines" class="headerlink" title="Room中使用Coroutines"></a>Room中使用Coroutines</h3><blockquote>
+<p>Note: Room uses its own dispatcher to run queries on a background thread. Your code should not use withContext(Dispatchers.IO) to call suspending room queries. It will complicate the code and make your queries run slower.</p>
+</blockquote>
+<ol>
+<li>添加依赖<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;Kotlin Extensions and Coroutines support for Room</span><br><span class="line">implementation &quot;androidx.room:room-ktx:$room_version&quot;</span><br></pre></td></tr></table></figure></li>
+<li>在方法前加上<code>suspend</code><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ProductsDao</span> </span>&#123;</span><br><span class="line">   <span class="comment">// Because this is marked suspend, Room will use it's own dispatcher</span></span><br><span class="line">   <span class="comment">//  to run this query in a main-safe way.</span></span><br><span class="line">   <span class="meta">@Query(<span class="meta-string">"select * from ProductListing ORDER BY dateStocked ASC"</span>)</span></span><br><span class="line">   <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadProductsByDateStockedAscending</span><span class="params">()</span></span>: List&lt;ProductListing&gt;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Because this is marked suspend, Room will use it's own dispatcher</span></span><br><span class="line">   <span class="comment">//  to run this query in a main-safe way.</span></span><br><span class="line">   <span class="meta">@Query(<span class="meta-string">"select * from ProductListing ORDER BY dateStocked DESC"</span>)</span></span><br><span class="line">   <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadProductsByDateStockedDescending</span><span class="params">()</span></span>: List&lt;ProductListing&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="将Callback转换为Coroutines"><a href="#将Callback转换为Coroutines" class="headerlink" title="将Callback转换为Coroutines"></a>将Callback转换为Coroutines</h3><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">execute</span><span class="params">()</span></span>: MyResultType &#123;</span><br><span class="line">    <span class="keyword">return</span> suspendCoroutine&lt;MyResultType&gt; &#123; continuation -&gt;</span><br><span class="line">        myRepository.myRemoteCall()</span><br><span class="line">            .subscribeOn(Schedulers.io())</span><br><span class="line">            .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">            .subscribe(</span><br><span class="line">                &#123; result -&gt; onSuccess(continuation, result) &#125;,</span><br><span class="line">                &#123; throwable -&gt; onError(continuation, throwable) &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">onSuccess</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    continuation: <span class="type">Continuation</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    result: <span class="type">MyResultType</span>)</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    continuation.resume(result)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">onError</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    continuation: <span class="type">Continuation</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">    throwable: <span class="type">Throwable</span>)</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    continuation.resumeWithException(throwable)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="提供main-safe的接口方法"><a href="#提供main-safe的接口方法" class="headerlink" title="提供main-safe的接口方法"></a>提供main-safe的接口方法</h2><p>最佳实践，每个层面的接口都是<code>main-safe</code>的方法</p>
+<ul>
+<li>WebApi</li>
+<li>Dao</li>
+<li>Repository</li>
+<li>UseCase</li>
+</ul>
+<h2 id="Coroutines单元测试"><a href="#Coroutines单元测试" class="headerlink" title="Coroutines单元测试"></a>Coroutines单元测试</h2><p>导入依赖：kotlinx-coroutines-test</p>
+<p>使用<code>runBlocking</code>或<code>runBlockingTest</code>测试</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">whenRefreshTitleSuccess_insertsRows</span><span class="params">()</span></span> = runBlockingTest &#123;</span><br><span class="line">   <span class="keyword">val</span> titleDao = TitleDaoFake(<span class="string">"title"</span>)</span><br><span class="line">   <span class="keyword">val</span> subject = TitleRepository(</span><br><span class="line">           MainNetworkFake(<span class="string">"OK"</span>),</span><br><span class="line">           titleDao</span><br><span class="line">   )</span><br><span class="line"></span><br><span class="line">   subject.refreshTitle()</span><br><span class="line">   Truth.assertThat(titleDao.nextInsertedOrNull()).isEqualTo(<span class="string">"OK"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>runBlocking</code>和<code>runBlockingTest</code>区别(没看懂这两个东西作用和区别)</p>
+<blockquote>
+<p>Important: The function runBlockingTest will always block the caller, just like a regular function call. The coroutine will run synchronously on the same thread. You should avoid <code>runBlocking</code> and <code>runBlockingTest</code> in your application code and prefer launch which returns immediately.</p>
+<p><code>runBlockingTest</code> should only be used from tests as it executes coroutines in a test-controlled manner, while <code>runBlocking</code> can be used to provide blocking interfaces to coroutines.</p>
+</blockquote>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><ul>
+<li><a href="https://developer.android.com/kotlin/coroutines" target="_blank" rel="noopener">协程使用官方介绍</a></li>
+<li><a href="https://medium.com/androiddevelopers/coroutines-on-android-part-i-getting-the-background-3e0e54d20bb" target="_blank" rel="noopener">协程的使用介绍</a></li>
+<li><a href="https://codelabs.developers.google.com/codelabs/kotlin-coroutines/#9" target="_blank" rel="noopener">codelabs</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/28/Google-play%E4%BD%BF%E7%94%A8%E6%95%8F%E6%84%9F%E6%9D%83%E9%99%90%E6%97%A0%E6%B3%95%E4%B8%8A%E6%9E%B6%EF%BC%8C%E6%95%8F%E6%84%9F%E6%9D%83%E9%99%90%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" rel="prev" title="Google play使用敏感权限无法上架，敏感权限排查方法">
+      <i class="fa fa-chevron-left"></i> Google play使用敏感权限无法上架，敏感权限排查方法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android上为什么使用Coroutines"><span class="nav-number">1.</span> <span class="nav-text">Android上为什么使用Coroutines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coroutines使用"><span class="nav-number">2.</span> <span class="nav-text">Coroutines使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scope的来源"><span class="nav-number">2.1.</span> <span class="nav-text">scope的来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#structured-concurrency管理协程"><span class="nav-number">2.2.</span> <span class="nav-text">structured concurrency管理协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CoroutineScope启动coroutines的两种方式"><span class="nav-number">2.3.</span> <span class="nav-text">CoroutineScope启动coroutines的两种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并发处理"><span class="nav-number">2.4.</span> <span class="nav-text">并发处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常错误处理"><span class="nav-number">2.5.</span> <span class="nav-text">异常错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ViewModel中启动coroutines"><span class="nav-number">2.6.</span> <span class="nav-text">ViewModel中启动coroutines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Room中使用Coroutines"><span class="nav-number">2.7.</span> <span class="nav-text">Room中使用Coroutines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将Callback转换为Coroutines"><span class="nav-number">2.8.</span> <span class="nav-text">将Callback转换为Coroutines</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提供main-safe的接口方法"><span class="nav-number">3.</span> <span class="nav-text">提供main-safe的接口方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coroutines单元测试"><span class="nav-number">4.</span> <span class="nav-text">Coroutines单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料"><span class="nav-number">5.</span> <span class="nav-text">资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yeshu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yeshu-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yeshu-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yeshu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
