@@ -20,18 +20,20 @@
     var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="#Android技术要点Android程序员技能列表##目录###必备基础知识  程序员基础知识 Android基础知识    ###开发技能  软件架构设计技能 UI开发技能（每年Google IO推出的新组件和常用开源项目） 网络开发技能 NDK编程技能 应用的安全技能 进阶提高技能  ##详情  程序员基础知识  SVN Github版本控制使用 Java线程和线程池 代码Review">
+  <meta name="description" content="当前的问题 不能单独复用业务层 业务Model定义不清晰，或者很难找到 Repository定义为ViewModel的数据提供者，其中包含持久层+业务层，功能庞大，职责不明确 UI层直接调用Repository，功能需求改变时会违反开闭原则 UI层的Utils和Service层的Utils没有区分开 Manager,Helper,Utils命名不统一 数据驱动界面更新编程方式不是银弹  组件化和模">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android程序员技能列表">
-<meta property="og:url" content="http://yeshu.work/2015/06/02/androidcheng-xu-yuan-ji-neng-lie-biao/index.html">
+<meta property="og:title" content="模块化分享记录">
+<meta property="og:url" content="http://yeshu.work/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="yeshu blog">
-<meta property="og:description" content="#Android技术要点Android程序员技能列表##目录###必备基础知识  程序员基础知识 Android基础知识    ###开发技能  软件架构设计技能 UI开发技能（每年Google IO推出的新组件和常用开源项目） 网络开发技能 NDK编程技能 应用的安全技能 进阶提高技能  ##详情  程序员基础知识  SVN Github版本控制使用 Java线程和线程池 代码Review">
-<meta property="article:published_time" content="2015-06-01T23:39:07.000Z">
-<meta property="article:modified_time" content="2015-06-02T19:25:23.000Z">
+<meta property="og:description" content="当前的问题 不能单独复用业务层 业务Model定义不清晰，或者很难找到 Repository定义为ViewModel的数据提供者，其中包含持久层+业务层，功能庞大，职责不明确 UI层直接调用Repository，功能需求改变时会违反开闭原则 UI层的Utils和Service层的Utils没有区分开 Manager,Helper,Utils命名不统一 数据驱动界面更新编程方式不是银弹  组件化和模">
+<meta property="og:image" content="http://yeshu.work/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/%E2%81%A9%E2%81%A91.JPG">
+<meta property="article:published_time" content="2020-05-18T06:16:18.000Z">
+<meta property="article:modified_time" content="2020-05-18T07:07:05.184Z">
 <meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yeshu.work/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/%E2%81%A9%E2%81%A91.JPG">
 
-<link rel="canonical" href="http://yeshu.work/2015/06/02/androidcheng-xu-yuan-ji-neng-lie-biao/">
+<link rel="canonical" href="http://yeshu.work/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/">
 
 
 <script id="page-configurations">
@@ -44,7 +46,7 @@
   };
 </script>
 
-  <title>Android程序员技能列表 | yeshu blog</title>
+  <title>模块化分享记录 | yeshu blog</title>
   
 
 
@@ -149,7 +151,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2015/06/02/androidcheng-xu-yuan-ji-neng-lie-biao/">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -162,7 +164,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Android程序员技能列表
+          模块化分享记录
         </h1>
 
         <div class="post-meta">
@@ -171,16 +173,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2015-06-02 07:39:07" itemprop="dateCreated datePublished" datetime="2015-06-02T07:39:07+08:00">2015-06-02</time>
+              <time title="Created: 2020-05-18 14:16:18 / Modified: 15:07:05" itemprop="dateCreated datePublished" datetime="2020-05-18T14:16:18+08:00">2020-05-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2015-06-03 03:25:23" itemprop="dateModified" datetime="2015-06-03T03:25:23+08:00">2015-06-03</time>
-              </span>
 
           
 
@@ -193,102 +189,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>#Android技术要点<br>Android程序员技能列表<br>##目录<br>###必备基础知识</p>
-<ul>
-<li>程序员基础知识</li>
-<li>Android基础知识  </li>
+        <h2 id="当前的问题"><a href="#当前的问题" class="headerlink" title="当前的问题"></a>当前的问题</h2><ul>
+<li>不能单独复用业务层</li>
+<li>业务Model定义不清晰，或者很难找到</li>
+<li>Repository定义为ViewModel的数据提供者，其中包含持久层+业务层，功能庞大，职责不明确</li>
+<li>UI层直接调用Repository，功能需求改变时会违反开闭原则</li>
+<li>UI层的Utils和Service层的Utils没有区分开</li>
+<li>Manager,Helper,Utils命名不统一</li>
+<li>数据驱动界面更新编程方式不是银弹</li>
 </ul>
-<p>###开发技能</p>
-<ul>
-<li>软件架构设计技能</li>
-<li>UI开发技能（每年Google IO推出的新组件和常用开源项目）</li>
-<li>网络开发技能</li>
-<li>NDK编程技能</li>
-<li>应用的安全技能</li>
-<li>进阶提高技能</li>
-</ul>
-<p>##详情</p>
+<h2 id="组件化和模块化理解"><a href="#组件化和模块化理解" class="headerlink" title="组件化和模块化理解"></a>组件化和模块化理解</h2><h3 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h3><p>从使用方式来说，就是直接复用成品的Activity交互页面。在集成了组件化产品的不同app中，组件模块的交互页面是完全相同的。（类似于webView加载网页，不管哪个webView加载相同url看到的结果都是一样的）</p>
+<p><strong>组件化是由产品决定要不要做的，是从产品层面设计的一个产品需求。</strong></p>
+<h3 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h3><p>模块化就是写好代码，遵循面对对象编码的六大原则。<br><strong>模块化是开发内部决定的技术手段。</strong></p>
+<p>所以如果产品没有组件化需求，就不要做组件化。源头不对，再怎么尝试做组件化，都不可能做的好。都只是在过度设计。</p>
+<h2 id="不忘初衷：做好代码复用"><a href="#不忘初衷：做好代码复用" class="headerlink" title="不忘初衷：做好代码复用"></a>不忘初衷：做好代码复用</h2><p>哪些代码可以复用？</p>
 <ol>
-<li><p>程序员基础知识</p>
-<ul>
-<li>SVN Github版本控制使用</li>
-<li>Java线程和线程池</li>
-<li>代码Review</li>
-</ul>
+<li><p>UI层<br>产品没有做组件化的需求，所以UI层只复用自定义View，以UIComponent的方式提供复用</p>
 </li>
-<li><p>Android基础知识</p>
+<li><p>业务层全部复用，创建Domain代表业务层，Domain内部角色:</p>
 <ul>
-<li>Android四大组件，Activity生命周期，Intent传递数据，Notification等机制和ListView等控间使用。</li>
-<li>每一个App即使一个单独的进程，单独的jvm虚拟机上运行。每个jvm虚拟机所需的内存都是在编译rom时设定死的。</li>
-<li>Android测试框架</li>
-<li>多屏幕适配</li>
-<li>Android进程间通信AIDL</li>
-<li>Gradle使用</li>
-<li>adb工具使用(安装/卸载应用，上传和下载设备中文件，启动和停止服务，启动和停止莫一个Service,Activity,发送广播等)</li>
-<li>命令行操作sqlite数据库</li>
-<li>Android系统各个文件目录结构和权限</li>
-<li>Apk安装和卸载流程</li>
-<li>熟悉SDK目录结构（里面含有adb工具，.9.png制作工具，模拟器镜像等）</li>
-<li>.9.png工具使用</li>
-</ul>
-</li>
-<li><p>软件架构设计技能</p>
-<ul>
-<li>项目包结构设计 </li>
-<li>MVC（Model-View-Controller）</li>
-<li>MVP (Model-View-Presenter)</li>
-<li>MVVM（Model-View-ViewModel: Data Binding）</li>
-<li>RoboBinding</li>
-<li>RxJava</li>
-<li>事件总线的架构，考虑使用Otto或者greenrobot EventBus。</li>
-</ul>
-</li>
-<li><p>UI开发技能（包括每年Google IO推出的新技术和常用开源项目）</p>
-<ul>
-<li>Material Design设计</li>
-<li>Fragment使用(什么时候使用Fragment：Activity管理Fragment.UI显示用Fragement)</li>
-<li>图片加载（Picasso Fresco Glie Android-Universal-Image-Loader）</li>
-<li>merge标签使用</li>
-<li>RecyclerView和CardView使用</li>
-<li>ActionBar使用</li>
-<li>Android Theme Style使用</li>
-<li>ActionBarSherlock</li>
-<li>ViewPagerIndicator    </li>
-<li>IO 2015上新组件，详情：<a href="http://android-developers.blogspot.fi/2015/05/android-design-support-library.html" target="_blank" rel="noopener">http://android-developers.blogspot.fi/2015/05/android-design-support-library.html</a></li>
-</ul>
-</li>
-<li><p>网络开发技能</p>
-<ul>
-<li>Volley使用</li>
-<li>android-async-http</li>
-<li>Json解析库</li>
-</ul>
-</li>
-<li><p>NDK编程技能</p>
-<ul>
-<li>NDK编程</li>
-<li>程序中调用so</li>
-</ul>
-</li>
-<li><p>应用的安全技能</p>
-<ul>
-<li>代码混淆，Proguard配置</li>
-<li>注入框架使用，api hook</li>
-<li>软件逆向</li>
+<li>Model: 业务模型</li>
+<li>Repository: 针对数据模型的增删改查</li>
+<li>Service: 针对业务数据的整理等操作</li>
+<li>UseCase: 通过repository和service实现针对应用页面的数据接口,也是domain层对外的统一接口</li>
 </ul>
 </li>
 </ol>
-<ol start="8">
-<li>进阶提高技能<ul>
-<li>Android系统、应用启动销毁流程</li>
-<li>源码分析，linux system design…..</li>
-<li>Arm（逆向汇编的时候还是需要知道点这个知识的）</li>
-<li>bootloader</li>
+<h2 id="业务模块架构"><a href="#业务模块架构" class="headerlink" title="业务模块架构"></a>业务模块架构</h2><p><img src="/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/%E2%81%A9%E2%81%A91.JPG" alt="1"></p>
+<p>UseCase:<br>UseCase中通过Repository获取业务Model,再通过Service将业务Model整理为页面需要的DTO</p>
+<p>ViewModel:<br>通过一个对象完整的了解整个业务具有哪些数据<br>daoBean, apiBean需要考虑序列化存储，数据会不全，也不易理解<br>Model由具有唯一标示的实体（Entity）和值对象(Value Object)构成</p>
+<p>Repository:<br>提供针对业务Model的增删改查接口</p>
+<p>优点：</p>
+<ul>
+<li>UI只复用UIComponent</li>
+<li>定义业务Model,通过Model，Repository，Service就能大概了业务功能</li>
+<li>代码层次结构，职责更加清晰，易维护</li>
+<li>业务层和UI层的分离，抽离了与界面无关的抽象业务层，可单独复用</li>
+<li>添加了业务层的访问接口UseCase,解决了需求变更时遵循开闭原则</li>
 </ul>
-</li>
-</ol>
-<p>##备注<br>以上仅是自己有接触或了解过的Android相关知识点总结</p>
-<p>##好资料<br>Android最佳实践<br><a href="https://github.com/futurice/android-best-practices" target="_blank" rel="noopener">https://github.com/futurice/android-best-practices</a></p>
+<h2 id="单元测试实践"><a href="#单元测试实践" class="headerlink" title="单元测试实践"></a>单元测试实践</h2><ul>
+<li>webApi, deviceApi,Dao,Service,Utils 一般没有其他依赖，可以单元测试(unit test)</li>
+<li>Repository会依赖webApi,deviceApi,Dao等，需要mock它们的实现进行测试(double test)</li>
+<li>使用robolectric让java test里面也可以依赖Android sdk 的api</li>
+</ul>
+<h2 id="Coroutines实践"><a href="#Coroutines实践" class="headerlink" title="Coroutines实践"></a>Coroutines实践</h2><ul>
+<li>webApi, deviceApi, Dao, Service, repository, UseCase这些都只提供的main-safe的suspend方法</li>
+</ul>
 
     </div>
 
@@ -304,13 +250,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2015/05/28/dian-zi-dao-chan-pin/" rel="prev" title="点子到产品">
-      <i class="fa fa-chevron-left"></i> 点子到产品
+    <a href="/2020/05/18/liveData%E4%BC%98%E7%BC%BA%E7%82%B9%E6%80%BB%E7%BB%93/" rel="prev" title="liveData优缺点总结">
+      <i class="fa fa-chevron-left"></i> liveData优缺点总结
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2015/06/03/actionbarshi-yong-zong-jie/" rel="next" title="ActionBar使用总结">
-      ActionBar使用总结 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -369,6 +312,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#当前的问题"><span class="nav-number">1.</span> <span class="nav-text">当前的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化和模块化理解"><span class="nav-number">2.</span> <span class="nav-text">组件化和模块化理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#组件化"><span class="nav-number">2.1.</span> <span class="nav-text">组件化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块化"><span class="nav-number">2.2.</span> <span class="nav-text">模块化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不忘初衷：做好代码复用"><span class="nav-number">3.</span> <span class="nav-text">不忘初衷：做好代码复用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务模块架构"><span class="nav-number">4.</span> <span class="nav-text">业务模块架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试实践"><span class="nav-number">5.</span> <span class="nav-text">单元测试实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coroutines实践"><span class="nav-number">6.</span> <span class="nav-text">Coroutines实践</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
