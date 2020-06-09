@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="源文件 class MainActivity : AppCompatActivity() &amp;#123;    override fun onCreate(savedInstanceState: Bundle?) &amp;#123;        super.onCreate(savedInstanceState)        setContentView(R.layout.activity_main)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android混淆和反编译结果查看">
+<meta property="og:url" content="http://yeshu.work/2020/06/09/Android%E6%B7%B7%E6%B7%86%E5%92%8C%E5%8F%8D%E7%BC%96%E8%AF%91%E7%BB%93%E6%9E%9C%E6%9F%A5%E7%9C%8B/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="源文件 class MainActivity : AppCompatActivity() &amp;#123;    override fun onCreate(savedInstanceState: Bundle?) &amp;#123;        super.onCreate(savedInstanceState)        setContentView(R.layout.activity_main)">
+<meta property="article:published_time" content="2020-06-09T02:47:07.000Z">
+<meta property="article:modified_time" content="2020-06-09T02:47:47.891Z">
+<meta property="article:author" content="yeshu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yeshu.work/2020/06/09/Android%E6%B7%B7%E6%B7%86%E5%92%8C%E5%8F%8D%E7%BC%96%E8%AF%91%E7%BB%93%E6%9E%9C%E6%9F%A5%E7%9C%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>Android混淆和反编译结果查看 | yeshu blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">yeshu blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/06/09/Android%E6%B7%B7%E6%B7%86%E5%92%8C%E5%8F%8D%E7%BC%96%E8%AF%91%E7%BB%93%E6%9E%9C%E6%9F%A5%E7%9C%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yeshu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yeshu blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android混淆和反编译结果查看
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-09 10:47:07 / Modified: 10:47:47" itemprop="dateCreated datePublished" datetime="2020-06-09T10:47:07+08:00">2020-06-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>源文件</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反编译后到smali文件</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line"><span class="keyword">.method</span><span class="keyword"> protected</span> onCreate(<span class="class">Landroid/os/Bundle;</span>)V</span><br><span class="line"><span class="keyword">    .locals</span> 1</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 10</span><br><span class="line">   <span class="built_in"> invoke-super </span>&#123;p0, p1&#125;, <span class="class">Landroidx/appcompat/app/AppCompatActivity;</span>-&gt;onCreate(<span class="class">Landroid/os/Bundle;</span>)V</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> const </span>p1, 0x7f0a001c</span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 11</span><br><span class="line">   <span class="built_in"> invoke-virtual </span>&#123;p0, p1&#125;, <span class="class">Lcom/example/logdemo/MainActivity;</span>-&gt;setContentView(I)V</span><br><span class="line"></span><br><span class="line">   <span class="built_in"> const-string </span>p1, <span class="string">"yeshu"</span></span><br><span class="line"></span><br><span class="line">   <span class="built_in"> const-string </span>v0, <span class="string">"hello log"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">    .line</span> 12</span><br><span class="line">   <span class="built_in"> invoke-static </span>&#123;p1, v0&#125;, <span class="class">Landroid/util/Log;</span>-&gt;i(<span class="class">Ljava/lang/String;</span><span class="class">Ljava/lang/String;</span>)I</span><br><span class="line"></span><br><span class="line">    return-void</span><br><span class="line"><span class="keyword">.end method</span></span><br></pre></td></tr></table></figure>
+
+<p>koin转换得到的java文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Metadata</span>(bv = &#123;<span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>&#125;, d1 = &#123;<span class="string">"\000\030\n\002\030\002\n\002\030\002\n\002\b\002\n\002\020\002\n\000\n\002\030\002\n\000\030\0002\0020\001B\005\006\002\020\002J\022\020\003\032\0020\0042\b\020\005\032\004\030\0010\006H\024\006\007"</span>&#125;, d2 = &#123;<span class="string">"Lcom/example/logdemo/MainActivity;"</span>, <span class="string">"Landroidx/appcompat/app/AppCompatActivity;"</span>, <span class="string">"()V"</span>, <span class="string">"onCreate"</span>, <span class="string">""</span>, <span class="string">"savedInstanceState"</span>, <span class="string">"Landroid/os/Bundle;"</span>, <span class="string">"app_release"</span>&#125;, k = <span class="number">1</span>, mv = &#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">16</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> HashMap _$_findViewCache;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> _$_clearFindViewByIdCache() &#123;</span><br><span class="line">    HashMap hashMap = <span class="keyword">this</span>._$_findViewCache;</span><br><span class="line">    <span class="keyword">if</span> (hashMap != <span class="keyword">null</span>)</span><br><span class="line">      hashMap.clear(); </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">public</span> View _$_findCachedViewById(<span class="keyword">int</span> paramInt) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>._$_findViewCache == <span class="keyword">null</span>)</span><br><span class="line">      <span class="keyword">this</span>._$_findViewCache = <span class="keyword">new</span> HashMap&lt;Object, Object&gt;(); </span><br><span class="line">    View view2 = (View)<span class="keyword">this</span>._$_findViewCache.get(Integer.valueOf(paramInt));</span><br><span class="line">    View view1 = view2;</span><br><span class="line">    <span class="keyword">if</span> (view2 == <span class="keyword">null</span>) &#123;</span><br><span class="line">      view1 = findViewById(paramInt);</span><br><span class="line">      <span class="keyword">this</span>._$_findViewCache.put(Integer.valueOf(paramInt), view1);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span> view1;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle paramBundle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(paramBundle);</span><br><span class="line">    setContentView(<span class="number">2131361820</span>);</span><br><span class="line">    Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="没有开启混淆优化时"><a href="#没有开启混淆优化时" class="headerlink" title="没有开启混淆优化时"></a>没有开启混淆优化时</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">val</span> debug: <span class="built_in">Boolean</span> = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        <span class="keyword">if</span> (debug)&#123;</span><br><span class="line">            Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log"</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log  true"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        Log.i(<span class="string">"yeshu"</span>, <span class="string">"wo shen me dou mei zuo "</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>val debug 会让编译器优化掉无效的语句，但是var debug不会。</li>
+<li>默认的无效方法 test()没有被删除掉</li>
+</ul>
+<h2 id="开启混淆，优化"><a href="#开启混淆，优化" class="headerlink" title="开启混淆，优化"></a>开启混淆，优化</h2><p>启用压缩，优化，混淆后只要逻辑上没执行到的代码就被删除了，依赖库中没用到的代码也都删除了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">minifyEnabled true</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">h</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle paramBundle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(paramBundle);</span><br><span class="line">    setContentView(<span class="number">2131361820</span>);</span><br><span class="line">    Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log  true"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> debug: <span class="built_in">Boolean</span> = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        <span class="keyword">if</span> (debug)&#123;</span><br><span class="line">            Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log"</span>)</span><br><span class="line">            test()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log  true"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        Log.i(<span class="string">"yeshu"</span>, <span class="string">"wo shen me dou mei zuo "</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>test()方法和if判断中的false分支都会被删除</p>
+<h2 id="子module和主项目之间的混淆配置关系"><a href="#子module和主项目之间的混淆配置关系" class="headerlink" title="子module和主项目之间的混淆配置关系"></a>子module和主项目之间的混淆配置关系</h2><p>AAR 库：<code>&lt;library-dir&gt;/proguard.txt</code></p>
+<p>JAR 库：<code>&lt;library-dir&gt;/META-INF/proguard/</code></p>
+<p>如果某个 AAR 库是使用它自己的 ProGuard 规则文件发布的，并且您将该 AAR 库作为编译时依赖项纳入到项目中，则 R8 在编译项目时会自动应用其规则。</p>
+<p>如果 AAR 库需要某些保留规则才能正常运行，那么使用该库随附的规则文件将非常有用。 也就是说，库开发者已经为您执行了问题排查步骤。</p>
+<p>不过，请注意，由于 ProGuard 规则是累加的，因此 AAR 库依赖项包含的某些规则无法移除，并且可能会影响对应用其他部分的编译。例如，如果某个库包含停用代码优化的规则，该规则会针对整个项目停用优化</p>
+<h2 id="查看整个项目的规则"><a href="#查看整个项目的规则" class="headerlink" title="查看整个项目的规则"></a>查看整个项目的规则</h2><p>要输出 R8 在构建项目时应用的所有规则的完整报告，请将以下代码添加到模块的 <code>proguard-rules.pro</code> 文件中：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; You can specify any path and filename.</span><br><span class="line">    -printconfiguration ~&#x2F;tmp&#x2F;full-r8-config.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="给不同的flavor配置不同的混淆规则"><a href="#给不同的flavor配置不同的混淆规则" class="headerlink" title="给不同的flavor配置不同的混淆规则"></a>给不同的flavor配置不同的混淆规则</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">        ...</span><br><span class="line">        buildTypes &#123;</span><br><span class="line">            release &#123;</span><br><span class="line">                minifyEnabled true</span><br><span class="line">                proguardFiles getDefaultProguardFile(</span><br><span class="line">                  &#39;proguard-android-optimize.txt&#39;),</span><br><span class="line">                  &#x2F;&#x2F; List additional ProGuard rules for the given build type here. By default,</span><br><span class="line">                  &#x2F;&#x2F; Android Studio creates and includes an empty rules file for you (located</span><br><span class="line">                  &#x2F;&#x2F; at the root directory of each module).</span><br><span class="line">                  &#39;proguard-rules.pro&#39;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        flavorDimensions &quot;version&quot;</span><br><span class="line">        productFlavors &#123;</span><br><span class="line">            flavor1 &#123;</span><br><span class="line">              ...</span><br><span class="line">            &#125;</span><br><span class="line">            flavor2 &#123;</span><br><span class="line">                proguardFile &#39;flavor2-rules.pro&#39;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义要保留的代码"><a href="#自定义要保留的代码" class="headerlink" title="自定义要保留的代码"></a>自定义要保留的代码</h2><p>说明了它在什么情况下可能会错误地移除代码：</p>
+<ul>
+<li>当您的应用通过 Java 原生接口 (JNI) 调用方法时</li>
+<li>当您的应用在运行时查询代码时（如使用反射）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-keep public class MyClass</span><br><span class="line"></span><br><span class="line">@Keep</span><br></pre></td></tr></table></figure>
+
+<h2 id="缩减资源"><a href="#缩减资源" class="headerlink" title="缩减资源"></a>缩减资源</h2><p>两个必须同时开启</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">shrinkResources true</span><br><span class="line">minifyEnabled true</span><br></pre></td></tr></table></figure>
+
+<h2 id="移除未使用的备用资源"><a href="#移除未使用的备用资源" class="headerlink" title="移除未使用的备用资源"></a>移除未使用的备用资源</h2><p>以下代码段展示了如何设置只保留英语和法语的语言资源：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">        defaultConfig &#123;</span><br><span class="line">            ...</span><br><span class="line">            resConfigs &quot;en&quot;, &quot;fr&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="重复资源的合并规则"><a href="#重复资源的合并规则" class="headerlink" title="重复资源的合并规则"></a>重复资源的合并规则</h2><p>Gradle 会按以下级联优先顺序合并重复资源：</p>
+<p>依赖项 → 主资源 → 版本变种 → 版本类型</p>
+<p>例如，如果某个重复资源同时出现在主资源和版本变种中，Gradle 会选择版本变种中的资源。</p>
+<h2 id="R8代码优化"><a href="#R8代码优化" class="headerlink" title="R8代码优化"></a>R8代码优化</h2><ul>
+<li>如果您的代码从未采用过给定 if/else 语句的 <code>else {}</code> 分支，R8 可能会移除 <code>else {}</code> 分支的代码。</li>
+<li>如果您的代码只在一个位置调用某个方法，R8 可能会移除该方法并将其内嵌在这一个调用点。</li>
+<li>如果 R8 确定某个类只有一个唯一的子类且该类本身未实例化（例如，一个仅由一个具体实现类使用的抽象基类），它就可以将这两个类合并在一起并从应用中移除一个类。</li>
+</ul>
+<h2 id="生成移除的（或保留的）代码的报告"><a href="#生成移除的（或保留的）代码的报告" class="headerlink" title="生成移除的（或保留的）代码的报告"></a>生成移除的（或保留的）代码的报告</h2><p>是否可以根据移除报告来优化代码，提高代码质量</p>
+<h2 id="排查资源缩减问题"><a href="#排查资源缩减问题" class="headerlink" title="排查资源缩减问题"></a>排查资源缩减问题</h2><p>同样通过查看资源压缩日志，来提高代码质量</p>
+<h2 id="删除log日志"><a href="#删除log日志" class="headerlink" title="删除log日志"></a>删除log日志</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-assumenosideeffects class android.util.Log &#123;</span><br><span class="line">          public static boolean isLoggable(java.lang.String, int);</span><br><span class="line">          public static int v(...);</span><br><span class="line">          public static int i(...);</span><br><span class="line">          public static int w(...);</span><br><span class="line">          public static int d(...);</span><br><span class="line">          public static int e(...);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p>不管代码有没有执行，都会直接删除掉</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> debug: <span class="built_in">Boolean</span> = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        <span class="keyword">if</span> (debug)&#123;</span><br><span class="line">            Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log"</span>)</span><br><span class="line">            test()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Log.i(<span class="string">"yeshu"</span>, <span class="string">"hello log  true"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        Log.i(<span class="string">"yeshu"</span>, <span class="string">"wo shen me dou mei zuo "</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">h</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle paramBundle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(paramBundle);</span><br><span class="line">    setContentView(<span class="number">2131361820</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="反编译出来的java文件和源文件的区别"><a href="#反编译出来的java文件和源文件的区别" class="headerlink" title="反编译出来的java文件和源文件的区别"></a>反编译出来的java文件和源文件的区别</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># virtual methods</span><br><span class="line">.method public onCreate(Landroid&#x2F;os&#x2F;Bundle;)V</span><br><span class="line">    .locals 1</span><br><span class="line"></span><br><span class="line">    invoke-super &#123;p0, p1&#125;, La&#x2F;b&#x2F;k&#x2F;h;-&gt;onCreate(Landroid&#x2F;os&#x2F;Bundle;)V</span><br><span class="line"></span><br><span class="line">    const p1, 0x7f0a001c</span><br><span class="line"></span><br><span class="line">    invoke-virtual &#123;p0, p1&#125;, La&#x2F;b&#x2F;k&#x2F;h;-&gt;setContentView(I)V</span><br><span class="line"></span><br><span class="line">    const-string p1, &quot;hello log&quot;</span><br><span class="line"></span><br><span class="line">    const-string v0, &quot;yeshu&quot;</span><br><span class="line"></span><br><span class="line">    .line 1</span><br><span class="line">    invoke-static &#123;v0, p1&#125;, Landroid&#x2F;util&#x2F;Log;-&gt;v(Ljava&#x2F;lang&#x2F;String;Ljava&#x2F;lang&#x2F;String;)I</span><br><span class="line"></span><br><span class="line">    return-void</span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">h</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle paramBundle)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(paramBundle);</span><br><span class="line">    setContentView(<span class="number">2131361820</span>);</span><br><span class="line">    Log.v(<span class="string">"yeshu"</span>, <span class="string">"hello log"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>源文件</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line">        MyLog.log(<span class="string">"hello log"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">object</span> MyLog &#123;</span><br><span class="line">    <span class="keyword">var</span> debug: <span class="built_in">Boolean</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">log</span><span class="params">(msg: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (debug) &#123;</span><br><span class="line">            Log.v(<span class="string">"yeshu"</span>, msg)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://developer.android.com/studio/build/shrink-code#shrink-code" target="_blank" rel="noopener">https://developer.android.com/studio/build/shrink-code#shrink-code</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/18/%E6%A8%A1%E5%9D%97%E5%8C%96%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/" rel="prev" title="模块化分享记录">
+      <i class="fa fa-chevron-left"></i> 模块化分享记录
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#没有开启混淆优化时"><span class="nav-number">1.</span> <span class="nav-text">没有开启混淆优化时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开启混淆，优化"><span class="nav-number">2.</span> <span class="nav-text">开启混淆，优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子module和主项目之间的混淆配置关系"><span class="nav-number">3.</span> <span class="nav-text">子module和主项目之间的混淆配置关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看整个项目的规则"><span class="nav-number">4.</span> <span class="nav-text">查看整个项目的规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给不同的flavor配置不同的混淆规则"><span class="nav-number">5.</span> <span class="nav-text">给不同的flavor配置不同的混淆规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义要保留的代码"><span class="nav-number">6.</span> <span class="nav-text">自定义要保留的代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缩减资源"><span class="nav-number">7.</span> <span class="nav-text">缩减资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除未使用的备用资源"><span class="nav-number">8.</span> <span class="nav-text">移除未使用的备用资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重复资源的合并规则"><span class="nav-number">9.</span> <span class="nav-text">重复资源的合并规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R8代码优化"><span class="nav-number">10.</span> <span class="nav-text">R8代码优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成移除的（或保留的）代码的报告"><span class="nav-number">11.</span> <span class="nav-text">生成移除的（或保留的）代码的报告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查资源缩减问题"><span class="nav-number">12.</span> <span class="nav-text">排查资源缩减问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除log日志"><span class="nav-number">13.</span> <span class="nav-text">删除log日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反编译出来的java文件和源文件的区别"><span class="nav-number">14.</span> <span class="nav-text">反编译出来的java文件和源文件的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">15.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yeshu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">130</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yeshu-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yeshu-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yeshu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
