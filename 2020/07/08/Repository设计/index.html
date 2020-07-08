@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Repository设计前提：WebService只是数据的增删改查接口，不是业务接口。如果是业务接口那WebApi应当等价于UseCase。 方案一 Repository职责：  从本地数据中增删改查数据 从远程数据中增删改查  具体方法如下：  addToLocal() deleteLocal() queryLocal() updateLocal() addToRemote() deleteR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Repository设计">
+<meta property="og:url" content="http://yeshu.work/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="Repository设计前提：WebService只是数据的增删改查接口，不是业务接口。如果是业务接口那WebApi应当等价于UseCase。 方案一 Repository职责：  从本地数据中增删改查数据 从远程数据中增删改查  具体方法如下：  addToLocal() deleteLocal() queryLocal() updateLocal() addToRemote() deleteR">
+<meta property="og:image" content="http://yeshu.work/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/15941779248052.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/15941778752001.jpg">
+<meta property="article:published_time" content="2020-07-08T07:03:12.000Z">
+<meta property="article:modified_time" content="2020-07-08T07:08:19.998Z">
+<meta property="article:author" content="yeshu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yeshu.work/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/15941779248052.jpg">
+
+<link rel="canonical" href="http://yeshu.work/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>Repository设计 | yeshu blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">yeshu blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yeshu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yeshu blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Repository设计
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-08 15:03:12 / Modified: 15:08:19" itemprop="dateCreated datePublished" datetime="2020-07-08T15:03:12+08:00">2020-07-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Repository设计"><a href="#Repository设计" class="headerlink" title="Repository设计"></a>Repository设计</h1><p>前提：WebService只是数据的增删改查接口，不是业务接口。如果是业务接口那WebApi应当等价于UseCase。</p>
+<h2 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h2><p><img src="/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/15941779248052.jpg" alt></p>
+<p>Repository职责：</p>
+<ul>
+<li>从本地数据中增删改查数据</li>
+<li>从远程数据中增删改查</li>
+</ul>
+<p>具体方法如下：</p>
+<ul>
+<li>addToLocal()</li>
+<li>deleteLocal()</li>
+<li>queryLocal()</li>
+<li>updateLocal()</li>
+<li>addToRemote()</li>
+<li>deleteRemote()</li>
+<li>queryRemote()</li>
+<li>updateRemote()</li>
+</ul>
+<p>常见UseCase:</p>
+<ul>
+<li>本地数据的增删改查</li>
+<li>远程数据的增删改查</li>
+<li>本地数据同步到远程</li>
+<li>远程数据同步到本地</li>
+</ul>
+<p>由于数据同步机制属于和具体场景强相关的，所以不放在Repository中，应当由UseCase实现。</p>
+<h2 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h2><p>方案一发现一个问题：Repository的接口基本上就是本地数据和远程数据的透传，那能不能将其拆分为两个独立的Repository</p>
+<p><img src="/2020/07/08/Repository%E8%AE%BE%E8%AE%A1/15941778752001.jpg" alt></p>
+<p>LocalRepository职责：本地数据的增删改查</p>
+<ul>
+<li>add()</li>
+<li>query()</li>
+<li>delete()</li>
+<li>update()<br>RemoteRepository职责：远程数据的增删改查</li>
+<li>add()</li>
+<li>query()</li>
+<li>delete()</li>
+<li>update()</li>
+</ul>
+<p>常见UseCase:</p>
+<ul>
+<li>本地数据的增删改查</li>
+<li>远程数据的增删改查</li>
+<li>本地数据同步到远程</li>
+<li>远程数据同步到本地</li>
+</ul>
+<p>虽然清晰了，但使用起来感觉不对，usecase得关注两个数据源？找找理由：</p>
+<ul>
+<li>对UseCase来说，应当只有一个单一数据源的概念，Local和Remote只是数据类型不同，并不是说来自不同的数据源。</li>
+<li>方案二的数据同步逻辑实现，会让数据类型转换添加一个不必要的Model转换<ul>
+<li>方案一：ApiBean-&gt;DaoBean</li>
+<li>方案二：ApiBean-&gt;Model-&gt;DaoBean</li>
+</ul>
+</li>
+</ul>
+<p>所以最终结论：还是方案一比较好</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/09/Android%E6%B7%B7%E6%B7%86%E5%92%8C%E5%8F%8D%E7%BC%96%E8%AF%91%E7%BB%93%E6%9E%9C%E6%9F%A5%E7%9C%8B/" rel="prev" title="Android混淆和反编译结果查看">
+      <i class="fa fa-chevron-left"></i> Android混淆和反编译结果查看
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Repository设计"><span class="nav-number">1.</span> <span class="nav-text">Repository设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案一"><span class="nav-number">1.1.</span> <span class="nav-text">方案一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案二"><span class="nav-number">1.2.</span> <span class="nav-text">方案二</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yeshu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">131</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yeshu-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yeshu-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yeshu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
