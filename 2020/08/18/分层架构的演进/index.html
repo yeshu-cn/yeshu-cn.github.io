@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前做过一次以解决问题为动机，迭代架构的分享。这次是从架构演化的角度解释架构。虽然角度不同，但是最终得到的架构结果是相同的。 架构的工作架构可以细分为  代码架构：关注怎么写高质量代码 工程架构：关注怎么快速的迭代开发产品  代码架构  梳理业务逻辑，定义业务模型，业务服务 整理出清晰的表示层，业务层，持久层边界 持久层实现方案  工程架构  组件化业务模块 重构项目源文件结构，优化团队协作（实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分层架构的演进">
+<meta property="og:url" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="之前做过一次以解决问题为动机，迭代架构的分享。这次是从架构演化的角度解释架构。虽然角度不同，但是最终得到的架构结果是相同的。 架构的工作架构可以细分为  代码架构：关注怎么写高质量代码 工程架构：关注怎么快速的迭代开发产品  代码架构  梳理业务逻辑，定义业务模型，业务服务 整理出清晰的表示层，业务层，持久层边界 持久层实现方案  工程架构  组件化业务模块 重构项目源文件结构，优化团队协作（实现">
+<meta property="og:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-13%20%E4%B8%8B%E5%8D%885.48.26.png">
+<meta property="og:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-13%20%E4%B8%8B%E5%8D%887.54.54.png">
+<meta property="og:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/15973952187597.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/15975665211545.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/15973121341575.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-17%20%E4%B8%8B%E5%8D%883.26.53.png">
+<meta property="article:published_time" content="2020-08-18T08:58:45.000Z">
+<meta property="article:modified_time" content="2020-08-18T09:04:37.316Z">
+<meta property="article:author" content="yeshu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-13%20%E4%B8%8B%E5%8D%885.48.26.png">
+
+<link rel="canonical" href="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>分层架构的演进 | yeshu blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">yeshu blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yeshu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yeshu blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分层架构的演进
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-18 16:58:45 / Modified: 17:04:37" itemprop="dateCreated datePublished" datetime="2020-08-18T16:58:45+08:00">2020-08-18</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前做过一次以解决问题为动机，迭代架构的分享。这次是从架构演化的角度解释架构。<br>虽然角度不同，但是最终得到的架构结果是相同的。</p>
+<h2 id="架构的工作"><a href="#架构的工作" class="headerlink" title="架构的工作"></a>架构的工作</h2><p>架构可以细分为</p>
+<ul>
+<li>代码架构：关注怎么写高质量代码</li>
+<li>工程架构：关注怎么快速的迭代开发产品</li>
+</ul>
+<p>代码架构</p>
+<ol>
+<li>梳理业务逻辑，定义业务模型，业务服务</li>
+<li>整理出清晰的表示层，业务层，持久层边界</li>
+<li>持久层实现方案</li>
+</ol>
+<p>工程架构</p>
+<ol>
+<li>组件化业务模块</li>
+<li>重构项目源文件结构，优化团队协作（实现aar,module等工作）</li>
+<li>优化编译，发布流程</li>
+</ol>
+<h2 id="代码架构有哪些"><a href="#代码架构有哪些" class="headerlink" title="代码架构有哪些"></a>代码架构有哪些</h2><p>谈起架构，经常会听到分层架构，三层架构，clean架构，MVC,MVP,MVVM，他们之间有什么关系呢？</p>
+<ol>
+<li>架构的核心是分层，三层架构是分层思想的具体实现，clean架构也是分层思想的具体实现，不过相比三层架构各个角色的描述更加详细。</li>
+<li>MVC,MVP,MVVM只是分层架构中实现表现层的一种设计模式。</li>
+</ol>
+<p><strong>分层架构</strong></p>
+<blockquote>
+<p>分层架构的优点<br>（1）开发人员的专业分工，专注理解某一层。<br>（2）可以很容易用新的实现来替换原有层次的实现。<br>（3）降低了系统间的依赖。<br>（4）有利于复用。 </p>
+</blockquote>
+<h3 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h3><p><img src="/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-13%20%E4%B8%8B%E5%8D%885.48.26.png" alt="屏幕快照 2020-08-13 下午5.48.26"></p>
+<p>服务端的SSH框架中的三层架构实现示意图<br><img src="/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-13%20%E4%B8%8B%E5%8D%887.54.54.png" alt="屏幕快照 2020-08-13 下午7.54.54"></p>
+<p>依赖规则：依赖接口，从上到下单向依赖</p>
+<h4 id="架构的问题"><a href="#架构的问题" class="headerlink" title="架构的问题"></a>架构的问题</h4><p>登陆时需要获取用户昵称，签名，年龄，帖子个数信息。<br>version 1: 登陆时，客户端会请求四次网络</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUserName</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Int <span class="title">getUserAge</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUserSignature</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">PostService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Int <span class="title">getPostCountByUid</span><span class="params">(<span class="keyword">int</span> uid)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题：客户端使用起来不仅繁琐，而且多次网络请求消耗手机性能</p>
+<p>version 2: 客户端只调用一个<strong>聚合后</strong>的接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">LoginService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> LoginInfo <span class="title">getLoginData</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>问题：客户端需求版本升级，或者支持一个新的App登陆，现在登陆只需要获取昵称，年龄，帖子个数。那么现在这个登陆接口就不能用了。于是我们会</p>
+<ol>
+<li>直接修改<code>getLoginData()</code>方法</li>
+<li>在<code>LoginServcie</code>中新增一个方法</li>
+</ol>
+<p>但不管哪种做法，都在编辑了老文件，都破坏了开闭原则。</p>
+<p>观察发现上面的代码有一个特征：<code>UserService</code>,<code>PostService</code>中的方法是不会变化的，但是LoginService中的方法会随不同的App,不同版本的App发生变化。那么该如何管理这部分的代码呢？</p>
+<h3 id="四层架构"><a href="#四层架构" class="headerlink" title="四层架构"></a>四层架构</h3><p><img src="/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/15973952187597.jpg" alt></p>
+<ul>
+<li>User Interface: 用户交互界面，等同于上面的表示层</li>
+<li>Application: 应用层，定义软件要完成的任务。</li>
+<li>Domain: 领域层，负责业务概念，业务规则的实现。</li>
+<li>Infrastructure: 基础实施层，向其他层提供通用的技术能力：为应用层传递消息，为领域层提供持久化机制，为用户界面层绘制屏幕组件，等等。</li>
+</ul>
+<p>解决的问题：</p>
+<ul>
+<li>分离通用的企业业务和特定的应用业务</li>
+<li>分离业务逻辑和技术细节，Domain是核心的业务逻辑，Infrastructure是技术细节<br><img src="/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/15975665211545.jpg" alt></li>
+</ul>
+<h3 id="clean架构"><a href="#clean架构" class="headerlink" title="clean架构"></a>clean架构</h3><p>clean架构是四层架构细想的更详细的实践指导，明确的定义了角色名称</p>
+<ol>
+<li>Entities： 领域层业务，Enterprise Business Rules</li>
+<li>Use Cases: 应用层业务, Application Business Rules</li>
+<li>明确的定义了<code>GateWays</code>,<code>Controllers</code>,<code>Presenters</code>等业务层和展示层适桥梁的中间角色。</li>
+</ol>
+<p><img src="/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/15973121341575.jpg" alt></p>
+<p>依赖规则</p>
+<ul>
+<li>依赖接口，从外到内单向依赖。内部不知道外部的任何规则</li>
+</ul>
+<h2 id="Android中的clean架构具体实现"><a href="#Android中的clean架构具体实现" class="headerlink" title="Android中的clean架构具体实现"></a>Android中的clean架构具体实现</h2><p><img src="/2020/08/18/%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84%E7%9A%84%E6%BC%94%E8%BF%9B/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202020-08-17%20%E4%B8%8B%E5%8D%883.26.53.png" alt="屏幕快照 2020-08-17 下午3.26.53"></p>
+<p>根据上图可以划分为四个Moduel:</p>
+<ul>
+<li>UI:界面</li>
+<li>DB:数据存储实现细节</li>
+<li>Device:设备，平台相关功能实现细节，如同步硬件数据，通知等</li>
+<li>业务逻辑</li>
+</ul>
+<p>但是如果真的这样去执行，可能会有过度设计的效果，对这个四个moduel进一步进行重构分析。</p>
+<p>由于DB,Device，UI是和应用相关的，不同的应用实现细节可能不同，所以把四个Module分为两类：</p>
+<ul>
+<li>应用层（App）: UI,DB,Device.</li>
+<li>业务层(Domain): Application Business Rules, Enterprise Business Rules.</li>
+</ul>
+<p>如果多个应用中DB,Device技术实现细节相同，则将代码下沉到业务层(Domain)中。<br>注意，DB,Device代码上还是通过package和UI层区分开的，只是工程管理上把他们放在了应用层(App)。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://baike.baidu.com/item/%E5%88%86%E5%B1%82%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84" target="_blank" rel="noopener">分层体系结构</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/64343082" target="_blank" rel="noopener">The Clean Architecture</a></li>
+<li><a href="https://www.jianshu.com/p/a775836c7e25?from=groupmessage" target="_blank" rel="noopener">DDD分层架构的三种模式</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/11/%E9%98%B2%E5%BE%A1%E4%BD%BF%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%91%E7%BA%A6%E5%BC%8F%E7%BC%96%E7%A8%8B/" rel="prev" title="防御使编程和契约式编程">
+      <i class="fa fa-chevron-left"></i> 防御使编程和契约式编程
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#架构的工作"><span class="nav-number">1.</span> <span class="nav-text">架构的工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码架构有哪些"><span class="nav-number">2.</span> <span class="nav-text">代码架构有哪些</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三层架构"><span class="nav-number">2.1.</span> <span class="nav-text">三层架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#架构的问题"><span class="nav-number">2.1.1.</span> <span class="nav-text">架构的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四层架构"><span class="nav-number">2.2.</span> <span class="nav-text">四层架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clean架构"><span class="nav-number">2.3.</span> <span class="nav-text">clean架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android中的clean架构具体实现"><span class="nav-number">3.</span> <span class="nav-text">Android中的clean架构具体实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yeshu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yeshu-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yeshu-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yeshu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
