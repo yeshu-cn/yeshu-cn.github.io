@@ -27,7 +27,7 @@
 <meta property="og:site_name" content="yeshu blog">
 <meta property="og:description" content="依赖倒置依赖倒置是面对对象设计的标志，依赖于抽象或接口进行编程。 What Dependence Inversion Principle (DIP) ,高层模块应该依赖于抽象，而不能直接依赖底层模块的具体实现 Why 传统的：修改功能时，必须修改底层模块原有的实现代码，甚至导致修改高层模块代码。违背了开放封闭原则。 底层模块（具体实现）--&gt; 高层模块（调用底层模块实现用户场景功能）依赖倒置">
 <meta property="article:published_time" content="2018-06-04T13:04:19.000Z">
-<meta property="article:modified_time" content="2020-04-17T08:12:21.132Z">
+<meta property="article:modified_time" content="2020-09-16T06:32:20.614Z">
 <meta property="article:author" content="yeshu">
 <meta name="twitter:card" content="summary">
 
@@ -116,6 +116,11 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-about">
 
     <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
@@ -179,8 +184,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-17 16:12:21" itemprop="dateModified" datetime="2020-04-17T16:12:21+08:00">2020-04-17</time>
+                <time title="Modified: 2020-09-16 14:32:20" itemprop="dateModified" datetime="2020-09-16T14:32:20+08:00">2020-09-16</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">架构设计</span></a>
+                </span>
+            </span>
 
           
 
@@ -345,6 +359,12 @@ UI层功能3-&gt; new ServiceImpl(param1, param2, param3)</code></pre><p>以上�
           <span class="site-state-item-count">133</span>
           <span class="site-state-item-name">posts</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
         <span class="site-state-item-count">3</span>
