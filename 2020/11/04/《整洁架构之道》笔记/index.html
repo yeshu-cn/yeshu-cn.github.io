@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yeshu.work","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="《架构整洁之道》笔记 有多少次，我看到的系统设计图里，根本没有“层次”的概念，各个模块没有一致的层次划分，与子系统交互的不是子系统，而是一盘散沙式的接口，甚至接口之间随意互调、关系乱成一团麻的情况也时常出现，带来的就是维护和调试的噩梦。 了解历史已经够难了，我们对现实的认识也不够可靠，语言未来就更难了。  所以嘛，能把当前的代码写清楚就很棒了。 软件开发理论的两个观点：  只有权威和刚性才能带来强">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《整洁架构之道》笔记">
+<meta property="og:url" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="yeshu blog">
+<meta property="og:description" content="《架构整洁之道》笔记 有多少次，我看到的系统设计图里，根本没有“层次”的概念，各个模块没有一致的层次划分，与子系统交互的不是子系统，而是一盘散沙式的接口，甚至接口之间随意互调、关系乱成一团麻的情况也时常出现，带来的就是维护和调试的噩梦。 了解历史已经够难了，我们对现实的认识也不够可靠，语言未来就更难了。  所以嘛，能把当前的代码写清楚就很棒了。 软件开发理论的两个观点：  只有权威和刚性才能带来强">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16004001423590.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16023002460668.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16023002606430.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027329552278.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027468122796.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027442758485.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027462985387.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027463127357.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027469415956.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027476999338.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027477091261.jpg">
+<meta property="og:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16033478755790.jpg">
+<meta property="article:published_time" content="2020-11-04T12:10:18.000Z">
+<meta property="article:modified_time" content="2020-11-04T12:15:20.625Z">
+<meta property="article:author" content="yeshu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16004001423590.jpg">
+
+<link rel="canonical" href="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+
+  <title>《整洁架构之道》笔记 | yeshu blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">yeshu blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yeshu.work/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yeshu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yeshu blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《整洁架构之道》笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-11-04 20:10:18 / Modified: 20:15:20" itemprop="dateCreated datePublished" datetime="2020-11-04T20:10:18+08:00">2020-11-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="《架构整洁之道》笔记"><a href="#《架构整洁之道》笔记" class="headerlink" title="《架构整洁之道》笔记"></a>《架构整洁之道》笔记</h1><ul>
+<li>有多少次，我看到的系统设计图里，根本没有“层次”的概念，各个模块没有一致的层次划分，与子系统交互的不是子系统，而是一盘散沙式的接口，甚至接口之间随意互调、关系乱成一团麻的情况也时常出现，带来的就是维护和调试的噩梦。</li>
+<li>了解历史已经够难了，我们对现实的认识也不够可靠，语言未来就更难了。</li>
+</ul>
+<p><code>所以嘛，能把当前的代码写清楚就很棒了。</code></p>
+<p>软件开发理论的两个观点：</p>
+<ul>
+<li><p>只有权威和刚性才能带来强壮与稳定。如果某项变更成本高昂，那么就应该忽视它-变更背后的需求要么应该被抑制，要么就应该被丢到官僚主义的大机器中去较碎。</p>
+</li>
+<li><p>另外一条路线则是到处充斥着大量的投机性的通用设计。</p>
+</li>
+<li><p>软件架构的规则是相同的！</p>
+</li>
+<li><p>最终产生的代码仍然只是顺序结构、分支结构、循环结构的组合。</p>
+</li>
+<li><p>对系统的开发者来说，这会带来很大的挫败感，因为团队中并没有人偷懒，每个人还都是和之前一样的在拼命工作。</p>
+</li>
+<li><p>然而，不管他们投入了多少个人实践，救了多少次火，加了多少次班，他们的产出始终上不去。工程师的大部分时间都消耗在对现有系统的修修补补上，而不是真正完成实际的新功能。这些工程师真正的任务是：拆了东墙补西墙，周而往复，偶尔有精力能顺便实现一点小功能。</p>
+</li>
+<li><p>做事的优先级</p>
+<ol>
+<li>重要且紧急</li>
+<li>重要不紧急</li>
+<li>不重要但紧急</li>
+<li>不重要且紧急</li>
+</ol>
+</li>
+</ul>
+<p>有抗争才是健康的</p>
+<blockquote>
+<p>研发团队必须从公司长远利益出发与其他部门抗争</p>
+</blockquote>
+<h2 id="编程范式-paradigm"><a href="#编程范式-paradigm" class="headerlink" title="编程范式(paradigm)"></a>编程范式(paradigm)</h2><p>三种编程范式</p>
+<ul>
+<li>结构化编程（structured programming）</li>
+<li>面向对象编程 (object-oriented programming)</li>
+<li>函数式编程 (functional programming)</li>
+</ul>
+<p>结构化编程对程序控制权的直接转移进行了限制和规范。<br>面对对象编程对程序控制权的间接转移进行了限制和规范。<br>函数式编程对程序中的赋值进行了限制和规范。</p>
+<h3 id="结构化编程"><a href="#结构化编程" class="headerlink" title="结构化编程"></a>结构化编程</h3><ul>
+<li><p>如果没有工具的帮助，这些细节的信息是远远超过一个程序员的认识能力范围的。</p>
+</li>
+<li><p>顺序结构、分支结构、循环结构这三种结构可以构造出任何程序。</p>
+</li>
+<li><p>科学和数学在证明方法上有着根本性的不同，科学理论和科学定律通常是无法被证明的。</p>
+</li>
+<li><p>科学理论和科学定律的特点：他们可以被证伪，但是没有办法被证明</p>
+</li>
+<li><p>测试只能展示Bug的存在，并不能证明不存在Bug</p>
+</li>
+<li><p>结构化编程范式，它赋予了我们创造可证伪程序单元的能力，所以”功能性降解拆分仍然是最佳时间之一“</p>
+</li>
+</ul>
+<h3 id="面对对象编程"><a href="#面对对象编程" class="headerlink" title="面对对象编程"></a>面对对象编程</h3><p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16004001423590.jpg" alt></p>
+<p>这意味着我们让用户界面和数据库都成为了业务逻辑的插件。</p>
+<p>业务逻辑组件具有了</p>
+<ul>
+<li>独立部署能力</li>
+<li>独立开发能力</li>
+</ul>
+<p><strong>面对对象编程是什么？</strong></p>
+<p>通过多态对源代码中的依赖关系进行控制，实现某种插件式的架构。插件可以独立的开发和部署。</p>
+<h3 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h3><p>一个架构设计良好的应用程序应该将状态修改的部分和不需要修改的状态部门隔离成单独的组件，然后用合适的机制来保护壳变量。</p>
+<p>软件架构师应该着力于将大部分处理逻辑都归于不可变组件中，可变状态组件的逻辑应该越少越好。</p>
+<h2 id="单一职责"><a href="#单一职责" class="headerlink" title="单一职责"></a>单一职责</h2><p> 多人为了不同的目的修改了同一份源代码，这很容易造成问题的产生。</p>
+<h2 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h2><p>一个良好的计算机系统应该在不需要修改的前提下就可以轻易被扩展。</p>
+<p>实现方式是通过将系统划分为一系列组件，并且将这些组件间的依赖关系按层次结构进行组织，使得高阶组件不会因低阶组件被修改而受到影响。</p>
+<h2 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">审核代码的时候可以把这个原则用来当作判断代码好坏的标准（实现是否可替换）</span><br></pre></td></tr></table></figure>
+
+<h2 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h2><p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16023002460668.jpg" alt><br><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16023002606430.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">不必要的依赖关系，会导致不必要的重新编译和重新部署。</span><br></pre></td></tr></table></figure>
+
+<p>如何层次的软件设计如果依赖了它不需要的东西，就会带来意料意外的麻烦。</p>
+<h2 id="依赖反转原则"><a href="#依赖反转原则" class="headerlink" title="依赖反转原则"></a>依赖反转原则</h2><p>如果想要设计一个灵活的系统，在源代码层次的依赖关系中就应该多引用抽象类型，而非具体实现。</p>
+<p><strong>关注的是软件系统内部那些经常变动的具体实现模块</strong>，这些模块是不停开发的，也就是会经常出现变更。</p>
+<p><strong>继承关系是一切源代码依赖关系中最强的、最难被修改的，所以我们对继承的使用应该格外小心。</strong></p>
+<p><strong>不要覆盖包含具体实现的函数。</strong>调用包含具体实现的函数通常就意味着引入了源代码级别的依赖。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">如果想不依赖具体实现类，那么应该如何获取具体实现类呢？</span><br><span class="line">1. 依赖注入</span><br><span class="line">2. Service Locator&#x2F; Service Factory（抽象工厂模式）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">依赖反转是什么意思？</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027329552278.jpg" alt></p>
+<p>控制流跨越架构边界的方向和源代码依赖关系跨越边界的方向正好相反，源代码依赖方向永远是控制流方向的反转</p>
+<p>绝大部分系统中都至少存在一个具体实现组件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* 具体实现组件需要与系统中的其他部分隔离区分开</span><br><span class="line">* 在具体实现组件中创建ServiceFactoryImpl实例</span><br></pre></td></tr></table></figure>
+
+<p>下图比较清晰的解释了什么是依赖反转<br><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027468122796.jpg" alt></p>
+<h2 id="组件构建原则"><a href="#组件构建原则" class="headerlink" title="组件构建原则"></a>组件构建原则</h2><p>组件是软件的部署单元，是软件系统在部署过程中可以独立完成部署的最小实体。（例如java中的jar）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">组件构建原则就是用来判断哪些类应该被组合成一个组件</span><br></pre></td></tr></table></figure>
+
+<h3 id="REP-复用-发布等同原则"><a href="#REP-复用-发布等同原则" class="headerlink" title="REP:复用/发布等同原则"></a>REP:复用/发布等同原则</h3><ul>
+<li>能复用，能发布</li>
+<li>组件中的类和模块应该是可以同时发布的，共享相同的版本号与版本追踪</li>
+</ul>
+<h3 id="CCP-共同闭包原则"><a href="#CCP-共同闭包原则" class="headerlink" title="CCP: 共同闭包原则"></a>CCP: 共同闭包原则</h3><p>我们应该将那些会同时修改，并且为相同目的而修改的类放在同一组件中。</p>
+<p>对于大部分应用程序说，可维护性的重要性要远远高于可复用性。</p>
+<h3 id="CRP-共同复用原则"><a href="#CRP-共同复用原则" class="headerlink" title="CRP: 共同复用原则"></a>CRP: 共同复用原则</h3><p>不要依赖不需要用到的东西。</p>
+<h3 id="三大原则之间的关系"><a href="#三大原则之间的关系" class="headerlink" title="三大原则之间的关系"></a>三大原则之间的关系</h3><p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027442758485.jpg" alt></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">组件的划分看来还是没有明确的对错准则，看情况确定</span><br></pre></td></tr></table></figure>
+
+<h2 id="组件耦合"><a href="#组件耦合" class="headerlink" title="组件耦合"></a>组件耦合</h2><p>影响组件结构的不仅有技术水平和公司内部政治斗争这两个因素，其结构本身更是不断变化的。</p>
+<h3 id="无依赖环原则"><a href="#无依赖环原则" class="headerlink" title="无依赖环原则"></a>无依赖环原则</h3><p>组件依赖关系图中不应该出现环。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">组件中的两种依赖关系</span><br><span class="line">* 有向无环（健康的）</span><br><span class="line">* 循环依赖（不健康的）</span><br><span class="line"></span><br><span class="line">单向依赖，当组件发生变@化时，只需要关注一个方向的组件是否兼容即可。</span><br><span class="line">循环依赖，当组件发生变化时，两个方向的依赖组件都需要小心处理维护。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027462985387.jpg" alt></p>
+<p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027463127357.jpg" alt></p>
+<p>通过依赖反转，创建一个<code>Permissions</code>组件来打破循环依赖<br><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027469415956.jpg" alt></p>
+<p>组件结构图是不可能自上而下被设计出来的。</p>
+<p><code>组件结构图和功能单元不是相对应的。</code></p>
+<p><strong>组件结构图的作用？</strong><br>组件结构图中的一个重要目标是指导如何隔离频繁的变更。我们不希望那些频繁变更的组件影响到其他本来应该很稳定的组件。</p>
+<p>依赖关系必须要指向更稳定的方向。</p>
+<p>我们可以创造出对某些变更敏感，对其他变更不敏感的组件。</p>
+<p>组件的稳定性是什么？<br><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027476999338.jpg" alt><br><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16027477091261.jpg" alt></p>
+<p>如果一个组件想要成为稳定组件，那么它就应该由接口和抽象组成。</p>
+<h2 id="什么是软件架构"><a href="#什么是软件架构" class="headerlink" title="什么是软件架构"></a>什么是软件架构</h2><p>如果不亲身承受因系统设计而带来的麻烦，就必会不到设计不佳所带来的痛苦，接着就会逐渐迷失正确的设计方向。</p>
+<p>基本上，所有的软件系统都可以降解为策略与细节这两种主要元素。策略体现的是软件中所有的业务规则与操作过程，因此它是系统真正的价值所在。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">细节包括：</span><br><span class="line">* I&#x2F;O设备</span><br><span class="line">* 数据库</span><br><span class="line">* Web系统</span><br><span class="line">* 服务器</span><br><span class="line">* 框架</span><br><span class="line">* 交互协议</span><br></pre></td></tr></table></figure>
+
+<p>软件架构师的目标是创建一种系统形态，该形态会以策略为最基础的元素，并让细节与策略脱离关系，以允许再具体决策过程中<strong>推迟</strong>或<strong>延迟</strong>与细节相关的内容。</p>
+<p>越到项目的后期，我们就拥有越多的信息来做出合理的决策。</p>
+<p>优秀的架构师：</p>
+<ol>
+<li>优秀的架构师会小心地将软件的高层策略与底层实现隔离开，让高层策略与实现细节脱钩，使其策略部分完全不需要关心底层细节，当然也不会对这些细节有任何形式的依赖。</li>
+<li>优秀的架构师所设计的策略应该允许系统尽可能地推迟与实现细节相关的决策，越晚做决策越好。</li>
+</ol>
+<h2 id="独立性"><a href="#独立性" class="headerlink" title="独立性"></a>独立性</h2><p>用例（use case）:用例一般是由软件开发者和最终用户共同创作的。</p>
+<p><strong>架构师的目标是让系统结构支持其所需要的所有用例。</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">系统可以拆分为</span><br><span class="line">1. UI界面</span><br><span class="line">2. 应用独有的业务逻辑</span><br><span class="line">3. 领域普适的业务逻辑</span><br><span class="line">4. 数据库</span><br></pre></td></tr></table></figure>
+
+<p>这种居于服务来构建的架构，架构师们通常称之为面向服务的架构（service-oriented architectrue）。</p>
+<p>重复的情况中也有一些是假的，或者说这种重复只是表面性的。如果有两段看起来重复的代码，他们走的是不同的演进路径，也就是说它们有着不同的变更速率和变更缘由，那么这两段代码就不是真正的重复。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">我们要消除的是真正意义上的重复</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">解耦系统的方式：</span><br><span class="line">1. 源码层次</span><br><span class="line">2. 部署层次</span><br><span class="line">3. 服务层次</span><br><span class="line"></span><br><span class="line">其中源码层次解耦是基础，根据实际场景选择采用哪一种</span><br></pre></td></tr></table></figure>
+
+<h2 id="业务逻辑"><a href="#业务逻辑" class="headerlink" title="业务逻辑"></a>业务逻辑</h2><p>应用程序划分为业务逻辑和插件</p>
+<p>关键业务逻辑和关键业务数据是紧密相关的，所以它们很适合放在同一个对象中处理。我们将这种对象称为<strong>业务实体（Entity）</strong></p>
+<p>业务实体包含一系列用于操作关键数据的业务逻辑。</p>
+<p>业务实体这个概念只是要求我们将关键业务数据和关键业务逻辑绑定在一个独立的软件模块内。</p>
+<p>业务逻辑应该是系统中最独立，复用性最高的代码。</p>
+<h2 id="尖叫的软件架构"><a href="#尖叫的软件架构" class="headerlink" title="尖叫的软件架构"></a>尖叫的软件架构</h2><p>如果我们要构建的是一个医疗系统，新来的程序员第一次看到源码时就应该知道这是一个医疗系统。新来的程序员应该先了解该系统的用例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">最先关注的是系统能提供什么样的服务？而不是如何实现这样的服务</span><br></pre></td></tr></table></figure>
+
+<h2 id="整洁架构"><a href="#整洁架构" class="headerlink" title="整洁架构"></a>整洁架构</h2><p>架构的特点：</p>
+<ul>
+<li>独立于框架</li>
+<li>可被测试</li>
+<li>独立于UI</li>
+<li>独立于数据库</li>
+<li>独立于任何外部机构</li>
+</ul>
+<p><strong>用例</strong></p>
+<ol>
+<li>一方面用例的设计，不应该受外部因素的影响（数据库，UI等..），用例因该与它们保持隔离</li>
+<li>另一方面应用行为等变化又会影响到用例本身</li>
+</ol>
+<h2 id="Main组件"><a href="#Main组件" class="headerlink" title="Main组件"></a>Main组件</h2><p>在所有系统中，都至少有一个组件来负责创建、协调、监督其他组件的运转。我们将其称为Main组件。</p>
+<h2 id="服务：宏观与微观"><a href="#服务：宏观与微观" class="headerlink" title="服务：宏观与微观"></a>服务：宏观与微观</h2><p>架构设计的任务就是找到高层策略与低层细节之间的架构边界，同时保证这些边界遵守依赖关系规则。</p>
+<p>所谓的<strong>服务本身只是一种比函数调用方式成本稍高</strong>的，分割应用程序行为的一种形式，与系统架构无关。</p>
+<p><strong>任何形式的共享数据行为都会强耦合</strong></p>
+<h2 id="测试边界"><a href="#测试边界" class="headerlink" title="测试边界"></a>测试边界</h2><p>修改一个通用的系统组件可能会导致成百上千个测试出现问题</p>
+<h2 id="整洁的嵌入式架构"><a href="#整洁的嵌入式架构" class="headerlink" title="整洁的嵌入式架构"></a>整洁的嵌入式架构</h2><p><img src="/2020/11/04/%E3%80%8A%E6%95%B4%E6%B4%81%E6%9E%B6%E6%9E%84%E4%B9%8B%E9%81%93%E3%80%8B%E7%AC%94%E8%AE%B0/16033478755790.jpg" alt></p>
+<p>有一个LED被连接到一个GPIO比特位上。<br>固件函数：Led_Turnon(5)<br>HAL函数：Indicate_LowBattery()</p>
+<p>不要向HAL的用户暴露硬件细节</p>
+<h2 id="数据库只是实现细节"><a href="#数据库只是实现细节" class="headerlink" title="数据库只是实现细节"></a>数据库只是实现细节</h2><p>很多数据访问框架允许将数据行和数据表以对象的形式在系统内部传递。这么做在系统架构上来说是完全错误的，这会导致程序的用例、业务逻辑、甚至UI与数据的关系模型互相绑定在一起。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">所以不喜欢在界面上直接使用Android Room返回的LiveData,让界面直接和数据库耦合了</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">数据的存储方式</span><br><span class="line">* 链表</span><br><span class="line">* 树</span><br><span class="line">* 哈希表</span><br><span class="line">* 堆栈</span><br><span class="line">* 队列</span><br></pre></td></tr></table></figure>
+
+<h2 id="Web是实现细节"><a href="#Web是实现细节" class="headerlink" title="Web是实现细节"></a>Web是实现细节</h2><h2 id="应用程序框架是实现细节"><a href="#应用程序框架是实现细节" class="headerlink" title="应用程序框架是实现细节"></a>应用程序框架是实现细节</h2><p>如果框架要求我们根据它们的基类来创建派生类，就请不要这样做！</p>
+<p>不要框架污染我们的核心代码。</p>
+<p>以Sprint为例，千万别在业务对象里到处写@autowired注解。业务对象应该对Spring完全不知情才对。</p>
+<p>我们可以利用Spring将依赖关系注入到Main组件中，毕竟Main组件作为系统架构中最底层、依赖最多的组件，它依赖于Spring并不是问题。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">对koin等依赖注入框架不能滥用，只能在Main组件中使用</span><br></pre></td></tr></table></figure>
+
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">有的抽象并不是必须的，因为如果没有这一层的抽象，整个产品并不会受到影响</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>按层封装：三层架构</li>
+<li>按功能封装</li>
+<li>端口和适配器</li>
+<li>按组件封装：将业务逻辑与持久化代码合并在一起，称为组件，通过package权限防止外界对持久化代码的访问。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/02/%E6%97%A5%E5%BF%97%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" rel="prev" title="日志使用总结">
+      <i class="fa fa-chevron-left"></i> 日志使用总结
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#《架构整洁之道》笔记"><span class="nav-number">1.</span> <span class="nav-text">《架构整洁之道》笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编程范式-paradigm"><span class="nav-number">1.1.</span> <span class="nav-text">编程范式(paradigm)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构化编程"><span class="nav-number">1.1.1.</span> <span class="nav-text">结构化编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面对对象编程"><span class="nav-number">1.1.2.</span> <span class="nav-text">面对对象编程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数式编程"><span class="nav-number">1.1.3.</span> <span class="nav-text">函数式编程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单一职责"><span class="nav-number">1.2.</span> <span class="nav-text">单一职责</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开闭原则"><span class="nav-number">1.3.</span> <span class="nav-text">开闭原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#里氏替换原则"><span class="nav-number">1.4.</span> <span class="nav-text">里氏替换原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口隔离原则"><span class="nav-number">1.5.</span> <span class="nav-text">接口隔离原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖反转原则"><span class="nav-number">1.6.</span> <span class="nav-text">依赖反转原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件构建原则"><span class="nav-number">1.7.</span> <span class="nav-text">组件构建原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#REP-复用-发布等同原则"><span class="nav-number">1.7.1.</span> <span class="nav-text">REP:复用&#x2F;发布等同原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CCP-共同闭包原则"><span class="nav-number">1.7.2.</span> <span class="nav-text">CCP: 共同闭包原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CRP-共同复用原则"><span class="nav-number">1.7.3.</span> <span class="nav-text">CRP: 共同复用原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三大原则之间的关系"><span class="nav-number">1.7.4.</span> <span class="nav-text">三大原则之间的关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件耦合"><span class="nav-number">1.8.</span> <span class="nav-text">组件耦合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无依赖环原则"><span class="nav-number">1.8.1.</span> <span class="nav-text">无依赖环原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是软件架构"><span class="nav-number">1.9.</span> <span class="nav-text">什么是软件架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#独立性"><span class="nav-number">1.10.</span> <span class="nav-text">独立性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#业务逻辑"><span class="nav-number">1.11.</span> <span class="nav-text">业务逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#尖叫的软件架构"><span class="nav-number">1.12.</span> <span class="nav-text">尖叫的软件架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整洁架构"><span class="nav-number">1.13.</span> <span class="nav-text">整洁架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Main组件"><span class="nav-number">1.14.</span> <span class="nav-text">Main组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务：宏观与微观"><span class="nav-number">1.15.</span> <span class="nav-text">服务：宏观与微观</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试边界"><span class="nav-number">1.16.</span> <span class="nav-text">测试边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整洁的嵌入式架构"><span class="nav-number">1.17.</span> <span class="nav-text">整洁的嵌入式架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库只是实现细节"><span class="nav-number">1.18.</span> <span class="nav-text">数据库只是实现细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web是实现细节"><span class="nav-number">1.19.</span> <span class="nav-text">Web是实现细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用程序框架是实现细节"><span class="nav-number">1.20.</span> <span class="nav-text">应用程序框架是实现细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例分析"><span class="nav-number">1.21.</span> <span class="nav-text">案例分析</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yeshu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">135</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yeshu-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yeshu-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yeshu</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
